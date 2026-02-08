@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotte Tower AI Sales & Consultation | 롯데타워 AI 영업 시스템</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="background-blob blob-1"></div>
+    <div class="background-blob blob-2"></div>
+    <div class="background-blob blob-3"></div>
+
+    <main class="container">
+        <nav class="navbar animate-in">
+            <div class="logo">
+                <span class="logo-icon">🏢</span>
+                <span class="logo-text">LOTTE TOWER AI</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">FEATURES</a>
+                <a href="#services">SERVICES</a>
+                <a href="http://43.200.87.22:8501" target="_blank" class="btn-secondary">MOBILE LINK</a>
+            </div>
+        </nav>
+
+        <section class="hero section">
+            <div class="hero-content animate-in">
+                <div class="badge">💎 AI Vibe Coding Premium</div>
+                <h1 class="hero-title">
+                    FUTURE OF <br>
+                    <span class="text-gradient">REAL ESTATE</span>
+                </h1>
+                <p class="hero-subtitle">
+                    롯데타워앤강남빌딩부동산중개(주)의 혁신적인 AI 영업 솔루션.<br>
+                    CEO 나노 바나나의 통찰력과 AI 분석이 결합된 상위 1%를 위한 서비스입니다.
+                </p>
+                <div class="hero-actions">
+                    <a href="http://43.200.87.22:8501" class="btn-primary">AI 상담 시스템 시작</a>
+                    <a href="#features" class="btn-text">핵심 기능 탐색 ➔</a>
+                </div>
+                <div class="trust-badges">
+                    <span>✓ 실시간 시장 분석</span>
+                    <span>✓ 저평가 매물 포착</span>
+                    <span>✓ CEO AI 컨시어지</span>
+                </div>
+            </div>
+            <div class="hero-visual animate-in">
+                <div class="mascot-container">
+                    <div class="glow-ring"></div>
+                    <div class="mascot-wrapper">
+                        <!-- We will use the generated mascot image here -->
+                        <img src="https://img.freepik.com/premium-photo/futuristic-banana-ai-assistant-mascot-cyberpunk-style_899449-30504.jpg"
+                            alt="CEO Nano Banana" class="mascot-img">
+                    </div>
+                </div>
+                <div class="glass-info card-1 animate-float">
+                    <div class="icon">📈</div>
+                    <div>
+                        <div class="val">ROI 15%+</div>
+                        <div class="lbl">Target Properties</div>
+                    </div>
+                </div>
+                <div class="glass-info card-2 animate-float-delayed">
+                    <div class="icon">🤝</div>
+                    <div>
+                        <div class="val">Secure</div>
+                        <div class="lbl">Direct Consultation</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features section">
+            <div class="feature-header animate-reveal">
+                <h2 class="section-title">EXCLUSIVE FEATURES</h2>
+                <p class="section-description">오직 롯데타워 AI 영업 시스템에서만 경험할 수 있는 혁신적인 기능들입니다.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item animate-reveal">
+                    <div class="feature-icon">🔍</div>
+                    <h3>AI 추천 매물</h3>
+                    <p>빅데이터 분석을 통해 상위 1% 저평가 우량 매물만 엄선하여 추천합니다.</p>
+                </div>
+                <div class="feature-item animate-reveal">
+                    <div class="feature-icon">💬</div>
+                    <h3>실시간 챗봇 상담</h3>
+                    <p>전문 공인중개사의 지식과 AI의 분석력을 결합한 스마트 상담을 지원합니다.</p>
+                </div>
+                <div class="feature-item animate-reveal">
+                    <div class="feature-icon">🎓</div>
+                    <h3>학군 인프라 분석</h3>
+                    <p>대치동 등 주요 교육 입지 데이터가 완벽하게 통합되어 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer animate-in">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <strong>롯데타워앤강남빌딩부동산중개(주)</strong><br>
+                    대표: 공인중개사 이상수 | 등록번호: 11680-2023-00078<br>
+                    📍 서울 강남구 대치동 938 삼환아르누보 507호
+                </div>
+                <div class="footer-contact">
+                    📞 02-578-8285 / 010-8985-8945
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Lotte Tower AI Systems. Powered by Nano Banana Vibe.
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.animate-in', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            const reveals = document.querySelectorAll('.animate-reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            reveals.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>

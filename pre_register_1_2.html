@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>사전등록 1·2 | 롯데타워앤강남빌딩 AI v3.2</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --card: rgba(15, 22, 32, 0.85);
+            --line: rgba(31, 42, 55, 0.9);
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22c55e;
+            --accent2: #60a5fa;
+            --warn: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 14px 40px rgba(0, 0, 0, .35);
+            --r: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial;
+            background: radial-gradient(1200px 800px at 20% -10%, rgba(96, 165, 250, .12), transparent 60%),
+                radial-gradient(900px 700px at 100% 0%, rgba(34, 197, 94, .10), transparent 60%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 22px 16px 64px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #d4af37, #f59e0b);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 900;
+            color: #d4af37;
+        }
+
+        .brand p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            color: #d4af37;
+            font-size: 12px;
+            background: rgba(212, 175, 55, 0.05);
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 980px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .inner {
+            padding: 24px;
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .h2 {
+            font-size: 22px;
+            margin: 0 0 8px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .stepBar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .stepDot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            font-weight: 800;
+            font-size: 14px;
+            background: rgba(8, 12, 18, 0.5);
+        }
+
+        .stepDot.on {
+            border-color: #d4af37;
+            color: #fff;
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .stepDot.done {
+            border-color: var(--accent);
+            color: #071018;
+            background: var(--accent);
+        }
+
+        .stepLabel {
+            font-size: 14px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .divider {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section {
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .secTitle {
+            font-size: 15px;
+            font-weight: 800;
+            color: #d4af37;
+            margin: 0 0 15px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width:720px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin: 0 0 8px;
+            font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text);
+            outline: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #d4af37;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .btnRow {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            appearance: none;
+            border: none;
+            cursor: pointer;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #d4af37, #f59e0b);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn.ghost {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--line);
+            color: var(--text);
+        }
+
+        .btn.ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .chips {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .chip:hover {
+            border-color: #d4af37;
+            color: #fff;
+        }
+
+        .chip.on {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+        }
+
+        .sideBox {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sum {
+            display: grid;
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sumItem {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .sumItem span {
+            color: var(--muted)
+        }
+
+        .ok {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            transform: translateX(-50%);
+            background: rgba(212, 175, 55, 0.95);
+            border: 1px solid #d4af37;
+            border-radius: 999px;
+            padding: 14px 24px;
+            font-size: 14px;
+            color: #000;
+            font-weight: 900;
+            box-shadow: var(--shadow);
+            display: none;
+            z-index: 1000;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .checkRow {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .checkRow input {
+            width: auto;
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .mini {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+        #doneBox {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(212, 175, 55, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                border-color: rgba(34, 197, 94, 0.3);
+            }
+
+            50% {
+                border-color: rgba(34, 197, 94, 0.6);
+            }
+
+            100% {
+                border-color: rgba(34, 197, 94, 0.3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden="true"></div>
+                <div>
+                    <h1>AI 사전등록 1·2</h1>
+                    <p>Lotte Tower & Gangnam Building AI v3.2 Premium</p>
+                </div>
+            </div>
+            <div class="pill">✨ AI 정밀 매칭 · VIP 우선권 발송</div>
+        </header>
+
+        <div class="grid">
+            <!-- MAIN CARD -->
+            <div class="card">
+                <div class="stepBar">
+                    <div class="stepDot on" id="dot1">1</div>
+                    <div>
+                        <div class="stepLabel">STEP 01</div>
+                        <div class="sub" style="margin:0; font-size:11px;">핵심 타겟팅 설정</div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="stepDot" id="dot2">2</div>
+                    <div>
+                        <div class="stepLabel">STEP 02</div>
+                        <div class="sub" style="margin:0; font-size:11px;">상세 매칭 조건</div>
+                    </div>
+                </div>
+
+                <!-- STEP 1 INNER -->
+                <div class="inner" id="step1">
+                    <p class="h2">거래 역할을 선택해 주세요</p>
+                    <p class="sub">고객님의 역할에 최적화된 AI 분석 알고리즘이 가동됩니다.</p>
+
+                    <div class="section" style="border-top:none; padding-top:0;">
+                        <p class="secTitle">📍 1. 나는 누구신가요?</p>
+                        <div class="chips">
+                            <div class="chip" id="roleDemand">수요자 (임차/매수)</div>
+                            <div class="chip" id="roleSupply">공급자 (임대/매도)</div>
+                            <div class="chip" id="roleAgent">중개 파트너</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <p class="secTitle">📍 2. 희망 지역 및 목표</p>
+                        <div class="row">
+                            <div>
+                                <label>1순위 지역 (대치/잠실 등)</label>
+                                <input id="area1" placeholder="예: 대치동" value="대치동">
+                            </div>
+                            <div>
+                                <label>거래 목표</label>
+                                <select id="goal">
+                                    <option value="학군/전학">교육 특구 입성 (학군/전학)</option>
+                                    <option value="실거주">단지 이동 (실거주)</option>
+                                    <option value="투자">수익형 투자 (AI 저평가)</option>
+                                    <option value="기타">기타 요청</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:15px;">
+                            <div>
+                                <label>물건 유형</label>
+                                <select id="ptype">
+                                    <option value="아파트">프리미엄 아파트</option>
+                                    <option value="오피스텔">학원가 오피스텔</option>
+                                    <option value="빌딩/상가">상업용 빌딩/상가</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="btnRow">
+                            <button class="btn primary" type="button" id="btnNext">2단계로 이동 (상세 조건) ➔</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2 INNER -->
+                <div class="inner hidden" id="step2">
+                    <p class="h2">상세 매칭 조건을 입력해 주세요</p>
+                    <p class="sub">입력하신 데이터는 AI가 계약 확률(Match Score)을 산출하는 데 사용됩니다.</p>
+
+                    <div class="section" style="border-top:none; padding-top:0;">
+                        <p class="secTitle">📍 3. 예산 및 입주일</p>
+
+                        <div id="boxDemand" class="hidden">
+                            <div class="row">
+                                <div>
+                                    <label>보증금 범위 (억원)</label>
+                                    <select id="d_deposit">
+                                        <option>5억 ~ 10억</option>
+                                        <option selected>10억 ~ 15억</option>
+                                        <option>15억 이상</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>희망 입주일 (3개월 내)</label>
+                                    <input id="d_in" type="date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="boxSupply" class="hidden">
+                            <div class="row">
+                                <div>
+                                    <label>희망 보증금/매매금</label>
+                                    <input id="s_price" placeholder="예: 10억 / 150만">
+                                </div>
+                                <div>
+                                    <label>입주 가능일</label>
+                                    <input id="s_available" type="date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <p class="secTitle">📍 4. 연락처 및 개인정보 동의</p>
+                        <div class="row">
+                            <div>
+                                <label>성함</label>
+                                <input id="name" placeholder="홍길동">
+                            </div>
+                            <div>
+                                <label>연락처</label>
+                                <input id="phone" placeholder="010-0000-0000">
+                            </div>
+                        </div>
+
+                        <div class="checkRow">
+                            <input id="agree" type="checkbox">
+                            <div>
+                                <div style="font-weight:900; font-size:14px; color:#fff;">개인정보 수집 및 AI 매칭 리포트 수신 동의
+                                </div>
+                                <div class="mini">등록 시 AI가 매칭된 매물정보를 카톡/문자로 즉시 발송합니다.</div>
+                            </div>
+                        </div>
+
+                        <div class="btnRow">
+                            <button class="btn ghost" type="button" id="btnBack">⬅ 이전으로</button>
+                            <button class="btn primary" type="button" id="btnFinish">최종 사전등록 완료</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDE INFO -->
+            <div class="card">
+                <div class="inner">
+                    <p class="h2" style="font-size:16px; color:#d4af37;">📊 AI 분석 요약</p>
+                    <div class="sum">
+                        <div class="sumItem"><span>역할</span><b id="sum_role">미선택</b></div>
+                        <div class="sumItem"><span>타겟 지역</span><b id="sum_area">대치동</b></div>
+                        <div class="sumItem"><span>매칭 적합도</span><b id="sum_prob" class="ok">—</b></div>
+                    </div>
+
+                    <div class="sideBox" style="margin-top:20px; border-radius:12px;">
+                        <p class="secTitle" style="font-size:13px; margin-bottom:8px;">💡 AI 중개 가이드</p>
+                        <div class="mini">
+                            데이터가 정교할수록 AI가 **계약 확률이 높은 상대**를 우선적으로 찾아냅니다. 80점 이상의 매칭 리드는 전담 중개사가 즉시 배정됩니다.
+                        </div>
+                    </div>
+
+                    <div id="doneBox" class="inner hidden"
+                        style="margin-top:20px; border-radius:12px; text-align:center;">
+                        <div class="mini" style="color:#22c55e; font-weight:900;">✅ 등록 완료 (Lead ID)</div>
+                        <div id="leadId"
+                            style="font-size:20px; font-weight:900; margin-top:5px; letter-spacing:1px; color:#fff;">—
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const $ = (id) => document.getElementById(id);
+        const state = { role: "" };
+
+        function showToast(msg) {
+            const t = $("toast");
+            t.textContent = msg;
+            t.style.display = "block";
+            setTimeout(() => t.style.display = "none", 2500);
+        }
+
+        function setRole(role) {
+            state.role = role;
+            ["roleDemand", "roleSupply", "roleAgent"].forEach(id => $(id).classList.remove("on"));
+            if (role === "demand") $("roleDemand").classList.add("on");
+            if (role === "supply") $("roleSupply").classList.add("on");
+            if (role === "agent") $("roleAgent").classList.add("on");
+
+            $("boxDemand").classList.toggle("hidden", role !== "demand");
+            $("boxSupply").classList.toggle("hidden", role !== "supply");
+            updateSummary();
+        }
+
+        function gotoStep(n) {
+            $("step1").classList.toggle("hidden", n !== 1);
+            $("step2").classList.toggle("hidden", n !== 2);
+            $("dot1").classList.toggle("on", n === 1);
+            $("dot2").classList.toggle("on", n === 2);
+            $("dot1").classList.toggle("done", n === 2);
+        }
+
+        function updateSummary() {
+            $("sum_role").textContent = state.role === "demand" ? "수요자" : (state.role === "supply" ? "공급자" : "중개 파트너");
+            const baseScore = state.role ? 75 : 0;
+            $("sum_prob").textContent = state.role ? (baseScore + Math.floor(Math.random() * 20)) + "점" : "분석중";
+        }
+
+        $("roleDemand").onclick = () => setRole("demand");
+        $("roleSupply").onclick = () => setRole("supply");
+        $("roleAgent").onclick = () => setRole("agent");
+
+        $("btnNext").onclick = () => {
+            if (!state.role) return showToast("역할을 먼저 선택해 주세요.");
+            gotoStep(2);
+        };
+
+        $("btnBack").onclick = () => gotoStep(1);
+
+        $("btnFinish").onclick = () => {
+            if (!$("agree").checked) return showToast("개인정보 동의가 필요합니다.");
+            if (!$("name").value) return showToast("성함을 입력해 주세요.");
+
+            const id = "LTG-" + Math.floor(1000 + Math.random() * 9000);
+            $("leadId").textContent = id;
+            $("doneBox").classList.remove("hidden");
+            showToast("🎉 사전등록이 성공적으로 완료되었습니다!");
+        };
+
+        setRole("demand");
+    </script>
+</body>
+
+</html>

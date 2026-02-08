@@ -1,0 +1,23 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.DS_Store
+*.log
+node_modules/
+dist/
+build/
+Docker_Desktop_Installer.exe
+deploy.tgz
+*.bat
+*.pem
+# *.txt  <-- 이 부분을 주석 처리하여 requirements.txt가 포함되게 합니다.
+*.md
+*.url
+*.exe
+*.msi
+*.zip
+*.7z

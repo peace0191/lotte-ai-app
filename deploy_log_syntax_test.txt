@@ -1,0 +1,21 @@
+[1/6] Setting SSH Key Permissions...
+[2/6] Cleaning and Packaging (Fail-fast)...
+[3/6] Uploading to AWS Lightsail...
+[4/6] Configuring Docker DNS (Infrastructure Level)...
+--- docker info DNS ---
+[OK] Docker DNS configured.
+[5/6] Verifying DNS/HTTPS Connectivity (Gatekeeping)...
+--- container DNS test ---
+Unable to find image 'alpine:3.20' locally
+3.20: Pulling from library/alpine
+76eb174b37c3: Pulling fs layer
+7208ffea29d1: Download complete
+90cca658fc45: Download complete
+76eb174b37c3: Download complete
+76eb174b37c3: Pull complete
+Digest: sha256:a4f4213abb84c497377b8544c81b3564f313746700372ec4fe84653e4fb03805
+Status: Downloaded newer image for alpine:3.20
+;; connection timed out; no servers could be reached
+
+[CRITICAL ERROR] DNS HTTPS resolution failed inside container
+Press any key to continue . . . 

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>pydeck</title>
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <script src='https://cdn.jsdelivr.net/npm/@deck.gl/jupyter-widget@~9.0.*/dist/index.js'></script>
+    <style>
+    body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#deck-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#deck-container canvas {
+  z-index: 1;
+  background: none;
+}
+    </style>
+  </head>
+  <body>
+    <div id="deck-container">
+    </div>
+  </body>
+  <script>
+    const container = document.getElementById('deck-container');
+    const jsonInput = {
+  "initialViewState": {
+    "latitude": 37.495,
+    "longitude": 127.058,
+    "pitch": 0,
+    "zoom": 13.8
+  },
+  "layers": [
+    {
+      "@@type": "PathLayer",
+      "data": [
+        {
+          "name": "\ud559\uad70 \ub77c\uc778 (\ucd08\u2192\uc911\u2192\uace0)",
+          "path": [
+            [
+              127.047,
+              37.505
+            ],
+            [
+              127.0652,
+              37.4929
+            ],
+            [
+              127.0556,
+              37.4889
+            ]
+          ]
+        }
+      ],
+      "getColor": [
+        255,
+        80,
+        80,
+        220
+      ],
+      "getPath": "@@=path",
+      "id": "be50b5ac-b170-402f-97c6-f9988471e468",
+      "pickable": true,
+      "widthMinPixels": 6,
+      "widthScale": 25
+    },
+    {
+      "@@type": "ScatterplotLayer",
+      "data": [
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c69\uae38 19",
+          "category": "\ucd08\ub4f1",
+          "color": [
+            255,
+            100,
+            100
+          ],
+          "lat": 37.505,
+          "lon": 127.047,
+          "name": "\ub300\uce58\ucd08\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc591\uc7ac\ucc9c\ub85c 321",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4929,
+          "lon": 127.0652,
+          "name": "\ub300\uccad\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub0a8\ubd80\uc21c\ud658\ub85c 2807",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4892,
+          "lon": 127.0537,
+          "name": "\uc219\uba85\uc5ec\uc790\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub0a8\ubd80\uc21c\ud658\ub85c 2807",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4892,
+          "lon": 127.0537,
+          "name": "\uc219\uba85\uc5ec\uc790\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc5ed\uc0bc\ub85c 541",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4965,
+          "lon": 127.0535,
+          "name": "\ud718\ubb38\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c64\uae38 21",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4889,
+          "lon": 127.0556,
+          "name": "\ub2e8\uad6d\ub300\ud559\uad50\uc0ac\ubc94\ub300\ud559\ubd80\uc18d\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c64\uae38 21",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4889,
+          "lon": 127.0556,
+          "name": "\ub2e8\uad6d\ub300\ud559\uad50\uc0ac\ubc94\ub300\ud559\ubd80\uc18d\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c57\uae38 37-3",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4985,
+          "lon": 127.06,
+          "name": "\ub798\ubbf8\uc548\ub300\uce58\ud330\ub9ac\uc2a4"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \uc120\ub989\ub85c 222",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4969,
+          "lon": 127.0617,
+          "name": "\ub300\uce58\uc544\uc774\ud30c\ud06c"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c51\uae38 25",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4985,
+          "lon": 127.059,
+          "name": "\ub300\uce58SK\ubdf0\uc544\ud30c\ud2b8"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c 212",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4995,
+          "lon": 127.0652,
+          "name": "\uc740\ub9c8\uc544\ud30c\ud2b8"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c 405",
+          "category": "\uc624\ud53c\uc2a4\ud154",
+          "color": [
+            200,
+            100,
+            255
+          ],
+          "lat": 37.489,
+          "lon": 127.057,
+          "name": "\ub300\uce58\uc0bc\ud658\uc544\ub974\ub204\ubcf42"
+        }
+      ],
+      "getColor": "@@=color",
+      "getPosition": "@@=[lon, lat]",
+      "getRadius": 80,
+      "id": "25c02b22-8cbc-4e6c-ac91-ba324d780d1d",
+      "pickable": true
+    },
+    {
+      "@@type": "TextLayer",
+      "data": [
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c69\uae38 19",
+          "category": "\ucd08\ub4f1",
+          "color": [
+            255,
+            100,
+            100
+          ],
+          "lat": 37.505,
+          "lon": 127.047,
+          "name": "\ub300\uce58\ucd08\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc591\uc7ac\ucc9c\ub85c 321",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4929,
+          "lon": 127.0652,
+          "name": "\ub300\uccad\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub0a8\ubd80\uc21c\ud658\ub85c 2807",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4892,
+          "lon": 127.0537,
+          "name": "\uc219\uba85\uc5ec\uc790\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub0a8\ubd80\uc21c\ud658\ub85c 2807",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4892,
+          "lon": 127.0537,
+          "name": "\uc219\uba85\uc5ec\uc790\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc5ed\uc0bc\ub85c 541",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4965,
+          "lon": 127.0535,
+          "name": "\ud718\ubb38\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c64\uae38 21",
+          "category": "\uc911\ub4f1",
+          "color": [
+            100,
+            255,
+            100
+          ],
+          "lat": 37.4889,
+          "lon": 127.0556,
+          "name": "\ub2e8\uad6d\ub300\ud559\uad50\uc0ac\ubc94\ub300\ud559\ubd80\uc18d\uc911\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c64\uae38 21",
+          "category": "\uace0\ub4f1",
+          "color": [
+            100,
+            100,
+            255
+          ],
+          "lat": 37.4889,
+          "lon": 127.0556,
+          "name": "\ub2e8\uad6d\ub300\ud559\uad50\uc0ac\ubc94\ub300\ud559\ubd80\uc18d\uace0\ub4f1\ud559\uad50"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c57\uae38 37-3",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4985,
+          "lon": 127.06,
+          "name": "\ub798\ubbf8\uc548\ub300\uce58\ud330\ub9ac\uc2a4"
+        },
+        {
+          "address": "\uc11c\uc6b8\ud2b9\ubcc4\uc2dc \uac15\ub0a8\uad6c \uc120\ub989\ub85c 222",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4969,
+          "lon": 127.0617,
+          "name": "\ub300\uce58\uc544\uc774\ud30c\ud06c"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c51\uae38 25",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4985,
+          "lon": 127.059,
+          "name": "\ub300\uce58SK\ubdf0\uc544\ud30c\ud2b8"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \uc0bc\uc131\ub85c 212",
+          "category": "\uc544\ud30c\ud2b8",
+          "color": [
+            255,
+            255,
+            100
+          ],
+          "lat": 37.4995,
+          "lon": 127.0652,
+          "name": "\uc740\ub9c8\uc544\ud30c\ud2b8"
+        },
+        {
+          "address": "\uc11c\uc6b8 \uac15\ub0a8\uad6c \ub3c4\uace1\ub85c 405",
+          "category": "\uc624\ud53c\uc2a4\ud154",
+          "color": [
+            200,
+            100,
+            255
+          ],
+          "lat": 37.489,
+          "lon": 127.057,
+          "name": "\ub300\uce58\uc0bc\ud658\uc544\ub974\ub204\ubcf42"
+        }
+      ],
+      "getAlignmentBaseline": "bottom",
+      "getAngle": 0,
+      "getColor": [
+        255,
+        255,
+        255
+      ],
+      "getPosition": "@@=[lon, lat]",
+      "getSize": 15,
+      "getText": "@@=name",
+      "getTextAnchor": "middle",
+      "id": "556373f6-0eac-4e24-a0b4-d82c4c399e94",
+      "offset": [
+        0,
+        -12
+      ]
+    }
+  ],
+  "mapProvider": "carto",
+  "mapStyle": "mapbox://styles/mapbox/dark-v10",
+  "views": [
+    {
+      "@@type": "MapView",
+      "controller": true
+    }
+  ]
+};
+    const tooltip = {'html': '<b>{name}</b><br/>{category}<br/>{address}', 'style': {'backgroundColor': 'steelblue', 'color': 'white'}};
+    const customLibraries = null;
+    const configuration = null;
+
+    const deckInstance = createDeck({
+                  container,
+      jsonInput,
+      tooltip,
+      customLibraries,
+      configuration
+    });
+
+  </script>
+</html>

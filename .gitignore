@@ -1,0 +1,50 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
+
+# Streamlit
+.streamlit/
+! .streamlit/config.toml
+
+# IDE
+.vscode/
+.idea/
+
+# Security (CRITICAL)
+*.pem
+*.key
+secrets.toml
+dist/
+build/
+*.egg-info/
+
+# System
+Thumbs.db
+Desktop.ini
+
+# Large/Temp files
+*.log
+*.tmp
+deploy.tgz
+outputs/
+backups/
+data/Docker_Desktop_Installer.exe 
+deploy.tgz 
+data/Docker_Desktop_Installer.exe 
+data/Docker_Desktop_Installer.exe 
+data/Docker_Desktop_Installer.exe 
+deploy.tgz 
+data/Docker_Desktop_Installer.exe 
+deploy.tgz 
+*.mp4 
+*.exe 
+*.zip 
+*.tgz 
+outputs/ 
+services/assets/bgm/ 
