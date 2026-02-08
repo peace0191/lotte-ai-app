@@ -13,3 +13,5 @@ proglog==0.1.10
 tqdm==4.66.5
 reportlab
 pillow
+plotly
+pydeck
