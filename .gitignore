@@ -48,3 +48,11 @@ deploy.tgz
 *.tgz 
 outputs/ 
 services/assets/bgm/ 
+data/Docker_Desktop_Installer.exe 
+deploy.tgz 
+*.mp4 
+*.exe 
+*.zip 
+*.tgz 
+outputs/ 
+services/assets/bgm/ 

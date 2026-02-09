@@ -3,7 +3,7 @@ import streamlit as st
 from services.local_market import local_market_svc
 from services.matching_svc import matching_svc
 from services.crawler_svc import crawler_svc
-from services.ui import render_bottom_nav
+from services.ui import render_bottom_nav, scroll_to_top
 
 # Corporate Branding (v4.30)
 BRAND_NAME = "롯데타워앤강남빌딩부동산중개(주) AI 매칭 플랫폼"
@@ -84,6 +84,10 @@ def render(properties: dict):
                 btn_cols2 = st.columns(2)
                 btn_cols2[0].button("📄 AI 리포트", key=f"rep_{item['id']}")
                 btn_cols2[1].button("▶️ 영상", key=f"yt_{item['id']}", on_click=go_shorts)
+
+                if st.button("⬆️ 처음 위로 가기", key=f"top_{item['id']}", use_container_width=True):
+                    scroll_to_top()
+                    st.rerun()
 
     # Bottom Navigation
     render_bottom_nav("🏠 추천매물")

@@ -8,7 +8,7 @@ from pathlib import Path
 import datetime
 import re
 import random
-from services.ui import render_bottom_nav
+from services.ui import render_bottom_nav, scroll_to_top
 from services.region_compare import REGIONS, score_region, summary_comment, lease_recommendation
 from services.compare_pdf import build_compare_pdf
 from services.lease_recommender import recommend_jeonse_wolse
@@ -17,6 +17,15 @@ from services.geocode import geocode_nominatim
 from services.data import load_properties
 import json
 import os
+
+# ... (Previous imports)
+
+# ------------------------------------------------------------------------------
+# Confirmed Coordinates & Color Mapping (New Logic)
+# ------------------------------------------------------------------------------
+# ... (Lines 24-596)
+
+
 
 # ------------------------------------------------------------------------------
 # Confirmed Coordinates & Color Mapping (New Logic)
@@ -540,8 +549,8 @@ def render_rich_narrative(persona: str):
     st.markdown("<h3 style='text-align: center; margin-bottom: 20px;'>🎓 대치1동 프리미엄 리포트: 대치동 중개실무 25년 공인중개사 -> 왜 대치1동인가?</h3>", unsafe_allow_html=True)
     if persona == "학부모":
         st.markdown("""
-        <div style="background-color: rgba(46, 134, 222, 0.15); border: 1px solid rgba(46, 134, 222, 0.5); padding: 20px; border-radius: 10px; text-align: center; color: #f0f0f0;">
-            <h4 style="margin: 0 0 10px 0; color: #d4af37;">"아이의 통학 시간은 곧 수면 시간이고, 성적입니다."</h4>
+        <div style="background-color: rgba(46, 134, 222, 0.15); border: 1px solid rgba(46, 134, 222, 0.5); padding: 20px; border-radius: 10px; text-align: left; color: #f0f0f0;">
+            <h4 style="margin: 0 0 10px 0; color: #d4af37; text-align: center;">"아이의 통학 시간은 곧 수면 시간이고, 성적입니다."</h4>
             <p style="margin-bottom: 5px; font-size: 1.05em;">대치1동은 대한민국 사교육의 심장이자, 유해시설이 전무한 '청정 교육 특구'입니다.</p>
             <p style="margin: 0; font-weight: bold; font-size: 1.1em;">'자녀의 미래를 위한 베이스캠프'로서의 가치를 제안합니다.</p>
         </div>
@@ -594,6 +603,26 @@ def render_rich_narrative(persona: str):
     st.divider()
     st.markdown("#### 🛡️ 안심 생활권 & 편의시설")
     st.write("대치1동 주민센터와 지구대가 인접하여 행정 업무와 치안이 매우 우수합니다.")
+    
+    # Custom Navigation Buttons for Premium Report Section
+    st.markdown("---")
+    # Mobile-friendly 3-button layout
+    nav_c1, nav_c2, nav_c3 = st.columns(3)
+    
+    with nav_c1:
+        if st.button("≡ 목록보기", use_container_width=True):
+            st.session_state["manual_nav_target"] = "🏠 추천매물"
+            st.rerun()
+            
+    with nav_c2:
+        if st.button("⬆️ 처음 위로 가기", use_container_width=True):
+            scroll_to_top()
+            st.rerun()
+            
+    with nav_c3:
+        if st.button("다음 ➡️", use_container_width=True):
+            st.session_state["manual_nav_target"] = "🏠 추천매물"
+            st.rerun()
 
 def get_sss_side_message(persona: str) -> str:
     if persona == "학부모":
@@ -705,4 +734,4 @@ def render_dashboard():
             except Exception as e:
                 st.error(f"PDF 생성 실패: {e}")
 
-    render_bottom_nav("대시보드")
+    render_bottom_nav("🎓 대치1동 특성")

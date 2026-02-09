@@ -1,0 +1,25 @@
+# Dockerfile for FastAPI (Lightsail Deployment)
+
+# 1. 가벼운 Python 이미지 사용
+FROM python:3.9-slim
+
+# 2. 작업 디렉토리 설정
+WORKDIR /app
+
+# 3. 필수 패키지 설치
+# (프로젝트 루트의 requirements.txt가 있다고 가정, 없으면 직접 설치)
+COPY requirements.txt .
+RUN pip install --no-cache-dir fastapi uvicorn sqlalchemy pydantic
+
+# 4. 소스 코드 복사
+# api 폴더를 컨테이너의 /app/api 로 복사
+COPY api /app/api
+# DB 파일이 생길 곳 권한 설정 (SQLite용)
+RUN chmod 777 /app
+
+# 5. 실행 명령
+# 8000 포트 개방
+EXPOSE 8000
+
+# uvicorn 실행
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

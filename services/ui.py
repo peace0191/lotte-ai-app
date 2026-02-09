@@ -1,6 +1,19 @@
 from __future__ import annotations
 import streamlit as st
 
+import streamlit.components.v1 as components
+
+def scroll_to_top():
+    js = """
+    <script>
+        var body = window.parent.document.querySelector(".main");
+        var html = window.parent.document.documentElement;
+        if (body) body.scrollTop = 0;
+        if (html) html.scrollTop = 0;
+    </script>
+    """
+    components.html(js, height=0)
+
 COMPANY = {
   "name": "롯데타워앤강남빌딩부동산중개(주)",
   "agent": "공인중개사 이상수",
@@ -28,19 +41,24 @@ def render_bottom_nav(current_menu_name: str):
     
     st.markdown("")
     
-    col1, col2 = st.columns([1, 1])
+    col1, col2, col3 = st.columns([1, 1, 1])
     
     if idx > 0:
         prev_name = MENU_ORDER[idx - 1]
         with col1:
-            if st.button(f"⬅️ 이전: {prev_name}", key=f"nav_prev_{idx}", use_container_width=True):
+            if st.button(f"⬅️ {prev_name}", key=f"nav_prev_{idx}", use_container_width=True):
                  st.session_state["manual_nav_target"] = prev_name
                  st.rerun()
+    
+    with col2:
+        if st.button("⬆️ 처음 위로 가기", key=f"nav_top_{idx}", use_container_width=True):
+            scroll_to_top()
+            st.rerun()
              
     if idx < len(MENU_ORDER) - 1:
         next_name = MENU_ORDER[idx + 1]
-        with col2:
-             if st.button(f"다음: {next_name} ➡️", key=f"nav_next_{idx}", use_container_width=True):
+        with col3:
+             if st.button(f"{next_name} ➡️", key=f"nav_next_{idx}", use_container_width=True):
                  st.session_state["manual_nav_target"] = next_name
                  st.rerun()
 
