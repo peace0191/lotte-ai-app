@@ -51,8 +51,8 @@ def render_bottom_nav(current_menu_name: str):
                  st.rerun()
     
     with col2:
-        if st.button("⬆️ 처음 위로 가기", key=f"nav_top_{idx}", use_container_width=True):
-            scroll_to_top()
+        if st.button("💬 AI 챗봇 가기", key=f"nav_chat_{idx}", use_container_width=True):
+            st.session_state.menu_index = 6
             st.rerun()
              
     if idx < len(MENU_ORDER) - 1:

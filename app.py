@@ -1,5 +1,6 @@
 from __future__ import annotations
 import streamlit as st
+import streamlit.components.v1 as components
 from streamlit_option_menu import option_menu
 
 from services.ui import header, COMPANY
@@ -186,15 +187,7 @@ def app_view():
         import pages.admin as pg_admin
         pg_admin.render(properties)
     
-    # --- Demo Stability Tool (Bottom) ---
-    st.markdown("---")
-    if st.button("🔄 시연 환경 초기화 (Reset All)", key="global_reset_btn", help="세션 상태를 초기화하고 첫 화면으로 돌아갑니다."):
-        # Clear all but keep auth if possible, or just full clear
-        authed = st.session_state.get("authed", False)
-        st.session_state.clear()
-        st.session_state.authed = authed
-        init_session_state()
-        st.rerun()
+
 
 if not st.session_state.authed:
     login_view()

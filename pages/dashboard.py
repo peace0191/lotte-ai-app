@@ -692,46 +692,67 @@ def render_dashboard():
 
     st.divider()
 
-    st.markdown("### 📄 맞춤형 제안서 PDF 다운로드")
-    if st.button("PDF 생성 및 다운로드 (지도 포함)", key="pdf_btn"):
-        with st.spinner("PDF 생성 중..."):
-            try:
-                df_points = load_points()
-                points_list = []
-                for _, r in df_points.iterrows():
-                    points_list.append({
-                        "name": r["name"],
-                        "lat": r["lat"],
-                        "lon": r["lon"],
-                        "category": r["category"],
-                        "color": r["color"],
-                        "group": r["category"],
-                        "note": r.get("note", "")
-                    })
-                map_png = build_points_map_png(points_list)
-                
-                pdf_path = build_lease_offer_pdf(
-                    out_path="outputs/Daechi_Offer.pdf",
-                    title=f"대치1동 {user_persona} 맞춤 제안서",
-                    subtitle="2026년 학군 프리미엄 분석 리포트",
-                    badge="SSS등급",
-                    jeonse_text="16.5억 (52%)",
-                    wolse_text="10억 / 280만원",
-                    landlord_pitch="안정적인 전세 수요와 높은 학군 프리미엄으로 자산 가치 방어가 탁월합니다.",
-                    consult_script="고객님, 이 물건은 대치초-대청중 라인의 핵심 매물로, 지금 잡으셔야 합니다.",
-                    shorts_script="대치동 학군지, 지금이 기회입니다! 34평 로얄동 매물!",
-                    summary_text=get_sss_side_message(user_persona).replace("<br/>", "\n"),
-                    map_png_bytes=map_png
-                )
-                
-                with open(pdf_path, "rb") as f:
-                    st.download_button(
-                        label="📥 PDF 다운로드",
-                        data=f,
-                        file_name="Daechi_Lease_Offer.pdf",
-                        mime="application/pdf"
+    st.markdown("### 📄 맞춤형 제안서 PDF 다운로드 및 바로가기")
+    
+    # 4-Column Layout: PDF | Reset | Daechi | Props
+    c_pdf, c_reset, c_nav1, c_nav2 = st.columns([1.5, 0.8, 0.8, 0.8])
+    
+    with c_pdf:
+        if st.button("📄 PDF 생성 (지도포함)", key="pdf_btn", use_container_width=True):
+            with st.spinner("PDF 생성 중..."):
+                try:
+                    df_points = load_points()
+                    points_list = []
+                    for _, r in df_points.iterrows():
+                        points_list.append({
+                            "name": r["name"],
+                            "lat": r["lat"],
+                            "lon": r["lon"],
+                            "category": r["category"],
+                            "color": r["color"],
+                            "group": r["category"],
+                            "note": r.get("note", "")
+                        })
+                    map_png = build_points_map_png(points_list)
+                    
+                    pdf_path = build_lease_offer_pdf(
+                        out_path="outputs/Daechi_Offer.pdf",
+                        title=f"대치1동 {user_persona} 맞춤 제안서",
+                        subtitle="2026년 학군 프리미엄 분석 리포트",
+                        badge="SSS등급",
+                        jeonse_text="16.5억 (52%)",
+                        wolse_text="10억 / 280만원",
+                        landlord_pitch="안정적인 전세 수요와 높은 학군 프리미엄으로 자산 가치 방어가 탁월합니다.",
+                        consult_script="고객님, 이 물건은 대치초-대청중 라인의 핵심 매물로, 지금 잡으셔야 합니다.",
+                        shorts_script="대치동 학군지, 지금이 기회입니다! 34평 로얄동 매물!",
+                        summary_text=get_sss_side_message(user_persona).replace("<br/>", "\n"),
+                        map_png_bytes=map_png
                     )
-            except Exception as e:
-                st.error(f"PDF 생성 실패: {e}")
+                    
+                    with open(pdf_path, "rb") as f:
+                        st.download_button(
+                            label="📥 다운로드",
+                            data=f,
+                            file_name="Daechi_Lease_Offer.pdf",
+                            mime="application/pdf",
+                            use_container_width=True
+                        )
+                except Exception as e:
+                    st.error(f"PDF 생성 실패: {e}")
+
+    with c_reset:
+        if st.button("📋 목록으로", key="dash_reset_btn", use_container_width=True, help="초기 목록 화면으로 이동합니다."):
+            st.session_state.menu_index = 0
+            st.rerun()
+
+    with c_nav1:
+        if st.button("🎓 대치특성", key="dash_go_daechi", use_container_width=True):
+             st.session_state.menu_index = 0
+             st.rerun()
+
+    with c_nav2:
+        if st.button("🏠 추천매물", key="dash_go_props", use_container_width=True):
+             st.session_state.menu_index = 1
+             st.rerun()
 
     render_bottom_nav("🎓 대치1동 특성")

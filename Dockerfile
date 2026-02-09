@@ -1,14 +1,25 @@
-# Dockerfile for Lotte Tower AI App
-FROM python:3.11-slim-bookworm
+FROM python:3.11-slim
+
+# 보안: root 사용자 대신 일반 사용자 생성
+RUN useradd -m -u 1000 appuser
 
 WORKDIR /app
 
-# apt-get은 시간을 단축하기 위해 생략합니다.
+# 시스템 패키지 업데이트 및 curl 설치 (헬스체크용)
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# 종속성 설치
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir --retries 10 --timeout 60 -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# 애플리케이션 코드 복사
+COPY --chown=appuser:appuser . .
 
-EXPOSE 8501
+# 일반 사용자로 전환
+USER appuser
 
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# 포트 노출
+EXPOSE 8000
+
+# 실행
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

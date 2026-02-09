@@ -73,7 +73,8 @@ def build_response(q: str, faq_common: Dict[str, str], selected: dict | None) ->
     # 5. Buyer Decision Logic (Updated with v4.4 Framework)
     if key == "buyer_decision":
         if selected:
-            score = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+            score_data = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+            score = score_data.get("score", 0) if isinstance(score_data, dict) else score_data
             config = local_market_svc.get_district_config(selected.get("name", ""))
             return (
                 f"{comfort_prefix}"
@@ -109,7 +110,8 @@ def build_response(q: str, faq_common: Dict[str, str], selected: dict | None) ->
 
     # 3. Existing Specific Logic (Updated with Score)
     if key == "discount" and selected:
-        score = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+        score_data = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+        score = score_data.get("score", 0) if isinstance(score_data, dict) else score_data
         return (
             f"**📢 '{selected.get('name')}' MLOps 데이터 분석 결과:**\n\n"
             f"AI 모델 연산 결과, 현재 가격은 {selected.get('discount')} 저평가된 상태이며 **종합 매수 추천 점수 {score}점**입니다.\n\n"
@@ -131,7 +133,8 @@ def build_response(q: str, faq_common: Dict[str, str], selected: dict | None) ->
 
     if key == "contract":
         if selected:
-            score = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+            score_data = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+            score = score_data.get("score", 0) if isinstance(score_data, dict) else score_data
             return (
                 f"{comfort_prefix}"
                 f"📄 **'{selected.get('name')}' AI 안전 계약 매칭 리포트**\n\n"
@@ -171,7 +174,8 @@ def build_response(q: str, faq_common: Dict[str, str], selected: dict | None) ->
         return faq_common[key]
 
     if selected:
-        score = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+        score_data = local_market_svc.calculate_decision_score(selected.get("id"), selected)
+        score = score_data.get("score", 0) if isinstance(score_data, dict) else score_data
         return (
             f"선택하신 매물은 AI 분석 점수 {score}점의 우량 물건입니다.\n\n"
             f"✅ {selected.get('name')}\n"
