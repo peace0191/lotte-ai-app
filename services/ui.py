@@ -215,7 +215,7 @@ def header():
           <img src="{ceo_img_url}" class="ceo-avatar">
           <div class="header-content">
             <h1>{COMPANY['name']}</h1>
-            <p>🏅 {COMPANY['agent']} | AI Vibe Coding 영업 시스템 v3.6 Premium</p>
+            <p>🏅 {COMPANY['agent']} | AI Vibe Coding 영업 시스템 v4.6 (최신반영됨)</p>
             <div class="header-info">
               <span>📞 {COMPANY['tel']}</span>
               <span>📍 {COMPANY['addr']}</span>
