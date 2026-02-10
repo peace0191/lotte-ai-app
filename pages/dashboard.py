@@ -718,13 +718,10 @@ def render_dashboard():
 
     st.divider()
 
-    st.markdown("### 📄 맞춤형 제안서 PDF 다운로드 및 바로가기")
+    st.markdown("### 📄 맞춤형 제안서 PDF 다운로드")
     
-    # 4-Column Layout: PDF | Reset | Daechi | Props
-    c_pdf, c_reset, c_nav1, c_nav2 = st.columns([1.5, 0.8, 0.8, 0.8])
-    
-    with c_pdf:
-        if st.button("📄 PDF 생성 다운로드", key="pdf_btn", use_container_width=True):
+    try:
+        if st.button("📄 PDF 생성 및 다운로드 (지도 포함)", key="pdf_btn", use_container_width=False):
             with st.spinner("PDF 생성 중..."):
                 try:
                     df_points = load_points()
@@ -765,7 +762,15 @@ def render_dashboard():
                         )
                 except Exception as e:
                     st.error(f"PDF 생성 실패: {e}")
+    except Exception:
+        pass
 
+    st.markdown("---")
+    st.markdown("### 📱 바로가기 버튼")
+
+    # 4-Column Navigation: 목록으로 | 대치특성 상단 | 추천매물 | AI 챗봇
+    c_reset, c_nav1, c_nav2, c_nav3 = st.columns(4)
+    
     with c_reset:
         if st.button("📋 목록으로", key="dash_reset_btn", use_container_width=True, help="초기 목록 화면으로 이동합니다."):
             st.session_state.menu_index = 0
@@ -781,4 +786,10 @@ def render_dashboard():
              st.session_state.menu_index = 1
              st.rerun()
 
+    with c_nav3:
+        if st.button("💬 AI 챗봇", key="dash_go_chat", use_container_width=True):
+             st.session_state["manual_nav_target"] = "💬 AI 챗봇"
+             st.rerun()
+
     render_bottom_nav("🎓 대치1동 특성")
+
