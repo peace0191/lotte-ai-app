@@ -35,9 +35,9 @@ def render_bottom_nav(current_menu_name: str):
     
     # Custom Navigation Shortcuts
     c_qk1, c_qk2, c_qk3 = st.columns(3)
-    c_qk1.button("📉 저평가 매물 보기", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🎯 AI 매칭 시그널"}))
-    c_qk2.button("🏠 추천 매물 보기", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🏠 추천매물"}))
-    c_qk3.button("🚀 사전등록 매칭", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🚀 사전등록 매칭"}))
+    c_qk1.button("📉 저평가 매물 보기", key=f"qk_underval_{idx}", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🎯 AI 매칭 시그널"}))
+    c_qk2.button("🏠 추천 매물 보기", key=f"qk_props_{idx}", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🏠 추천매물"}))
+    c_qk3.button("🚀 사전등록 매칭", key=f"qk_reg_{idx}", use_container_width=True, on_click=lambda: st.session_state.update({"manual_nav_target": "🚀 사전등록 매칭"}))
     
     st.markdown("")
     

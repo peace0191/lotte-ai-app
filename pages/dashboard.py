@@ -605,17 +605,17 @@ def render_rich_narrative(persona: str):
     nav_c1, nav_c2, nav_c3 = st.columns(3)
     
     with nav_c1:
-        if st.button("≡ 목록보기", use_container_width=True):
+        if st.button("≡ 목록보기", key="report_nav_list", use_container_width=True):
             st.session_state["manual_nav_target"] = "🏠 추천매물"
             st.rerun()
             
     with nav_c2:
-        if st.button("⬆️ 상단스크롤이동", use_container_width=True):
+        if st.button("⬆️ 상단스크롤이동", key="report_nav_top", use_container_width=True):
             scroll_to_top()
             st.rerun()
             
     with nav_c3:
-        if st.button("💬 AI 챗봇 ➡️", use_container_width=True):
+        if st.button("💬 AI 챗봇 ➡️", key="report_nav_chat", use_container_width=True):
             st.session_state["manual_nav_target"] = "💬 AI 챗봇"
             st.rerun()
 
