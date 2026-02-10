@@ -220,6 +220,11 @@ def header():
               <span>📞 {COMPANY['tel']}</span>
               <span>📍 {COMPANY['addr']}</span>
             </div>
+            <div style="margin-top:8px; font-size:13px;">
+              <a href="https://lotte-ai-app.streamlit.app" target="_blank" style="color:#d4af37; text-decoration:none; font-weight:700;">
+                🌐 앱 : https://lotte-ai-app.streamlit.app
+              </a>
+            </div>
           </div>
         </div>
         """,

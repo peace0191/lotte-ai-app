@@ -85,7 +85,7 @@ def render(properties: dict):
                 btn_cols2[0].button("📄 AI 리포트", key=f"rep_{item['id']}")
                 btn_cols2[1].button("▶️ 영상", key=f"yt_{item['id']}", on_click=go_shorts)
 
-                if st.button("⬆️ 처음 위로 가기", key=f"top_{item['id']}", use_container_width=True):
+                if st.button("⬆️ 상단스크롤이동", key=f"top_{item['id']}", use_container_width=True):
                     scroll_to_top()
                     st.rerun()
 

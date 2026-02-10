@@ -562,7 +562,7 @@ def render_rich_narrative(persona: str):
 
     st.divider()
 
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns([6, 4])
     with col1:
         st.markdown("#### 🏫 학군 골드 라인")
         st.markdown("지도에 표시된 <span style='color:#ff8c00'>**주황색 화살표**</span>는 **'대치초-래대팰-SK뷰'** 학군 프리미엄 라인입니다.", unsafe_allow_html=True)
@@ -576,18 +576,6 @@ def render_rich_narrative(persona: str):
                 **3. 단대부속고등학교 / 숙명여고**\n- **특징**: 서울대 진학 실적 전국 TOP
                 """)
     with col2:
-        # Tabs Font Size Injection
-        st.markdown("""
-        <style>
-            div[data-testid="stTabs"] button {
-                font-size: 40px !important;
-                font-weight: bold !important;
-                padding: 15px 25px !important;
-                flex: 1 !important; /* 가득 차게 */
-            }
-        </style>
-        """, unsafe_allow_html=True)
-        
         st.markdown("#### 🏢 주요 명품 단지 분석")
         tab1, tab2, tab3 = st.tabs(["래미안대치팰리스", "대치아이파크/SK뷰", "은마아파트"])
         with tab1:
@@ -615,13 +603,13 @@ def render_rich_narrative(persona: str):
             st.rerun()
             
     with nav_c2:
-        if st.button("⬆️ 처음 위로 가기", use_container_width=True):
+        if st.button("⬆️ 상단스크롤이동", use_container_width=True):
             scroll_to_top()
             st.rerun()
             
     with nav_c3:
-        if st.button("다음 ➡️", use_container_width=True):
-            st.session_state["manual_nav_target"] = "🏠 추천매물"
+        if st.button("💬 AI 챗봇 ➡️", use_container_width=True):
+            st.session_state["manual_nav_target"] = "💬 AI 챗봇"
             st.rerun()
 
 def get_sss_side_message(persona: str) -> str:
@@ -646,7 +634,45 @@ def render_dashboard():
         st.markdown("### 🛡️ 보안 대시보드")
         st.success("🔒 내부망 보안 연결됨 (Secure)")
         st.caption("✅ 외부 해킹 원천 차단 (Localhost)")
-        # st.caption("✅ SSL/TLS 프로토콜 준비됨")
+
+        # --- 🔗 외부 링크 바로가기 ---
+        st.markdown("---")
+        st.markdown("### 🔗 외부 링크 바로가기")
+        st.markdown("""
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="https://rt.molit.go.kr/" target="_blank" style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e); color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; display:block; transition:all 0.3s;">
+                🏛️ 국토부 실거래가
+            </a>
+            <a href="https://land.naver.com/" target="_blank" style="background:linear-gradient(135deg,#1db954,#17a34a); color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; display:block; transition:all 0.3s;">
+                🏠 네이버 부동산
+            </a>
+            <a href="https://map.kakao.com/" target="_blank" style="background:linear-gradient(135deg,#f9e000,#e6c700); color:#000; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; display:block; transition:all 0.3s;">
+                🗺️ 카카오맵
+            </a>
+            <a href="https://www.reb.or.kr/" target="_blank" style="background:linear-gradient(135deg,#6366f1,#4f46e5); color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; display:block; transition:all 0.3s;">
+                📊 한국부동산원
+            </a>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # --- 📱 앱 내부 바로가기 ---
+        st.markdown("---")
+        st.markdown("### 📱 앱 바로가기")
+        sb_c1, sb_c2 = st.columns(2)
+        with sb_c1:
+            if st.button("💬 AI 챗봇", key="sb_chatbot", use_container_width=True):
+                st.session_state["manual_nav_target"] = "💬 AI 챗봇"
+                st.rerun()
+            if st.button("🎬 AI 숏츠", key="sb_shorts", use_container_width=True):
+                st.session_state["manual_nav_target"] = "🎬 AI 숏츠"
+                st.rerun()
+        with sb_c2:
+            if st.button("🏠 추천매물", key="sb_props", use_container_width=True):
+                st.session_state["manual_nav_target"] = "🏠 추천매물"
+                st.rerun()
+            if st.button("🚀 사전등록", key="sb_reg", use_container_width=True):
+                st.session_state["manual_nav_target"] = "🚀 사전등록 매칭"
+                st.rerun()
 
     # Header
     st.title(f"대치1동 AI 부동산 대시보드 ({user_persona})")
@@ -698,7 +724,7 @@ def render_dashboard():
     c_pdf, c_reset, c_nav1, c_nav2 = st.columns([1.5, 0.8, 0.8, 0.8])
     
     with c_pdf:
-        if st.button("📄 PDF 생성 (지도포함)", key="pdf_btn", use_container_width=True):
+        if st.button("📄 PDF 생성 다운로드", key="pdf_btn", use_container_width=True):
             with st.spinner("PDF 생성 중..."):
                 try:
                     df_points = load_points()
@@ -746,8 +772,8 @@ def render_dashboard():
             st.rerun()
 
     with c_nav1:
-        if st.button("🎓 대치특성", key="dash_go_daechi", use_container_width=True):
-             st.session_state.menu_index = 0
+        if st.button("⬆️ 대치특성 상단", key="dash_go_daechi", use_container_width=True):
+             scroll_to_top()
              st.rerun()
 
     with c_nav2:
