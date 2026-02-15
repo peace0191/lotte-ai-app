@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LotteTower AI MLOps Dashboard (Standalone)</title>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function App() {
+            const [status, setStatus] = React.useState('Production');
+            const [version, setVersion] = React.useState('v2.3.0');
+            const [mae, setMae] = React.useState('3,200,000');
+            const [r2, setR2] = React.useState('0.83');
+            const [training, setTraining] = React.useState(false);
+            const [logs, setLogs] = React.useState([
+                { time: '11:45', msg: 'System initialized. Model v2.3.0 active.' },
+                { time: '11:46', msg: 'A/B Test result (Group B) showing +3.3% conversion.' }
+            ]);
+
+            const startTraining = () => {
+                setTraining(true);
+                setLogs(prev => [...prev, { time: new Date().toLocaleTimeString().slice(0, 5), msg: 'Started training new experiment...' }]);
+
+                setTimeout(() => {
+                    setLogs(prev => [...prev, { time: new Date().toLocaleTimeString().slice(0, 5), msg: 'Training complete. (MAE: 3,150,000 / R2: 0.84)' }]);
+                    setLogs(prev => [...prev, { time: new Date().toLocaleTimeString().slice(0, 5), msg: 'New model registered to Staging.' }]);
+                    setTraining(false);
+                }, 3000);
+            };
+
+            const deployModel = () => {
+                setVersion('v2.3.1');
+                setMae('3,150,000');
+                setR2('0.84');
+                setLogs(prev => [...prev, { time: new Date().toLocaleTimeString().slice(0, 5), msg: 'Promoted v2.3.1 to Production.' }]);
+            };
+
+            return (
+                <div class="min-h-screen p-8">
+                    {/* Header */}
+                    <header class="mb-8 flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-800"><i class="fas fa-robot mr-2 text-indigo-600"></i>LotteTower AI MLOps Dashboard</h1>
+                            <p class="text-gray-500 mt-1">Standalone Console for Real Estate Model Management</p>
+                        </div>
+                        <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                            System Operational
+                        </div>
+                    </header>
+
+                    {/* Stats Grid */}
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500">
+                            <div class="text-gray-500 text-sm mb-1 uppercase tracking-wider">Current Model</div>
+                            <div class="text-3xl font-bold text-gray-800">{version}</div>
+                            <div class="text-green-500 text-sm mt-2"><i class="fas fa-arrow-up mr-1"></i>Updated Today</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                            <div class="text-gray-500 text-sm mb-1 uppercase tracking-wider">Model Status</div>
+                            <div class="text-3xl font-bold text-gray-800">{status}</div>
+                            <div class="text-gray-400 text-sm mt-2">Uptime: 99.9%</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+                            <div class="text-gray-500 text-sm mb-1 uppercase tracking-wider">Accuracy (R²)</div>
+                            <div class="text-3xl font-bold text-gray-800">{r2}</div>
+                            <div class="text-green-500 text-sm mt-2"><i class="fas fa-check mr-1"></i>Optimal Range</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+                            <div class="text-gray-500 text-sm mb-1 uppercase tracking-wider">Mean Error (MAE)</div>
+                            <div class="text-3xl font-bold text-gray-800">{mae} KRW</div>
+                            <div class="text-gray-400 text-sm mt-2">Per Month Prediction</div>
+                        </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Training Panel */}
+                        <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">🚀 Model Training & Deployment</h2>
+                            <div class="flex space-x-4 mb-6">
+                                <button
+                                    onClick={startTraining}
+                                    disabled={training}
+                                    class={`flex-1 py-3 px-6 rounded-lg text-white font-bold transition duration-200 ${training ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                                    {training ? <span><i class="fas fa-circle-notch fa-spin mr-2"></i>Running Pipeline...</span> : <span><i class="fas fa-play mr-2"></i>Start New Experiment</span>}
+                                </button>
+                                <button
+                                    onClick={deployModel}
+                                    class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                                    <i class="fas fa-rocket mr-2"></i>Promote Staging to Prod
+                                </button>
+                            </div>
+
+                            <h3 class="font-semibold text-gray-700 mb-2">Real-time System Logs</h3>
+                            <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm h-64 overflow-y-auto">
+                                {logs.map((log, i) => (
+                                    <div key={i} class="mb-1">
+                                        <span class="text-gray-500">[{log.time}]</span> {log.msg}
+                                    </div>
+                                ))}
+                                {training && (
+                                    <div class="animate-pulse">_ Processing data generation...</div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* A/B Test Results */}
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">🆚 A/B Test (Live)</h2>
+
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-semibold text-gray-700">Group A (Baseline)</span>
+                                    <span class="text-gray-500">15.2% Conv.</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-gray-400 h-2.5 rounded-full" style={{ width: '60%' }}></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-semibold text-indigo-600">Group B (New v2.3.1)</span>
+                                    <span class="font-bold text-indigo-600">18.5% Conv.</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-600 h-2.5 rounded-full" style={{ width: '75%' }}></div>
+                                </div>
+                                <p class="text-xs text-green-600 mt-1 font-bold"><i class="fas fa-arrow-up mr-1"></i>+3.3% Improvement</p>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg text-sm text-blue-800">
+                                <p class="font-bold mb-1"><i class="fas fa-info-circle mr-1"></i>Recommendation</p>
+                                <p>The new model (v2.3.1) has shown statistically significant improvement. Promote to production recommended.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>

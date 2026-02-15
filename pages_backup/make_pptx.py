@@ -1,4 +1,7 @@
 import sys
+import streamlit as st
+from services.auth import require_admin
+require_admin()
 import os
 import re
 from pptx import Presentation

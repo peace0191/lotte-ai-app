@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+from typing import Dict, Any
 
 class APIClient:
     """
@@ -29,12 +30,18 @@ class APIClient:
                 f"{self.base_url}{endpoint}", 
                 json=data, 
                 headers=self.headers,
-                timeout=5 # 5초 타임아웃
+                timeout=10 # 10초 타임아웃 (설문 데이터 등)
             )
             response.raise_for_status() # 4xx, 5xx 에러 발생 시 예외 처리
             return response.json()
+        except requests.exceptions.HTTPError as e:
+            st.error(f"🛑 API 오류 ({e.response.status_code}): {e.response.text}")
+            return None
         except requests.exceptions.RequestException as e:
             st.error(f"🔌 서버 통신 오류: {e}")
+            return None
+        except Exception as e:
+            st.error(f"⚠️ 알 수 없는 오류: {e}")
             return None
 
     def _get(self, endpoint, params=None):
@@ -54,8 +61,23 @@ class APIClient:
 
     # --- 실제 서비스 기능 ---
 
+    def check_health(self):
+        """API 서버 상태 확인"""
+        return self._get("/")
+
+    def submit_vip_survey(self, user_name: str, user_phone: str, survey_data: Dict[str, Any]):
+        """
+        VIP 50문항 설문 데이터 제출 (보안 적용)
+        """
+        payload = {
+            "user_name": user_name,
+            "user_phone": user_phone,
+            "survey_data": survey_data
+        }
+        return self._post("/api/v1/vip-survey", payload)
+
     def register_demand(self, demand_data):
-        """수요자(매수/임차) 등록"""
+        """수요자(매수/임차) 등록 (기본형)"""
         return self._post("/api/v1/demand", demand_data)
 
     def register_supply(self, supply_data):

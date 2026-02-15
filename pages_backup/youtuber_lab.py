@@ -1,4 +1,6 @@
 import streamlit as st
+from services.auth import require_admin
+require_admin()
 import time
 from services.shorts_svc import shorts_svc
 from services.ui import header
@@ -83,4 +85,10 @@ def render(properties):
             st.info("왼쪽 대시보드에서 렌더링을 시작해 주세요.")
 
     st.markdown("---")
+    st.markdown("---")
     st.caption("본 모듈은 Container Native 환경에서 Kubeflow 파이프라인으로 매일 09시에 재학습됩니다.")
+
+if __name__ == "__main__":
+    from services.data import load_properties 
+    props = load_properties()
+    render(props)

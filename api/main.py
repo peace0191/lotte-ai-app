@@ -1,40 +1,39 @@
-from fastapi import FastAPI, Depends, BackgroundTasks, Request
+from fastapi import FastAPI, Depends, BackgroundTasks, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from contextlib import asynccontextmanager
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, date
 import uvicorn
 import os
+import json
 
-from . import models, database, auth
+# Import internal modules (relative imports for package structure)
+from . import models, database, auth, schemas
 
-# DB 테이블 자동 생성
+# Initialize DB tables
 models.Base.metadata.create_all(bind=database.engine)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # 앱 시작 시 실행
     print("🔒 [Lotte AI Security] API Server is starting with Secure Mode.")
     yield
-    # 앱 종료 시 실행
     print("🔒 [Lotte AI Security] Server shutting down.")
 
 app = FastAPI(
     title="Lotte AI RealEstate Secure API",
-    version="2.0.0 (Secure)",
+    version="2.1.0 (VIP Survey)",
     lifespan=lifespan,
-    docs_url="/docs", # 운영 환경에선 None으로 숨길 수 있음
+    docs_url="/docs",
     redoc_url=None
 )
 
-# --- 🛡️ 1. 보안 미들웨어 설정 ---
-
-# [CORS] 허용된 도메인(Streamlit Cloud)에서만 접속 허용
+# --- 1. Security Middleware ---
 origins = [
     "http://localhost:8501",
     "http://localhost:8502",
-    "https://lotte-ai-app.streamlit.app", # 고객님의 Streamlit 주소
+    "https://lotte-ai-app.streamlit.app",
+    "https://share.streamlit.io",
 ]
 
 app.add_middleware(
@@ -42,27 +41,74 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["X-API-Key", "Content-Type"],
+    allow_headers=["*"], # Allow all headers including X-API-Key
 )
 
-# [Trusted Host] 호스트 헤더 위조 방지
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["localhost", "127.0.0.1", "*.streamlit.app", "*"] # 실배포시 '*' 제거 권장
+    allowed_hosts=["localhost", "127.0.0.1", "*.streamlit.app", "*"]
 )
 
-# --- API Endpoints ---
+# --- 2. Endpoints ---
 
 @app.get("/")
 def health_check():
-    """서버 상태 확인 (공개)"""
     return {"status": "ok", "security": "enabled", "time": datetime.now()}
 
-# ✅ [SECURE] 모든 중요 로직에 verify_api_key 의존성 주입
+# --- VIP Survey Endpoint ---
+@app.post("/api/v1/vip-survey", dependencies=[Depends(auth.verify_api_key), Depends(auth.rate_limit)])
+def register_vip_survey(item: schemas.VipSurveyInput, db: Session = Depends(database.get_db)):
+    """
+    VIP 50문항 설문 제출 처리
+    - Demand 테이블에 저장 (preferences JSON 컬럼 활용)
+    """
+    # 1. Extract core fields from survey_data if possible
+    # This is optional parsing logic to populate SQL columns for faster query later
+    survey = item.survey_data
+    
+    # Try to parse budget (Q28: "15억" -> 1.5e9)
+    budget_deposit = 0.0
+    try:
+        q28 = survey.get("q28", "0")
+        if "억" in str(q28):
+            val = float(str(q28).replace("억", "").replace(",", "").strip())
+            budget_deposit = val * 100000000
+    except:
+        pass
 
-@app.post("/api/v1/demand", dependencies=[Depends(auth.verify_api_key), Depends(auth.rate_limit)])
-def register_demand(item: models.DemandCreate, db: Session = Depends(database.get_db)):
-    """수요자 등록 (보안 적용됨)"""
+    # Try to parse move_in_date (Q46: "2024-03-01")
+    move_in_date = None
+    try:
+        q46 = survey.get("q46")
+        if q46:
+            move_in_date = datetime.strptime(str(q46), "%Y-%m-%d").date()
+    except:
+        pass
+
+    # 2. Create Demand Record
+    new_demand = models.Demand(
+        name=item.user_name,
+        phone=item.user_phone,
+        budget_deposit=budget_deposit,
+        move_in_date=move_in_date,
+        preferences=survey, # Store full JSON
+        created_at=datetime.utcnow()
+    )
+    
+    db.add(new_demand)
+    db.commit()
+    db.refresh(new_demand)
+    
+    return {
+        "ok": True, 
+        "id": new_demand.id, 
+        "message": "VIP 설문이 안전하게 저장되었습니다."
+    }
+
+# --- Existing Endpoints (Updated with correct Schemas) ---
+
+@app.post("/api/v1/demand", dependencies=[Depends(auth.verify_api_key)])
+def register_demand(item: schemas.DemandCreate, db: Session = Depends(database.get_db)):
     new_demand = models.Demand(**item.dict())
     db.add(new_demand)
     db.commit()
@@ -70,22 +116,24 @@ def register_demand(item: models.DemandCreate, db: Session = Depends(database.ge
     return {"ok": True, "id": new_demand.id}
 
 @app.post("/api/v1/supply", dependencies=[Depends(auth.verify_api_key)])
-def register_supply(item: models.SupplyCreate, bg: BackgroundTasks, db: Session = Depends(database.get_db)):
-    """공급 등록 (보안 적용됨)"""
+def register_supply(item: schemas.SupplyCreate, bg: BackgroundTasks, db: Session = Depends(database.get_db)):
     new_supply = models.Supply(**item.dict())
     db.add(new_supply)
     db.commit()
+    db.refresh(new_supply)
     return {"ok": True, "id": new_supply.id}
 
 @app.post("/api/v1/match", dependencies=[Depends(auth.verify_api_key)])
 def run_match(demand_id: int, db: Session = Depends(database.get_db)):
-    """매칭 실행 (보안 적용됨)"""
+    # Placeholder matching logic
     return {"ok": True, "matches": [{"id": 1, "score": 98.5}]}
 
 @app.post("/api/v1/reservation", dependencies=[Depends(auth.verify_api_key)])
-def create_reservation(item: models.ReservationCreate, db: Session = Depends(database.get_db)):
-    """예약 생성 (보안 적용됨)"""
-    # 실제 db 로직은 이전과 동일하므로 생략 (auth 데모 위주)
+def create_reservation(item: schemas.ReservationCreate, db: Session = Depends(database.get_db)):
+    new_res = models.Reservation(**item.dict())
+    new_res.status = "proposed"
+    db.add(new_res)
+    db.commit()
     return {"ok": True, "status": "proposed"}
 
 if __name__ == "__main__":

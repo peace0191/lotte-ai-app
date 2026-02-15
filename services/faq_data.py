@@ -66,3 +66,5 @@ def get_faq_list():
     for cat, qs in FAQ_CATEGORIES.items():
         all_q.extend(qs)
     return all_q
+
+FAQ_COMMON = get_faq_list()

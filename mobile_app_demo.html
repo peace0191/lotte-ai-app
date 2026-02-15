@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>롯데타워앤강남빌딩 AI 부동산</title>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            background-color: #f3f4f6;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .text-shadow {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- Data & Constants ---
+        const CEO_NAME = "공인중개사 이상수";
+        const BRAND_NAME = "롯데타워앤강남빌딩부동산중개(주)";
+
+        // 3 Key Strategies
+        const STRATEGIES = [
+            {
+                id: 1,
+                title: "교육특구 1번지 분석",
+                icon: "ph-student",
+                color: "text-blue-600",
+                bg: "bg-blue-50",
+                desc: "래대팰·SK뷰(대치초/단대부고) vs 아이파크(대도초/숙명여중고) 학군 정밀 분석"
+            },
+            {
+                id: 2,
+                title: "AI 저평가 자동매칭",
+                icon: "ph-brain",
+                color: "text-purple-600",
+                bg: "bg-purple-50",
+                desc: "빅데이터로 저평가 매물을 발굴하고, 수요자에게 1초 만에 자동 매칭"
+            },
+            {
+                id: 3,
+                title: "AI 자동 홍보 시스템",
+                icon: "ph-broadcast",
+                color: "text-red-600",
+                bg: "bg-red-50",
+                desc: "유튜브 숏츠, SNS, 맘카페 등 타겟 고객에게 매물 정보 자동 확산"
+            }
+        ];
+
+        // --- Tabs Components ---
+
+        // 1. [대치1동] - CEO Intro + Strategies + Region Info
+        const RegionTab = () => (
+            <div className="pb-24 animate-fade-in">
+                {/* Header / CEO Greeting */}
+                <div className="bg-slate-900 text-white p-6 rounded-b-[2rem] shadow-lg relative overflow-hidden">
+                    <div className="absolute top-0 right-0 opacity-10 text-[150px] leading-none -mr-10 -mt-10">
+                        <i className="ph-fill ph-buildings"></i>
+                    </div>
+                    <div className="relative z-10">
+                        <div className="flex items-center mb-4">
+                            <div className="w-12 h-12 rounded-full border-2 border-yellow-400 overflow-hidden mr-3">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h1 className="font-bold text-lg">{CEO_NAME} 대표</h1>
+                                <p className="text-xs text-slate-400">{BRAND_NAME}</p>
+                            </div>
+                        </div>
+                        <h2 className="text-xl font-bold leading-snug mb-2">
+                            "대치1동은 자녀의 미래를 위한<br />
+                            <span className="text-yellow-400">베이스캠프</span>입니다."
+                        </h2>
+                        <p className="text-sm text-slate-300 leading-relaxed opacity-90">
+                            단순한 중개가 아닙니다. <b>AI 저평가 분석</b>과 <b>자동 매칭 시스템</b>으로 고객님의 자산 가치를 극대화하고, 최적의 교육 환경을 찾아드립니다.
+                        </p>
+                    </div>
+                </div>
+
+                {/* 3 Core Strategies */}
+                <div className="px-4 -mt-6 relative z-20">
+                    <div className="bg-white rounded-xl shadow-md p-4 mb-6">
+                        <h3 className="font-bold text-slate-800 mb-3 flex items-center">
+                            <i className="ph-fill ph-diamond text-blue-600 mr-2"></i> 3대 핵심 전략
+                        </h3>
+                        <div className="space-y-3">
+                            {STRATEGIES.map((st) => (
+                                <div key={st.id} className="flex items-start p-3 bg-slate-50 rounded-lg">
+                                    <div className={`w-8 h-8 rounded-full ${st.bg} ${st.color} flex items-center justify-center mr-3 shrink-0`}>
+                                        <i className={`ph-fill ${st.icon}`}></i>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-sm text-slate-800">{st.title}</h4>
+                                        <p className="text-[11px] text-slate-500 leading-snug">{st.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Daechidong Complex Info */}
+                <div className="px-4">
+                    <h3 className="font-bold text-lg text-slate-800 mb-3 ml-1">📍 대치1동 교육특구 분석</h3>
+
+                    {/* Complex 1 */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mb-4">
+                        <div className="h-32 bg-gray-200 relative">
+                            <img src="https://images.unsplash.com/photo-1600596542815-e328701102b9?auto=format&fit=crop&w=600&q=80" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent w-full p-3">
+                                <h4 className="text-white font-bold">래미안대치팰리스 / SK뷰</h4>
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <div className="flex gap-2 mb-2">
+                                <span className="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold">대장주</span>
+                                <span className="text-[10px] bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-bold">초품아</span>
+                            </div>
+                            <p className="text-xs text-slate-600 mb-1">🏫 <b>대치초</b> 배정 (단지 내)</p>
+                            <p className="text-xs text-slate-600">🎓 <b>대청중, 단대부고, 숙명여고</b> 진학 라인</p>
+                        </div>
+                    </div>
+
+                    {/* Complex 2 */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mb-4">
+                        <div className="h-32 bg-gray-200 relative">
+                            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent w-full p-3">
+                                <h4 className="text-white font-bold">대치 아이파크</h4>
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <div className="flex gap-2 mb-2">
+                                <span className="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-bold">학원가 밀착</span>
+                            </div>
+                            <p className="text-xs text-slate-600 mb-1">🏫 <b>대도초</b> 배정</p>
+                            <p className="text-xs text-slate-600">🎓 <b>숙명여중고, 단대부중고</b> 진학 선호</p>
+                        </div>
+                    </div>
+
+                    {/* Complex 3 */}
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mb-4">
+                        <div className="p-4 flex items-center">
+                            <div className="w-16 h-16 bg-slate-200 rounded-lg mr-4 overflow-hidden shrink-0">
+                                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=200&q=80" className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-slate-800">삼환아르누보 2 (오피스텔)</h4>
+                                <p className="text-xs text-slate-500 mt-1">
+                                    <span className="text-purple-600 font-bold">세컨하우스 최적</span> · 단대부중/숙명 배정 가능한 전략적 거점
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // 2. [추천매물] - AI Recommended
+        const ListingTab = () => (
+            <div className="p-4 pb-24 h-full">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-bold text-slate-800">⭐ AI 추천매물</h2>
+                    <span className="text-xs bg-slate-100 px-2 py-1 rounded text-slate-500">저평가 순 정렬</span>
+                </div>
+
+                {/* Filter Chips */}
+                <div className="flex gap-2 overflow-x-auto hide-scrollbar mb-4">
+                    <button className="px-3 py-1 bg-slate-900 text-white rounded-full text-xs font-bold shrink-0">전체</button>
+                    <button className="px-3 py-1 bg-white border border-slate-200 text-slate-600 rounded-full text-xs shrink-0">대치동</button>
+                    <button className="px-3 py-1 bg-white border border-slate-200 text-slate-600 rounded-full text-xs shrink-0">도곡동</button>
+                    <button className="px-3 py-1 bg-white border border-slate-200 text-slate-600 rounded-full text-xs shrink-0">재건축</button>
+                </div>
+
+                {/* Listing Items */}
+                <div className="space-y-4">
+                    {/* Item A */}
+                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100">
+                        <div className="h-48 bg-slate-200 relative">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover" />
+                            <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg animate-pulse">
+                                AI 분석: 저평가 -8%
+                            </div>
+                            <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+                                <i className="ph-fill ph-camera"></i> 3D 투어
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <div className="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 className="font-bold text-lg text-slate-900">은마아파트 31평형</h3>
+                                    <p className="text-xs text-slate-500">대치동 · 재건축 대장주 · 남향</p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="font-extrabold text-xl text-blue-600">26.5억</div>
+                                </div>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-3">
+                                <div className="bg-red-500 h-1.5 rounded-full" style={{ width: '85%' }}></div>
+                            </div>
+                            <div className="flex justify-between text-[10px] text-slate-400 mb-4">
+                                <span>AI 매칭 적합도 85%</span>
+                                <span>조회수 1.2k</span>
+                            </div>
+                            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-sm shadow-md active:scale-[0.98] transition-transform">
+                                상세 분석 및 예약하기
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Item B */}
+                    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100">
+                        <div className="h-48 bg-slate-200 relative">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" className="w-full h-full object-cover" />
+                            <div className="absolute top-3 left-3 bg-purple-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg">
+                                프리미엄
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <div className="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 className="font-bold text-lg text-slate-900">시그니엘 레지던스</h3>
+                                    <p className="text-xs text-slate-500">신천동 · 60평형 · 한강뷰</p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="font-extrabold text-xl text-blue-600">65억</div>
+                                </div>
+                            </div>
+                            <button className="w-full bg-slate-900 text-white py-3 rounded-lg font-bold text-sm shadow-md">
+                                VIP 프라이빗 투어 신청
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // 3. [AI 매칭] - Chatbot & Auto Match
+        const MatchingTab = () => (
+            <div className="pb-24 h-full flex flex-col bg-white">
+                <div className="p-4 border-b border-slate-100 bg-white sticky top-0 z-10">
+                    <h2 className="text-xl font-bold text-slate-800 flex items-center">
+                        <i className="ph-fill ph-robot text-indigo-600 mr-2"></i> AI 매칭
+                    </h2>
+                    <p className="text-xs text-slate-500">원하시는 학군과 예산을 말씀해주세요.</p>
+                </div>
+
+                <div className="flex-1 p-4 bg-slate-50 overflow-y-auto">
+                    {/* Chat Messages */}
+                    <div className="space-y-4">
+                        <div className="flex items-start">
+                            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs mr-2 mt-1">AI</div>
+                            <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-slate-700 max-w-[85%] border border-slate-100">
+                                안녕하세요! <b>대치1동 학군 전문 AI</b>입니다. <br />
+                                자녀분의 학교 배정 계획(초/중/고)과 예산을 알려주시면, 최적의 단지를 분석해 드립니다.
+                            </div>
+                        </div>
+
+                        <div className="flex items-end justify-end">
+                            <div className="bg-indigo-600 p-3 rounded-2xl rounded-tr-none shadow-sm text-sm text-white max-w-[85%]">
+                                래대팰 30평대 전세, 대치초 배정 필수요. 예산 15억 정도입니다.
+                            </div>
+                        </div>
+
+                        {/* AI Signal Card */}
+                        <div className="my-2">
+                            <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-indigo-500 mx-auto max-w-[95%]">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="text-[10px] font-bold text-indigo-500 tracking-wider">MATCHING SIGNAL</span>
+                                    <i className="ph-fill ph-check-circle text-green-500 text-lg"></i>
+                                </div>
+                                <h4 className="font-bold text-slate-800 text-sm mb-1">조건 분석 결과</h4>
+                                <ul className="text-xs text-slate-600 space-y-1 mb-3">
+                                    <li>✅ 대치초 배정 구역 포함</li>
+                                    <li>✅ 30평대 (34평 A타입 추천)</li>
+                                    <li>⚠️ 예산 조정 필요 (현재 시세 18억~)</li>
+                                </ul>
+                                <button className="w-full bg-indigo-50 text-indigo-700 py-2 rounded-lg text-xs font-bold border border-indigo-100">
+                                    유사 조건 매물(3건) 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="p-3 border-t border-slate-100 flex gap-2 bg-white">
+                    <input type="text" placeholder="메시지 입력..." className="flex-1 bg-slate-100 rounded-full px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <button className="w-10 h-10 bg-indigo-600 rounded-full text-white flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i className="ph-bold ph-paper-plane-right"></i>
+                    </button>
+                </div>
+            </div>
+        );
+
+        // 4. [매물등록] - Register
+        const RegisterTab = () => (
+            <div className="p-5 pb-24">
+                <div className="text-center mb-8 mt-4">
+                    <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                        <i className="ph-fill ph-note-pencil"></i>
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-800">매물/의뢰 등록</h2>
+                    <p className="text-sm text-slate-500 mt-2">
+                        수요자는 <span className="text-blue-600 font-bold">매수/임차</span>,
+                        공급자는 <span className="text-green-600 font-bold">매도/임대</span>를<br />
+                        선택해주세요. AI가 즉시 매칭합니다.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                    <button className="bg-white border-2 border-blue-500 p-6 rounded-2xl flex items-center shadow-sm active:scale-[0.98] transition-all">
+                        <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mr-4 shrink-0">
+                            <i className="ph-fill ph-basket"></i>
+                        </div>
+                        <div className="text-left">
+                            <span className="block font-bold text-lg text-slate-800">구합니다 (수요자)</span>
+                            <span className="text-xs text-slate-500">집을 찾고 있어요 / 이사 예정</span>
+                        </div>
+                        <i className="ph-bold ph-caret-right ml-auto text-slate-300"></i>
+                    </button>
+
+                    <button className="bg-white border-2 border-green-500 p-6 rounded-2xl flex items-center shadow-sm active:scale-[0.98] transition-all">
+                        <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-2xl mr-4 shrink-0">
+                            <i className="ph-fill ph-house-line"></i>
+                        </div>
+                        <div className="text-left">
+                            <span className="block font-bold text-lg text-slate-800">내놓습니다 (공급자)</span>
+                            <span className="text-xs text-slate-500">집을 팔거나 세를 놓고 싶어요</span>
+                        </div>
+                        <i className="ph-bold ph-caret-right ml-auto text-slate-300"></i>
+                    </button>
+                </div>
+
+                <div className="mt-8 bg-slate-100 p-4 rounded-xl text-xs text-slate-500 text-center">
+                    <i className="ph-fill ph-lock-key mr-1"></i> 등록된 정보는 AI 매칭 시스템에만 암호화되어 사용됩니다.
+                </div>
+            </div>
+        );
+
+        // 5. [AI 숏츠] - Shorts
+        const ShortsTab = () => (
+            <div className="h-screen bg-black text-white pb-20 relative overflow-hidden flex items-center justify-center">
+                {/* Background Video Simulator */}
+                <div className="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1628624747186-a941c476b7ef?auto=format&fit=crop&h=1000&q=80" className="w-full h-full object-cover opacity-60" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+                </div>
+
+                {/* Content Overlay */}
+                <div className="absolute bottom-24 left-0 w-full p-5 z-10">
+                    <div className="flex justify-between items-end mb-4">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded">LIVE</span>
+                                <span className="bg-white/20 backdrop-blur text-white text-[10px] font-bold px-2 py-1 rounded border border-white/30">강남구 대치동</span>
+                            </div>
+                            <h2 className="text-2xl font-bold mb-1 text-shadow">롯데 시그니엘 100평</h2>
+                            <p className="text-sm text-gray-200 line-clamp-2 text-shadow">
+                                대한민국 0.01%를 위한 주거 공간. 파노라마 한강뷰와 호텔식 서비스. #시그니엘 #롯데타워
+                            </p>
+                        </div>
+                        {/* Action Buttons */}
+                        <div className="flex flex-col gap-4 ml-4">
+                            <div className="flex flex-col items-center">
+                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mb-1 backdrop-blur-md active:scale-90 transition-transform"><i className="ph-fill ph-heart text-2xl text-red-500"></i></div>
+                                <span className="text-xs font-bold">2.4k</span>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mb-1 backdrop-blur-md active:scale-90 transition-transform"><i className="ph-fill ph-share-network text-2xl"></i></div>
+                                <span className="text-xs font-bold">Share</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button className="w-full bg-yellow-400 text-slate-900 font-bold py-3 rounded-xl shadow-lg active:scale-[0.98] transition-transform">
+                        AI 매수/임대 예약하기
+                    </button>
+                    <div className="text-[10px] text-gray-400 text-center mt-3">
+                        AI 자동 홍보 시스템에 의해 생성된 영상입니다.
+                    </div>
+                </div>
+            </div>
+        );
+
+        // --- Layout ---
+        function App() {
+            const [activeTab, setActiveTab] = useState('region');
+
+            return (
+                <div className="max-w-md mx-auto bg-slate-50 min-h-screen relative shadow-2xl overflow-hidden font-sans">
+
+                    {/* Main Content */}
+                    <main className="h-full overflow-y-auto hide-scrollbar">
+                        {activeTab === 'region' && <RegionTab />}
+                        {activeTab === 'listing' && <ListingTab />}
+                        {activeTab === 'matching' && <MatchingTab />}
+                        {activeTab === 'register' && <RegisterTab />}
+                        {activeTab === 'shorts' && <ShortsTab />}
+                    </main>
+
+                    {/* Bottom Nav */}
+                    <nav className="fixed bottom-0 max-w-md w-full glass-nav flex justify-around items-center h-20 safe-bottom px-1 z-50">
+                        <NavBtn icon="ph-map-trifold" label="대치1동" active={activeTab === 'region'} onClick={() => setActiveTab('region')} />
+                        <NavBtn icon="ph-star" label="추천매물" active={activeTab === 'listing'} onClick={() => setActiveTab('listing')} />
+                        <NavBtn icon="ph-robot" label="AI매칭" active={activeTab === 'matching'} onClick={() => setActiveTab('matching')} />
+                        <NavBtn icon="ph-note-pencil" label="매물등록" active={activeTab === 'register'} onClick={() => setActiveTab('register')} />
+                        <NavBtn icon="ph-film-strip" label="AI숏츠" active={activeTab === 'shorts'} onClick={() => setActiveTab('shorts')} />
+                    </nav>
+                </div>
+            );
+        }
+
+        const NavBtn = ({ icon, label, active, onClick }) => (
+            <button onClick={onClick} className={`flex flex-col items-center justify-center w-14 h-full space-y-1 transition-all duration-300 ${active ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}>
+                <div className={`text-2xl mb-0.5 transition-transform duration-300 ${active ? 'scale-110 -translate-y-1' : ''}`}>
+                    <i className={`${active ? 'ph-fill' : 'ph'} ${icon}`}></i>
+                </div>
+                <span className={`text-[10px] ${active ? 'font-bold' : 'font-medium'}`}>{label}</span>
+                {active && <div className="w-1 h-1 bg-blue-600 rounded-full mt-0.5 animate-fade-in"></div>}
+            </button>
+        );
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>

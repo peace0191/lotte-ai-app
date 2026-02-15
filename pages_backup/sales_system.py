@@ -1,4 +1,6 @@
 import streamlit as st
+from services.auth import require_admin
+require_admin()
 import random
 import os
 from services.ui import header, render_bottom_nav
@@ -203,4 +205,8 @@ def render():
                 st.components.v1.html(res_html, height=400, scrolling=True)
 
     # Bottom Navigation
+    # Bottom Navigation
     render_bottom_nav("🏢 영업팩 생성")
+
+if __name__ == "__main__":
+    render()
