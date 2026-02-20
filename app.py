@@ -156,21 +156,7 @@ st.markdown("""
     }
 </style>
 
-<!-- Sticky Bottom Navigation HTML -->
-<div class="bottom-nav">
-    <a href="#" class="nav-btn" onclick="history.back(); return false;">
-        <span>⬅</span>
-        <span>이전</span>
-    </a>
-    <a href="." target="_self" class="nav-btn">
-        <span>🏠</span>
-        <span>목록으로</span>
-    </a>
-    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
-        <span>⬆️</span>
-        <span>맨위로</span>
-    </a>
-</div>
+<!-- 하단 네비게이션은 Python에서 상태별로 동적 렌더링 -->
 """, unsafe_allow_html=True)
 
 # --- Constants & Data for Map ---
@@ -865,7 +851,8 @@ def render_login_page():
 
     st.markdown("---")
     
-    # Kakao Share Preview
+    # Kakao Share Preview — 앵커 id 삽입 (공유하기 버튼 이동 대상)
+    st.markdown('<div id="kakao-share-section"></div>', unsafe_allow_html=True)
     st.markdown("### 🟡 카카오톡으로 AI 전략 공유하기")
     
     # Layout for the 'Mock' Kakao Card
@@ -893,6 +880,64 @@ def render_login_page():
                 <a href="{APP_URL}" target="_blank" style="text-decoration:none; color:#3c1e1e;">앱으로 이동하기 👉 lotte-ai-app.streamlit.app</a>
              </div>
              """, unsafe_allow_html=True)
+# --- Bottom Navigation Renderers ---
+
+BOTTOM_NAV_CSS = """
+<style>
+.bottom-nav {
+    position: fixed; bottom: 0px; left: 0px; width: 100%;
+    background-color: white; border-top: 1px solid #eee;
+    padding: 10px 20px; display: flex;
+    justify-content: space-around; align-items: center;
+    z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+.nav-btn {
+    text-decoration: none; color: #333; font-weight: bold;
+    font-size: 0.9rem; display: flex; flex-direction: column;
+    align-items: center; padding: 5px;
+}
+.nav-btn:hover { color: #2563eb; background-color: #f8fafc; border-radius:8px; }
+</style>
+"""
+
+def render_login_bottom_nav():
+    """로그인 화면 전용 하단 Nav: 공유하기 | 목록으로 | 맨위로"""
+    st.markdown(BOTTOM_NAV_CSS + """
+<div class="bottom-nav">
+    <a href="#kakao-share-section" class="nav-btn">
+        <span>📤</span>
+        <span>공유하기</span>
+    </a>
+    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
+        <span>🏠</span>
+        <span>목록으로</span>
+    </a>
+    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
+        <span>⬆️</span>
+        <span>맨위로</span>
+    </a>
+</div>
+""", unsafe_allow_html=True)
+
+def render_main_bottom_nav():
+    """메인(로그인 후) 화면 전용 하단 Nav: 이전 | 홈 | 맨위로"""
+    st.markdown(BOTTOM_NAV_CSS + """
+<div class="bottom-nav">
+    <a href="#" class="nav-btn" onclick="history.back(); return false;">
+        <span>⬅</span>
+        <span>이전</span>
+    </a>
+    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
+        <span>🏠</span>
+        <span>홈으로</span>
+    </a>
+    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
+        <span>⬆️</span>
+        <span>맨위로</span>
+    </a>
+</div>
+""", unsafe_allow_html=True)
+
 # --- Main ---
 def main():
     # Sidebar: Share & Info
@@ -915,6 +960,7 @@ def main():
     
     if not st.session_state["logged_in"]:
         render_login_page()
+        render_login_bottom_nav()
         return
 
     # Define Tabs and Functions
@@ -954,6 +1000,8 @@ def main():
     for i, tab in enumerate(tabs):
         with tab:
             tab_config[i][1]()
+
+    render_main_bottom_nav()
 
 if __name__ == "__main__":
     main()
