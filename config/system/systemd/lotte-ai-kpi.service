@@ -1,0 +1,15 @@
+[Unit]
+Description=Lotte AI Daily KPI Report (oneshot)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/LotteTower_AI_SalesApp_Python
+# EnvironmentFile=/etc/lotte_ai/lotte_ai.env
+# Ensure PYTHONPATH includes project root or is set in script
+ExecStart=/usr/bin/python3 scripts/kpi_daily.py
+StandardOutput=journal
+StandardError=journal

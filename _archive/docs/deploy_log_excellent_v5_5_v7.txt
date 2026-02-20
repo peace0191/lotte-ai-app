@@ -1,0 +1,132 @@
+[1/6] Setting SSH Key Permissions...
+
+C:\Users\PEACE\5ì°¨_AI\Lotte_AI_Browser_RunBAT_Demo\LotteTower_AI_SalesApp_Python>echo [2/6] Cleaning and Packaging (Fail-fast)... 
+[2/6] Cleaning and Packaging (Fail-fast)...
+
+C:\Users\PEACE\5ì°¨_AI\Lotte_AI_Browser_RunBAT_Demo\LotteTower_AI_SalesApp_Python>REM í•„ìš”í•œ ìµœì†Œí•œì˜ íŒŒì¼ê³¼ ë””ë ‰í† ë¦¬ë§Œ ëª…ì‹œì ìœ¼ë¡œ ì§€ì •í•˜ì—¬ íŒ¨í‚¤ì§• ì˜¤ë¥˜ë¥¼ ë°©ì§€í•©ë‹ˆë‹¤. 
+
+C:\Users\PEACE\5ì°¨_AI\Lotte_AI_Browser_RunBAT_Demo\LotteTower_AI_SalesApp_Python>if exist "deploy.tgz" del /f /q deploy.tgz 
+
+C:\Users\PEACE\5ì°¨_AI\Lotte_AI_Browser_RunBAT_Demo\LotteTower_AI_SalesApp_Python>tar -czvf deploy.tgz pages scripts services data assets videos app.py Dockerfile docker-compose.yml requirements.txt index.html style.css LAMP_KEY.pem .dockerignore 
+a pages
+a pages/admin.py
+a pages/chatbot.py
+a pages/check_pptx.py
+a pages/dashboard.py
+a pages/deploy.tgz
+a pages/education.py
+a pages/make_pptx.py
+a pages/properties.py
+a pages/registration.py
+a pages/shorts.py
+a pages/undervalued.py
+a pages/youtuber_lab.py
+a pages/__pycache__
+a pages/´ëÄ¡1µ¿_AIºÎµ¿»ê_½ºÅä¸®ÅÚ¸µ_º¸°í¼­.pptx
+a pages/¼öÀÍ_±Ø´ëÈ­_Àü·«_¸®Æ÷Æ®_v4_0.pptx
+a pages/__pycache__/admin.cpython-313.pyc
+a pages/__pycache__/chatbot.cpython-313.pyc
+a pages/__pycache__/dashboard.cpython-313.pyc
+a pages/__pycache__/education.cpython-313.pyc
+a pages/__pycache__/properties.cpython-313.pyc
+a pages/__pycache__/registration.cpython-313.pyc
+a pages/__pycache__/shorts.cpython-313.pyc
+a pages/__pycache__/undervalued.cpython-313.pyc
+a pages/__pycache__/youtuber_lab.cpython-313.pyc
+a scripts
+a scripts/seed_db.py
+a scripts/setup_dns.sh
+a scripts/shorts_factory.py
+a services
+a services/auth.py
+a services/chat.py
+a services/crawler_svc.py
+a services/csv_processor.py
+a services/data
+a services/data.py
+a services/db_svc.py
+a services/local_market.py
+a services/matching_svc.py
+a services/money_parser.py
+a services/ner_svc.py
+a services/report.py
+a services/script_templates.py
+a services/shorts_svc.py
+a services/stats_svc.py
+a services/ui.py
+a services/video_svc.py
+a services/__pycache__
+a services/__pycache__/auth.cpython-313.pyc
+a services/__pycache__/chat.cpython-313.pyc
+a services/__pycache__/crawler_svc.cpython-313.pyc
+a services/__pycache__/csv_processor.cpython-313.pyc
+a services/__pycache__/data.cpython-313.pyc
+a services/__pycache__/db_svc.cpython-313.pyc
+a services/__pycache__/local_market.cpython-313.pyc
+a services/__pycache__/matching_svc.cpython-313.pyc
+a services/__pycache__/money_parser.cpython-313.pyc
+a services/__pycache__/ner_svc.cpython-313.pyc
+a services/__pycache__/script_templates.cpython-313.pyc
+a services/__pycache__/shorts_svc.cpython-313.pyc
+a services/__pycache__/stats_svc.cpython-313.pyc
+a services/__pycache__/ui.cpython-313.pyc
+a services/__pycache__/video_svc.cpython-313.pyc
+a data
+a data/.snapshots
+a data/assets
+a data/csv_summary.json
+a data/deploy.tgz
+a data/Docker_Desktop_Installer.exe
+a data/faq_common.json
+a data/LotteTower_AI_SalesApp_v3.6_Final.zip
+a data/market_data.db
+a data/properties.json
+a data/¾ÆÆÄÆ®(¸Å¸Å)_½Ç°Å·¡°¡_20260205092911.json
+a data/¾ÆÆÄÆ®(Àü¿ù¼¼)_½Ç°Å·¡°¡_20260205092922.json
+a data/¿ÀÇÇ½ºÅÚ(¸Å¸Å)_½Ç°Å·¡°¡_20260205092952.json
+a data/¿ÀÇÇ½ºÅÚ(¸Å¸Å)_½Ç°Å·¡°¡_20260205093015.json
+a data/¿ÀÇÇ½ºÅÚ(¸Å¸Å)_½Ç°Å·¡°¡_20260205093032.json
+a data/¿ÀÇÇ½ºÅÚ(Àü¿ù¼¼)_½Ç°Å·¡°¡_20260205092939.json
+a data/¿ÀÇÇ½ºÅÚ(Àü¿ù¼¼)_½Ç°Å·¡°¡_20260205093052.json
+a data/.snapshots/config.json
+a data/.snapshots/readme.md
+a data/.snapshots/sponsors.md
+a assets
+a assets/fonts
+a videos
+a videos/generated
+a app.py
+a Dockerfile
+a docker-compose.yml
+a requirements.txt
+a index.html
+a style.css
+a LAMP_KEY.pem
+a .dockerignore
+
+C:\Users\PEACE\5ì°¨_AI\Lotte_AI_Browser_RunBAT_Demo\LotteTower_AI_SalesApp_Python>if 0 NEQ 0 (
+echo [ERROR] Packaging failed.  
+  
+ pause 
+ exit /b 1 
+) 
+[3/6] Uploading setup script and project...
+'ROR]' is not recognized as an internal or external command,
+operable program or batch file.
+Press any key to continue . . . 
+'Infrastructure' is not recognized as an internal or external command,
+operable program or batch file.
+[4/6] Configuring Docker DNS (Infrastructure Level)...
+[OK] Docker DNS configured.
+[5/6] Verifying DNS/HTTPS Connectivity (Gatekeeping)...
+WARNING: fetching https://dl-cdn.alpinelinux.org/alpine/v3.20/main: temporary error (try again later)
+WARNING: fetching https://dl-cdn.alpinelinux.org/alpine/v3.20/community: temporary error (try again later)
+ERROR: unable to select packages:
+  bind-tools (no such package):
+    required by: world[bind-tools]
+  ca-certificates (no such package):
+    required by: world[ca-certificates]
+  curl (no such package):
+    required by: world[curl]
+[ERROR] Remote DNS setup or verification failed.
+Press any key to continue . . . 

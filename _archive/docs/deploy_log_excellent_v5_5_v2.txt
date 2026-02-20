@@ -1,0 +1,7 @@
+[1/6] Setting SSH Key Permissions...
+[2/6] Cleaning and Packaging (Fail-fast)...
+Press any key to continue . . . 
+'HostKeyChecking' is not recognized as an internal or external command,
+operable program or batch file.
+[ERROR] Upload failed. Check scp/ssh PATH or network connectivity.
+Press any key to continue . . . 

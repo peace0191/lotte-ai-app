@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Lotte AI KPI report daily at 23:55
+
+[Timer]
+OnCalendar=*-*-* 23:55:00
+Persistent=true
+Unit=lotte-ai-kpi.service
+
+[Install]
+WantedBy=timers.target

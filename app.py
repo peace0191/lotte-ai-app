@@ -891,18 +891,18 @@ def render_login_page():
 # --- Main ---
 def main():
     # Sidebar: Share & Info
+    st.sidebar.header("🔗 접속 주소 안내")
+    st.sidebar.success("https://lotte-ai-estate.streamlit.app")
+    st.sidebar.caption("👆 위 주소가 공식 앱 주소입니다. 복사해서 사용하세요!")
+    
     with st.sidebar.expander("📤 앱 공유 및 카톡 바로가기", expanded=True):
-        st.markdown("👇 **아래 링크를 복사**해서 카카오톡에 붙여넣으세요!")
-        st.code("http://localhost:8502/", language="text")
-        st.caption("⚠️ 이 주소는 **현재 PC**에서만 열립니다.")
+        st.markdown("👇 **친구에게 공유할 링크**")
+        st.code("https://lotte-ai-estate.streamlit.app", language="text")
+        st.warning("⚠️ **주의**: 카카오톡 등 인앱 브라우저에서는 주소창이 숨겨질 수 있습니다. 이 주소를 확인하세요!")
         
         st.markdown("---")
-        st.markdown("📱 **핸드폰에서 열고 싶으신가요?**")
-        st.info("""
-        터미널(검은창)에 표시된
-        **Network URL**을 확인하세요!
-        (예: http://192.168.0.x:8502)
-        """)
+        st.markdown("📱 **(개발용) 로컬 접속 시**")
+        st.code("http://localhost:8502", language="text")
 
     # Session State Initialization
     if "logged_in" not in st.session_state:
@@ -912,28 +912,43 @@ def main():
         render_login_page()
         return
 
-    # Handle manual navigation state (e.g. from buttons)
-    if st.session_state.get("manual_nav_target") == "⭐ 추천매물":
-         st.session_state["manual_nav_target"] = None
-    elif st.session_state.get("manual_nav_target") == "🤖 AI매칭":
-         st.session_state["manual_nav_target"] = None
+    # Define Tabs and Functions
+    tab_config = [
+        ("🏠 대치1동 특성 (초중고)", render_home), 
+        ("⭐ 추천매물", render_listing), 
+        ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation), 
+        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),
+        ("🤝 AI공동매물매칭", render_joint_matching),
+        ("🔒 시스템/영업팩생성", render_admin_system)
+    ]
+
+    # Handle Manual Navigation (Reorder Tabs)
+    target = st.session_state.get("manual_nav_target")
+    if target:
+        # Special case for "HOME"
+        if target == "HOME":
+            target = "🏠" # Match the icon
+        
+        # Find index
+        found_idx = -1
+        for i, (name, _) in enumerate(tab_config):
+            if target in name:
+                found_idx = i
+                break
+        
+        # Move to front if found
+        if found_idx > 0:
+            item = tab_config.pop(found_idx)
+            tab_config.insert(0, item)
+            # Show toast only once
+            # st.toast(f"'{item[0]}' 메뉴로 이동했습니다!") 
+
+    # Render Tabs
+    tabs = st.tabs([t[0] for t in tab_config])
     
-    # Updated Tab Names (Final 6 Tabs)
-    tabs = st.tabs([
-        "🏠 대치1동 특성 (초중고)", 
-        "⭐ 추천매물", 
-        "🤖 AI매칭/사전등록(예약)매칭", 
-        "🎬 AI 숏츠 / YOU-LAB",
-        "🤝 AI공동매물매칭",
-        "🔒 시스템/영업팩생성"
-    ])
-    
-    with tabs[0]: render_home()
-    with tabs[1]: render_listing()
-    with tabs[2]: render_matching_and_reservation()
-    with tabs[3]: render_shorts_and_youlab()
-    with tabs[4]: render_joint_matching()
-    with tabs[5]: render_admin_system()
+    for i, tab in enumerate(tabs):
+        with tab:
+            tab_config[i][1]()
 
 if __name__ == "__main__":
     main()

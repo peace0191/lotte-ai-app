@@ -1,0 +1,10 @@
+[project]
+name = "LotteRealEstateAI"
+version = "0.1.0"
+description = "AI Real Estate Platform"
+
+[build]
+command = "pip install -r requirements.txt"
+
+[deploy]
+command = "streamlit run app.py --server.port=$PORT"

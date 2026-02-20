@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  streamlit:
+    build: .
+    container_name: lotte_ai_app
+    ports:
+      - "8501:8501"
+    restart: always
