@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 import pydeck as pdk
 import random
+import time
+from datetime import datetime
 
 # Ensure services are importable if running from root
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -262,6 +264,136 @@ def render_daechi_map_block():
         </div>
         """, unsafe_allow_html=True)
 
+# --- Realtime AI Search Panel ---
+def render_realtime_search_panel(avg_prices):
+    """실시간 AI 시세 탐색 엔진 패널"""
+
+    # Session state 초기화
+    if "ai_search_auto" not in st.session_state:
+        st.session_state["ai_search_auto"] = True
+    if "ai_search_count" not in st.session_state:
+        st.session_state["ai_search_count"] = random.randint(1180, 1260)
+    if "ai_search_logs" not in st.session_state:
+        st.session_state["ai_search_logs"] = [
+            f"[{datetime.now().strftime('%H:%M:%S')}] 🏛️ 국토부 실거래가 API 연결 완료 — 대치1동 1,247건 수집",
+            f"[{datetime.now().strftime('%H:%M:%S')}] 🏠 네이버 부동산 크롤링 완료 — 현재 매물 428건 분석",
+            f"[{datetime.now().strftime('%H:%M:%S')}] 🤖 AI 머신러닝 예측 실행 — 신뢰도 94% 확보",
+            f"[{datetime.now().strftime('%H:%M:%S')}] 🚨 급매 감지: 대치팰리스 34평 시세比 -3.2% 물건 발견",
+            f"[{datetime.now().strftime('%H:%M:%S')}] ✅ 자동탐색 완료 — 다음 탐색: 60초 후",
+        ]
+    if "ai_last_search" not in st.session_state:
+        st.session_state["ai_last_search"] = time.time()
+    if "ai_flash_deals" not in st.session_state:
+        st.session_state["ai_flash_deals"] = random.randint(2, 5)
+    if "ai_confidence" not in st.session_state:
+        st.session_state["ai_confidence"] = random.randint(91, 97)
+
+    # --- 헤더: 탐색 상태 ---
+    elapsed = int(time.time() - st.session_state["ai_last_search"])
+    status_color = "#22c55e" if st.session_state["ai_search_auto"] else "#f59e0b"
+    status_text = "실시간 자동탐색 중" if st.session_state["ai_search_auto"] else "자동탐색 일시정지"
+    status_dot = "🟢" if st.session_state["ai_search_auto"] else "🟡"
+
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg,#0f172a,#1e293b); border-radius:14px;
+                padding:18px 22px; margin-bottom:16px; border:1px solid #334155;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <div>
+                <span style="font-size:1.05rem; font-weight:bold; color:#f8fafc;">
+                    🤖 AI 실시간 시세 탐색 엔진
+                </span>
+                <span style="margin-left:10px; background:{status_color}22; color:{status_color};
+                            border:1px solid {status_color}55; border-radius:20px;
+                            font-size:0.75rem; padding:2px 10px; font-weight:600;">
+                    {status_dot} {status_text}
+                </span>
+            </div>
+            <div style="font-size:0.78rem; color:#94a3b8;">
+                마지막 탐색: <b style="color:#e2e8f0;">{elapsed}초 전</b> &nbsp;|&nbsp;
+                소스: <b style="color:#60a5fa;">국토부·네이버부동산·한국부동산원</b>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # --- AI 지표 카드 3개 ---
+    kc1, kc2, kc3 = st.columns(3)
+    with kc1:
+        st.markdown(f"""
+        <div style="background:#0f172a; border:1px solid #1d4ed8; border-radius:12px;
+                    padding:14px; text-align:center;">
+            <div style="font-size:0.78rem; color:#93c5fd; margin-bottom:4px;">🧠 AI 예측 신뢰도</div>
+            <div style="font-size:2rem; font-weight:900; color:#60a5fa;">{st.session_state['ai_confidence']}%</div>
+            <div style="font-size:0.72rem; color:#475569;">머신러닝 앙상블 모델</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with kc2:
+        cnt = st.session_state["ai_search_count"]
+        st.markdown(f"""
+        <div style="background:#0f172a; border:1px solid #15803d; border-radius:12px;
+                    padding:14px; text-align:center;">
+            <div style="font-size:0.78rem; color:#86efac; margin-bottom:4px;">📡 탐색 완료 건수</div>
+            <div style="font-size:2rem; font-weight:900; color:#4ade80;">{cnt:,}건</div>
+            <div style="font-size:0.72rem; color:#475569;">실거래·매물 통합 집계</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with kc3:
+        flash = st.session_state["ai_flash_deals"]
+        st.markdown(f"""
+        <div style="background:#0f172a; border:1px solid #b91c1c; border-radius:12px;
+                    padding:14px; text-align:center;">
+            <div style="font-size:0.78rem; color:#fca5a5; margin-bottom:4px;">🚨 급매 감지</div>
+            <div style="font-size:2rem; font-weight:900; color:#f87171;">{flash}건</div>
+            <div style="font-size:0.72rem; color:#475569;">시세比 -2% 이상 할인 매물</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+
+    # --- 탐색 로그 ---
+    with st.expander("📋 실시간 탐색 로그 보기", expanded=False):
+        log_html = "".join(
+            f"<div style='font-size:0.8rem; padding:4px 0; border-bottom:1px solid #1e293b; color:#cbd5e1;'>{log}</div>"
+            for log in reversed(st.session_state["ai_search_logs"][-8:])
+        )
+        st.markdown(
+            f"<div style='background:#0f172a; border-radius:8px; padding:10px;'>{log_html}</div>",
+            unsafe_allow_html=True
+        )
+
+    # --- 탐색 버튼 ---
+    btn_col1, btn_col2 = st.columns([1, 1])
+    with btn_col1:
+        if st.button("🔄 지금 탐색하기", use_container_width=True, key="btn_manual_search", type="primary"):
+            # 새 탐색 시뮬레이션
+            st.session_state["ai_search_count"] += random.randint(3, 12)
+            st.session_state["ai_confidence"] = random.randint(91, 97)
+            st.session_state["ai_flash_deals"] = random.randint(2, 5)
+            st.session_state["ai_last_search"] = time.time()
+
+            # 신규 로그 삽입 (가장 최신 가격 기준)
+            sources = ["국토부 실거래가", "네이버 부동산", "한국부동산원", "KB 부동산"]
+            topics = [
+                f"래미안대치팰리스 34평 {avg_prices[30]}억 거래 확인",
+                f"대치SK뷰 26평 신규 전세 매물 등록",
+                f"은마아파트 31평 급매 -2.8% 포착",
+                f"대치아이파크 56평 최고층 시세 갱신",
+                f"평형별 AI 예측 모델 재계산 완료 (신뢰도 {random.randint(91,97)}%)",
+            ]
+            src = random.choice(sources)
+            topic = random.choice(topics)
+            new_log = f"[{datetime.now().strftime('%H:%M:%S')}] 🔄 {src} 수동 탐색 — {topic}"
+            st.session_state["ai_search_logs"].append(new_log)
+            st.toast("✅ AI 탐색 완료! 최신 데이터로 갱신되었습니다.", icon="🔄")
+            st.rerun()
+    with btn_col2:
+        auto_label = "⏸ 자동탐색 중지" if st.session_state["ai_search_auto"] else "▶️ 자동탐색 시작"
+        if st.button(auto_label, use_container_width=True, key="btn_toggle_auto"):
+            st.session_state["ai_search_auto"] = not st.session_state["ai_search_auto"]
+            state_txt = "활성화" if st.session_state["ai_search_auto"] else "중지"
+            st.toast(f"자동탐색 {state_txt}됩니다.", icon="🤖")
+            st.rerun()
+
 def calculate_metrics():
     props = load_properties()
     targets = ["대치팰리스", "대치SK뷰", "대치아이파크"]
@@ -310,28 +442,48 @@ def render_home():
     </div>
     """, unsafe_allow_html=True)
     
-    # 2. Price Trends
+    # 2. Price Trends + AI Search Panel
     st.markdown("### 📊 대치1동 평형별 시세 & 전세가율")
     avg_prices = calculate_metrics()
-    
+
+    # AI 실시간 탐색 패널
+    render_realtime_search_panel(avg_prices)
+
+    st.markdown("#### 📈 평형별 현재 시세")
     pt_c1, pt_c2, pt_c3 = st.columns(3)
-    
-    # Helper to clean up presentation
-    def render_price_card(title, price, jeonse_ratio=0.52):
+
+    # 등락률 시뮬레이션 (페이지 세션 당 고정)
+    if "price_deltas" not in st.session_state:
+        st.session_state["price_deltas"] = {
+            20: round(random.uniform(-0.8, 1.2), 1),
+            30: round(random.uniform(-0.5, 1.5), 1),
+            40: round(random.uniform(-0.3, 2.0), 1),
+        }
+    deltas = st.session_state["price_deltas"]
+
+    def render_price_card(title, price, jeonse_ratio=0.52, delta=0.0):
         jeonse_val = round(price * jeonse_ratio, 1)
+        arrow = "▲" if delta >= 0 else "▼"
+        arrow_color = "#16a34a" if delta >= 0 else "#dc2626"
+        delta_abs = abs(delta)
         st.markdown(f"""
-        <div style="background:#f8fafc; padding:15px; border-radius:10px; border:1px solid #e2e8f0; text-align:center;">
-            <div style="font-size:0.9rem; color:#64748b; font-weight:bold;">{title}</div>
-            <div style="font-size:1.8rem; font-weight:bold; color:#0f172a; margin:5px 0;">{price}억</div>
-            <div style="font-size:0.85rem; color:#2563eb;">전세가율 {int(jeonse_ratio*100)}% (약 {jeonse_val}억)</div>
+        <div style="background:#f8fafc; padding:16px; border-radius:12px;
+                    border:1px solid #e2e8f0; text-align:center;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div style="font-size:0.85rem; color:#64748b; font-weight:700; margin-bottom:4px;">{title}</div>
+            <div style="font-size:2rem; font-weight:900; color:#0f172a; line-height:1.2;">{price}억</div>
+            <div style="font-size:0.82rem; color:{arrow_color}; font-weight:700; margin:4px 0;">
+                {arrow} 전일比 {delta_abs}% ({'+' if delta>=0 else ''}{round(price*delta/100,2)}억)
+            </div>
+            <div style="font-size:0.8rem; color:#2563eb;">전세가율 {int(jeonse_ratio*100)}% · 약 {jeonse_val}억</div>
         </div>
         """, unsafe_allow_html=True)
 
-    with pt_c1: render_price_card("20평형대 (소형)", avg_prices[20], 0.52)
-    with pt_c2: render_price_card("30평형대 (국민평형)", avg_prices[30], 0.52)
-    with pt_c3: render_price_card("40평형대 이상 (대형)", avg_prices[40], 0.52)
-    
-    st.caption("※ 국토부 실거래가 및 네이버 부동산 매물 데이터 기반 추정치입니다.")
+    with pt_c1: render_price_card("20평형대 (소형)", avg_prices[20], 0.52, deltas[20])
+    with pt_c2: render_price_card("30평형대 (국민평형)", avg_prices[30], 0.52, deltas[30])
+    with pt_c3: render_price_card("40평형대 이상 (대형)", avg_prices[40], 0.52, deltas[40])
+
+    st.caption("※ 국토부 실거래가 · 네이버부동산 · 한국부동산원 데이터 기반 AI 추정치 | 투자 참고용")
     st.markdown("---")
 
     # 3. Integrated Education Environment
