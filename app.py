@@ -849,15 +849,19 @@ def render_login_page():
     # Login Form
     with st.container(border=True):
         st.markdown("### 📱 핸드폰 인증 로그인")
+        name = st.text_input("이름을 입력하세요", placeholder="예: 홍길동")
         phone = st.text_input("휴대폰 번호를 입력하세요 (- 없이 입력)", placeholder="01012345678")
         
         if st.button("인증번호 발송 및 로그인", use_container_width=True, type="primary"):
-            if len(phone) > 9:
-                st.session_state["logged_in"] = True
-                st.toast("✅ 인증되었습니다! 환영합니다.")
-                st.rerun()
-            else:
+            if not name or len(name.strip()) < 2:
+                st.error("이름을 입력해주세요. (2자 이상)")
+            elif len(phone) < 10:
                 st.error("올바른 휴대폰 번호를 입력해주세요.")
+            else:
+                st.session_state["logged_in"] = True
+                st.session_state["user_name"] = name.strip()
+                st.toast(f"✅ {name.strip()}님, 인증되었습니다! 환영합니다.")
+                st.rerun()
 
     st.markdown("---")
     
@@ -865,16 +869,17 @@ def render_login_page():
     st.markdown("### 🟡 카카오톡으로 AI 전략 공유하기")
     
     # Layout for the 'Mock' Kakao Card
+    APP_URL = "https://lotte-ai-app.streamlit.app/"
     with st.container(border=True):
         c_l, c_r = st.columns([1, 2])
         with c_l:
-            st.markdown("""
-            <a href="http://localhost:8502" target="_blank">
+            st.markdown(f"""
+            <a href="{APP_URL}" target="_blank">
                 <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80" style="border-radius: 10px; width: 100%; height: 100px; object-fit: cover;" title="클릭하여 앱으로 이동">
             </a>
             """, unsafe_allow_html=True)
         with c_r:
-            st.markdown("[**[공인중개사 이상수] 대치1동 베이스캠프**](http://localhost:8502)")
+            st.markdown(f"[**[공인중개사 이상수] 대치1동 베이스캠프**]({APP_URL})")
             st.caption("""
             1. 🎓 교육특구 1번지 학군 분석
             2. 🧬 AI 저평가 매물 1초 매칭
@@ -883,9 +888,9 @@ def render_login_page():
         
         if st.button("카카오톡 링크 보내기 (데모)", use_container_width=True):
              st.toast("🚀 카카오톡 공유 창이 활성화되었습니다! (실제 동작을 위해선 도메인 등록이 필요합니다)")
-             st.markdown("""
+             st.markdown(f"""
              <div style="padding:10px; background-color:#fef01b; color:#3c1e1e; border-radius:5px; text-align:center; margin-top:10px; font-weight:bold;">
-                <a href="#" style="text-decoration:none; color:#3c1e1e;">앱으로 이동하기 (Link)</a>
+                <a href="{APP_URL}" target="_blank" style="text-decoration:none; color:#3c1e1e;">앱으로 이동하기 👉 lotte-ai-app.streamlit.app</a>
              </div>
              """, unsafe_allow_html=True)
 # --- Main ---
