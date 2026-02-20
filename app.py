@@ -512,16 +512,17 @@ def render_home():
     st.markdown("#### 🏢 주요 명품 단지 분석")
     t1, t2, t3 = st.tabs(["래미안대치팰리스", "대치SK뷰 / 대치아이파크", "은마아파트"])
     with t1:
-        st.image("https://images.unsplash.com/photo-1600596542815-e328701102b9?auto=format&fit=crop&w=600&q=80", use_column_width=True)
         st.success("### 👑 대치동의 대장주")
         st.markdown("- 대치초 배정, 학원가 바로 앞\n- 수영장/조식 등 완벽한 커뮤니티")
+        st.image("https://images.unsplash.com/photo-1600596542815-e328701102b9?auto=format&fit=crop&w=600&q=80", use_column_width=True)
     with t2:
-        st.image("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80", use_column_width=True)
         st.warning("### ⚖️ 실속과 환경의 조화")
         st.markdown("- 대치역/한티역 역세권, 백화점 슬세권\n- 쾌적한 주거 환경")
+        st.image("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80", use_column_width=True)
     with t3:
         st.error("### 🏗️ 재건축의 상징")
         st.markdown("- 강남 재건축의 바로미터\n- 대곡초 배정, 압도적 투자가치")
+        st.image("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80", use_column_width=True)
         
     st.markdown("---")
 
