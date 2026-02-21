@@ -1403,186 +1403,118 @@ def show_business_card_dialog():
 
 
 def render_login_bottom_nav():
-    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(st.dialog 팝업)
-    - position:fixed HTML 바 방식: 스크롤 시 항상 화면 하단에 고정
-    - 코드 개선: data-key 직접 타겟팅 + off-screen 숨김으로 신뢰성 있는 클릭 보장
+    """로그인 화면 하단 Nav — session_state 방식으로 완전 교체
+    공유하기 / AI핵심3대전략 / 부동산명함보기
     """
     st.markdown("""
 <style>
-/* 본문 하단 여백 (fixed bar 뒤로 내용 안 가리게) */
 .block-container { padding-bottom: 90px !important; }
-
-/* 명함보기 숨김 버튼: Visually Hidden (존재하지만 화면에 없음) */
-div[data-key="btn_biz_card_login"] {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    margin: -1px !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    clip: rect(0,0,0,0) !important;
-    clip-path: inset(50%) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
-
-/* 고정 HTML 버튼 바 */
 #lotte-login-fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 99999;
-    background: #ffffff;
-    border-top: 2px solid #e2e8f0;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
+    background: #ffffff; border-top: 2px solid #e2e8f0;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    padding: 8px 10px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px; padding: 8px 10px;
 }
 .llnb-btn {
-    background: transparent;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.80rem;
-    font-weight: 800;
-    padding: 7px 4px;
-    text-align: center;
-    line-height: 1.5;
-    transition: background 0.15s, transform 0.1s;
-    font-family: sans-serif;
+    background: transparent; border: 1px solid #e2e8f0;
+    border-radius: 10px; cursor: pointer;
+    font-size: 0.80rem; font-weight: 800;
+    padding: 7px 4px; text-align: center; line-height: 1.5;
+    transition: background 0.15s, transform 0.1s; font-family: sans-serif;
+    width: 100%;
 }
-.llnb-btn:hover  { background: #f1f5f9; transform: translateY(-1px); }
+.llnb-btn:hover { background: #f1f5f9; transform: translateY(-1px); }
 .llnb-btn:active { transform: translateY(0); }
 .llnb-share    { color: #2563eb; }
 .llnb-strategy { color: #7c3aed; }
 .llnb-card     { color: #dc2626; }
+div[data-key="nav_login_share"],
+div[data-key="nav_login_strategy"],
+div[data-key="nav_login_card"] {
+    position: fixed !important; left: -9999px !important;
+    top: 0px !important; width: 1px !important;
+    height: 1px !important; overflow: hidden !important; opacity: 0 !important;
+}
 </style>
-
 <div id="lotte-login-fixed-bar">
-  <!-- ① 공유하기: JS scrollIntoView 직접 -->
   <button class="llnb-btn llnb-share"
-    onclick="(function(){
-      var el=document.getElementById('kakao-share-section');
-      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
-      else{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
-    })()">📤<br>공유하기</button>
-
-  <!-- ② AI3대전략: JS scrollIntoView 직접 -->
+    onclick="document.querySelector('div[data-key=\\'nav_login_share\\'] button').click()">
+    📤<br>공유하기</button>
   <button class="llnb-btn llnb-strategy"
-    onclick="(function(){
-      var el=document.getElementById('ai-strategy-section');
-      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
-      else{window.scrollTo({top:0,behavior:'smooth'});}
-    })()">🔷<br>AI핵심 3대전략</button>
-
-  <!-- ③ 명함보기: data-key로 Streamlit 버튼 컨테이너 직접 타겟 후 내부 버튼 클릭 -->
+    onclick="document.querySelector('div[data-key=\\'nav_login_strategy\\'] button').click()">
+    🔷<br>AI핵심 3대전략</button>
   <button class="llnb-btn llnb-card"
-    onclick="(function(){
-      var c=document.querySelector('div[data-key="btn_biz_card_login"]');
-      if(c){var b=c.querySelector('button');if(b){b.click();}}
-    })()">💼<br>부동산명함보기</button>
+    onclick="document.querySelector('div[data-key=\\'nav_login_card\\'] button').click()">
+    💼<br>부동산명함보기</button>
 </div>
 """, unsafe_allow_html=True)
 
-    # ── 명함보기 전용 숨겨진 Streamlit 버튼 (off-screen, data-key로 JS가 클릭 트리거) ──
-    if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
-        show_business_card_dialog()
+    if st.button("공유하기", key="nav_login_share"):
+        st.session_state["scroll_to"] = "kakao-share-section"
+        st.rerun()
+    if st.button("AI핵심3대전략", key="nav_login_strategy"):
+        st.session_state["scroll_to"] = "ai-strategy-section"
+        st.rerun()
+    if st.button("부동산명함보기", key="nav_login_card"):
+        st.session_state["show_biz_card"] = True
+        st.rerun()
 
 def render_main_bottom_nav():
-    """항상 화면 하단에 고정된 네비게이션 바
-    - data-key 직접 타겟팅 + off-screen 숨김 방식으로 신뢰성 있는 클릭 보장
+    """메인 화면 하단 Nav — session_state 방식으로 완전 교체
+    AI매칭사전예약가기 / AI숏츠 바로가기 / AI저평가매물보기
     """
-
-    # ── 1. 고정 HTML 버튼 바 (position:fixed) + 숨김 Streamlit 버튼 스타일 ──
     st.markdown("""
 <style>
-/* 본문 하단 여백 */
 .block-container { padding-bottom: 90px !important; }
-
-/* Streamlit 버튼 Visually Hidden: DOM 유지 + 화면에서 완전히 사라짐 */
-div[data-key="nav_main_matching"],
-div[data-key="nav_main_shorts"],
-div[data-key="nav_main_top"] {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    margin: -1px !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    clip: rect(0,0,0,0) !important;
-    clip-path: inset(50%) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
-
-/* 고정 HTML 버튼 바 */
 #lotte-fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 99999;
-    background: #ffffff;
-    border-top: 2px solid #e2e8f0;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999;
+    background: #ffffff; border-top: 2px solid #e2e8f0;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    padding: 8px 10px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px; padding: 8px 10px;
 }
 .lnb-btn {
-    background: transparent;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.80rem;
-    font-weight: 800;
-    padding: 7px 4px;
-    text-align: center;
-    line-height: 1.5;
-    transition: background 0.15s, transform 0.1s;
-    font-family: sans-serif;
+    background: transparent; border: 1px solid #e2e8f0;
+    border-radius: 10px; cursor: pointer;
+    font-size: 0.80rem; font-weight: 800;
+    padding: 7px 4px; text-align: center; line-height: 1.5;
+    transition: background 0.15s, transform 0.1s; font-family: sans-serif;
+    width: 100%;
 }
-.lnb-btn:hover  { background: #f1f5f9; transform: translateY(-1px); }
+.lnb-btn:hover { background: #f1f5f9; transform: translateY(-1px); }
 .lnb-btn:active { transform: translateY(0); }
 .lnb-matching { color: #2563eb; }
 .lnb-shorts   { color: #7c3aed; }
 .lnb-top      { color: #dc2626; }
+div[data-key="nav_main_matching"],
+div[data-key="nav_main_shorts"],
+div[data-key="nav_main_top"] {
+    position: fixed !important; left: -9999px !important;
+    top: 0px !important; width: 1px !important;
+    height: 1px !important; overflow: hidden !important; opacity: 0 !important;
+}
 </style>
-
 <div id="lotte-fixed-bar">
-  <!-- data-key 직접 타겟: Streamlit 버튼 컨테이너 안 버튼 클릭 (HTML 버튼과 100% 구분) -->
   <button class="lnb-btn lnb-matching"
-    onclick="(function(){
-      var c=document.querySelector('div[data-key=\"nav_main_matching\"]');
-      if(c){var b=c.querySelector('button');if(b){b.click();}}
-    })()">🤖<br>AI매칭사전예약가기</button>
-
+    onclick="document.querySelector('div[data-key=\\'nav_main_matching\\'] button').click()">
+    🤖<br>AI매칭사전예약가기</button>
   <button class="lnb-btn lnb-shorts"
-    onclick="(function(){
-      var c=document.querySelector('div[data-key=\"nav_main_shorts\"]');
-      if(c){var b=c.querySelector('button');if(b){b.click();}}
-    })()">🎦<br>AI숏츠 바로가기</button>
-
+    onclick="document.querySelector('div[data-key=\\'nav_main_shorts\\'] button').click()">
+    🎬<br>AI숏츠 바로가기</button>
   <button class="lnb-btn lnb-top"
-    onclick="(function(){
-      var c=document.querySelector('div[data-key=\"nav_main_top\"]');
-      if(c){var b=c.querySelector('button');if(b){b.click();}}
-    })()">⬆️<br>AI저평가매물보기</button>
+    onclick="document.querySelector('div[data-key=\\'nav_main_top\\'] button').click()">
+    ⭐<br>AI저평가매물보기</button>
 </div>
 """, unsafe_allow_html=True)
 
-    # ── 2. 실제 Streamlit 버튼: columns 미사용 (흡색박스 방지), 개별 렌더링으로 숨김 ──
-    if st.button("🤖\nAI매칭사전예약가기", use_container_width=True, key="nav_main_matching"):
+    if st.button("AI매칭사전예약가기", key="nav_main_matching"):
         st.session_state["nav_tab_idx"] = 2
         st.rerun()
-    if st.button("🎬\nAI숏츠 바로가기", use_container_width=True, key="nav_main_shorts"):
+    if st.button("AI숏츠 바로가기", key="nav_main_shorts"):
         st.session_state["nav_tab_idx"] = 3
         st.rerun()
-    if st.button("⬆️\nAI저평가매물보기", use_container_width=True, key="nav_main_top"):
+    if st.button("AI저평가매물보기", key="nav_main_top"):
         st.session_state["nav_tab_idx"] = 1
         st.rerun()
 
@@ -1629,7 +1561,7 @@ def main():
             item = tab_config.pop(idx)
             tab_config.insert(0, item)
 
-    # ── 탁임 누늘스 호환: 문자열매칭이 스트링으로 온 경우 인덱스 전환
+    # ── 문자열 매핑 호환
     legacy_target = st.session_state.pop("manual_nav_target", None)
     if legacy_target and target_idx is None:
         mapping = {
@@ -1657,3 +1589,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
