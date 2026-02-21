@@ -982,8 +982,8 @@ def render_login_page():
     </div>
     
     <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #8b5cf6;">
-        <h4 style="margin: 0 0 10px 0; color: #1e293b;">🧬 AI 저평가 매물 탐지 & 수요 공급매물 예약 AI자동매칭</h4>
-        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">빅데이터로 저평가 매물을 발굴하고, 수요자에게 <b>1초 만에 자동 매칭</b>하여 거래 성사율 극대화</p>
+        <h4 style="margin: 0 0 10px 0; color: #1e293b;">🧬 AI저평가 매물 매수·매도·임대차 예약 AI자동매칭</h4>
+        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">빅데이터로 저평가 매물을 발굴하고, 매수·매도·임대차 예약 고객에게 <b>1초 만에 AI자동 매칭</b>하여 거래 성사율 극대화</p>
     </div>
 
     <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid #ef4444;">
