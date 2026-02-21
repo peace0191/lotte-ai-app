@@ -1040,6 +1040,54 @@ def render_login_page():
                 <a href="{APP_URL}" target="_blank" style="text-decoration:none; color:#3c1e1e;">앱으로 이동하기 👉 lotte-ai-app.streamlit.app</a>
              </div>
              """, unsafe_allow_html=True)
+
+    # ── 핸드폰 번호로 앱 링크 전송 ──
+    st.markdown("#### 📲 핸드폰 번호로 앱 링크 전송")
+    with st.container(border=True):
+        col_s, col_r2 = st.columns(2)
+        with col_s:
+            sender_phone = st.text_input(
+                "📤 발신 번호 (내 번호)",
+                placeholder="01012345678",
+                key="sender_phone_input",
+                help="링크를 보내는 사람의 핸드폰 번호 (- 없이 입력)"
+            )
+        with col_r2:
+            receiver_phone = st.text_input(
+                "📥 수신 번호 (받는 사람)",
+                placeholder="01098765432",
+                key="receiver_phone_input",
+                help="링크를 받을 상대방 핸드폰 번호 (- 없이 입력)"
+            )
+
+        send_msg = st.text_area(
+            "✉️ 전송 메시지",
+            value=f"안녕하세요! 롯데타워&강남빌딩 부동산 이상수 대표입니다.\n대치1동 AI 부동산 정보 앱을 소개드립니다.\n👉 {APP_URL}",
+            height=100,
+            key="kakao_send_msg"
+        )
+
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            if st.button("📨 링크 문자 전송 (데모)", use_container_width=True, type="primary",
+                         key="btn_send_sms"):
+                if not sender_phone or len(sender_phone) < 10:
+                    st.error("발신 번호를 올바르게 입력해주세요.")
+                elif not receiver_phone or len(receiver_phone) < 10:
+                    st.error("수신 번호를 올바르게 입력해주세요.")
+                else:
+                    st.success(f"✅ {receiver_phone} 번호로 앱 링크 전송 완료! (데모)")
+                    st.info("💡 실제 문자 전송은 문자 API(알리고·Cool SMS 등) 연동 시 동작합니다.")
+                    st.code(f"수신: {receiver_phone}\n발신: {sender_phone}\n내용: {send_msg}", language="text")
+
+        with col_btn2:
+            kakao_url = f"https://open.kakao.com/o/share?url={APP_URL}"
+            st.markdown(
+                f'<a href="{kakao_url}" target="_blank" style="display:block; text-align:center; '
+                f'background:#fef01b; color:#3c1e1e; font-weight:bold; padding:10px; '
+                f'border-radius:8px; text-decoration:none; border:1px solid #ddd;">💛 카카오톡으로 직접 공유</a>',
+                unsafe_allow_html=True
+            )
 # --- Bottom Navigation Renderers ---
 
 BOTTOM_NAV_CSS = """
