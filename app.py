@@ -553,12 +553,12 @@ def render_home():
     # Mid-page Navigation Buttons
     col_nav1, col_nav2 = st.columns(2)
     with col_nav1:
-        if st.button("⭐ 추천 매물 자세히 보기", use_container_width=True, key="btn_mid_listing"):
-            st.session_state["manual_nav_target"] = "⭐ 추천매물"
+        if st.button("⭐ AI저평가추천매물 보기", use_container_width=True, key="btn_mid_listing"):
+            st.session_state["manual_nav_target"] = "AI저평가추천매물"
             st.rerun()
     with col_nav2:
         if st.button("🤖 AI 챗봇에게 문의하기", use_container_width=True, key="btn_mid_chatbot"):
-            st.session_state["manual_nav_target"] = "🤖 AI매칭"
+            st.session_state["manual_nav_target"] = "AI매칭/사전등록"
             st.rerun()
 
     st.markdown("---")
@@ -586,10 +586,10 @@ def render_home():
 
 
 def render_listing():
-    st.markdown("### ⭐ AI 단지별 추천매물")
-    
+    st.markdown("### ⭐ AI저평가추천매물")
+
     # helper for one item
-    def property_card(title, price, desc, img_url, badge=None):
+    def property_card(title, price, desc, img_url, badge=None, key_suffix=None):
         st.markdown('<div class="card">', unsafe_allow_html=True)
         c1, c2 = st.columns([1, 2])
         with c1:
@@ -600,9 +600,162 @@ def render_listing():
             st.markdown(f"#### {title}")
             st.markdown(f"### {price}")
             st.caption(desc)
-            if st.button("AI 리포트 보기", key=f"btn_{title}_{random.randint(1,999)}"):
+            _key = key_suffix if key_suffix else f"{title}_{random.randint(1,99999)}"
+            if st.button("AI 리포트 보기", key=f"btn_{_key}"):
                 st.info("AI 분석 리포트가 생성되었습니다. (데모)")
         st.markdown('</div>', unsafe_allow_html=True)
+
+    # ══════════════════════════════════════════════════════════════
+    # 【상단 고정】 AI 저평가 매물 (국토부 실거래가 대비 약 8% 전후 저평가)
+    # ══════════════════════════════════════════════════════════════
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+                border-radius: 16px; padding: 20px 24px; margin-bottom: 20px;
+                border-left: 5px solid #facc15; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <span style="font-size:2rem;">🤖</span>
+            <div>
+                <div style="font-size:1.3rem; font-weight:900; color:#facc15;">AI 저평가 추천매물</div>
+                <div style="font-size:0.85rem; color:#93c5fd; margin-top:2px;">
+                    국토부 실거래가 API 기반 · <b style="color:#fbbf24;">시세 대비 약 8% 전후 저평가</b> 매물만 선별
+                </div>
+            </div>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+            <span style="background:#1e40af33; color:#93c5fd; border:1px solid #3b82f6;
+                         border-radius:20px; padding:3px 12px; font-size:0.78rem; font-weight:700;">🏛️ 국토부 실거래가 연동</span>
+            <span style="background:#14532d33; color:#86efac; border:1px solid #22c55e;
+                         border-radius:20px; padding:3px 12px; font-size:0.78rem; font-weight:700;">✅ AI 검증 완료</span>
+            <span style="background:#7f1d1d33; color:#fca5a5; border:1px solid #ef4444;
+                         border-radius:20px; padding:3px 12px; font-size:0.78rem; font-weight:700;">🚨 매물 수 한정</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── 매매 저평가 매물 (2개)
+    st.markdown("""
+    <div style="background:#162032; border-radius:12px; padding:14px 18px; margin-bottom:14px;
+                border-left:4px solid #f59e0b;">
+        <span style="font-size:1.05rem; font-weight:900; color:#fcd34d;">🏠 매매 저평가 매물</span>
+        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+            국토부 실거래가 대비 <b style="color:#f87171;">-7~9% 저평가</b> 확인 매물
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    ai_col1, ai_col2 = st.columns(2)
+    with ai_col1:
+        st.markdown("""
+        <div style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px; padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#f59e0b; color:#1e293b;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 AI 저평가 -8.2%</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🏢</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">래미안대치팰리스 34평 남향</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">40.5억</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준가: 44.1억</div>
+                    <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">▼ 3.6억 저평가 (8.2%↓)</div>
+                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">34평 · 중층 · 남향 · 대치초 배정권</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="ai_under_sale_1", use_container_width=True, type="primary"):
+            st.info("래미안대치팰리스 34평 저평가 분석 리포트가 생성되었습니다. (데모)")
+
+    with ai_col2:
+        st.markdown("""
+        <div style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px; padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#f59e0b; color:#1e293b;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 AI 저평가 -7.5%</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🏙️</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">시그니엘 레지던스 88평 매매</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">63.8억</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준가: 69억</div>
+                    <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">▼ 5.2억 저평가 (7.5%↓)</div>
+                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">88평 · 고층 · 한강뷰 · 풀옵션 급매</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="ai_under_sale_2", use_container_width=True, type="primary"):
+            st.info("시그니엘 레지던스 88평 저평가 분석 리포트가 생성되었습니다. (데모)")
+
+    st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+    # ── 임대차/렌트 저평가 매물 (2개)
+    st.markdown("""
+    <div style="background:#162032; border-radius:12px; padding:14px 18px; margin-bottom:14px;
+                border-left:4px solid #22d3ee;">
+        <span style="font-size:1.05rem; font-weight:900; color:#67e8f9;">🔑 임대차·렌트 저평가 매물</span>
+        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+            시세 대비 <b style="color:#34d399;">-7~9% 저렴한</b> 전세·월세 확인 매물
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    rent_col1, rent_col2 = st.columns(2)
+    with rent_col1:
+        st.markdown("""
+        <div style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px; padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#22d3ee; color:#0f172a;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 전세 저평가 -8.8%</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🔑</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치SK뷰 33평 전세</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#67e8f9; margin:4px 0;">14.5억</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준 전세가: 15.9억</div>
+                    <div style="font-size:0.78rem; color:#34d399; font-weight:700; margin-top:2px;">▼ 1.4억 저렴 (8.8%↓)</div>
+                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">33평 · 중층 · 동향 · 대치역 도보 5분</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="ai_under_rent_1", use_container_width=True):
+            st.info("대치SK뷰 33평 전세 저평가 분석 리포트가 생성되었습니다. (데모)")
+
+    with rent_col2:
+        st.markdown("""
+        <div style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px; padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#22d3ee; color:#0f172a;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 월세 저평가 -7.9%</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🏘️</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">은마아파트 31평 월세</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#67e8f9; margin:4px 0;">5천/185만</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준 월세: 5천/201만</div>
+                    <div style="font-size:0.78rem; color:#34d399; font-weight:700; margin-top:2px;">▼ 월 16만원 저렴 (7.9%↓)</div>
+                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">31평 · 중층 · 남향 · 재건축 호재</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="ai_under_rent_2", use_container_width=True):
+            st.info("은마아파트 31평 월세 저평가 분석 리포트가 생성되었습니다. (데모)")
+
+    # 구분선 + 스크롤 안내
+    st.markdown("""
+    <div style="text-align:center; padding:18px 0; margin:10px 0;">
+        <div style="display:inline-flex; align-items:center; gap:10px; background:#1e293b;
+                    border-radius:30px; padding:8px 24px; border:1px solid #334155;">
+            <span style="font-size:1.2rem;">⬇️</span>
+            <span style="color:#94a3b8; font-size:0.9rem; font-weight:700;">
+                아래로 스크롤하여 단지별 전체 추천매물 보기 (6개 단지 × 3개 매물)
+            </span>
+        </div>
+    </div>
+    <hr style="border:none; border-top:2px dashed #334155; margin:10px 0 24px 0;">
+    """, unsafe_allow_html=True)
+
+    # ══════════════════════════════════════════════════════════════
+    # 【하단 스크롤】 단지별 추천매물 (6개 단지 × 3개)
+    # ══════════════════════════════════════════════════════════════
+    st.markdown("#### 🏘️ 단지별 전체 추천매물 (부동산 등록 매물)")
 
     # 1. Signiel (Modified Name & Restored Prices)
     st.markdown('<div class="section-header">💎 시그니엘 레지던스 (롯데월드타워몰)</div>', unsafe_allow_html=True)
@@ -1250,38 +1403,89 @@ def show_business_card_dialog():
 
 
 def render_login_bottom_nav():
-    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(st.dialog 팝업)"""
-    # ── 3개 버튼 모두 st.columns로 통합 (fixed nav CSS 포함)
+    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(st.dialog 팝업)
+    - position:fixed HTML 바 방식: 스크롤 시 항상 화면 하단에 고정
+    - 숨겨진 Streamlit 버튼을 JS onclick으로 트리거
+    """
     st.markdown("""
 <style>
-/* 하단 고정 버튼 영역 여백 */
+/* 본문 하단 여백 (fixed bar 뒤로 내용 안 가리게) */
 .block-container { padding-bottom: 90px !important; }
-/* 3열 nav 컨테이너 고정 */
-div[data-testid="stHorizontalBlock"]:has(> div > div[data-testid="stButton"] button[data-key="nav_login_share"]) {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: white; border-top: 2px solid #e2e8f0;
-    padding: 6px 8px; z-index: 9999;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
-    max-width: 100% !important; width: 100% !important;
+
+/* 실제 Streamlit 버튼 숨기기 (기능은 유지) */
+div[data-key="nav_login_share"],
+div[data-key="nav_login_strategy"],
+div[data-key="btn_biz_card_login"] {
+    visibility: hidden !important;
+    height: 0px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
-/* nav 버튼 공통 스타일 */
-div[data-key="nav_login_share"] button,
-div[data-key="nav_login_strategy"] button,
-div[data-key="btn_biz_card_login"] button {
-    background: transparent !important;
-    color: #2563eb !important;
-    border: none !important;
-    font-size: 0.82rem !important;
-    font-weight: 700 !important;
-    padding: 4px 0 !important;
-    box-shadow: none !important;
+
+/* 고정 HTML 버튼 바 */
+#lotte-login-fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background: #ffffff;
+    border-top: 2px solid #e2e8f0;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 8px 10px;
 }
-div[data-key="btn_biz_card_login"] button {
-    color: #dc2626 !important;
+.llnb-btn {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.80rem;
+    font-weight: 800;
+    padding: 7px 4px;
+    text-align: center;
+    line-height: 1.5;
+    transition: background 0.15s, transform 0.1s;
+    font-family: sans-serif;
 }
+.llnb-btn:hover  { background: #f1f5f9; transform: translateY(-1px); }
+.llnb-btn:active { transform: translateY(0); }
+.llnb-share    { color: #2563eb; }
+.llnb-strategy { color: #7c3aed; }
+.llnb-card     { color: #dc2626; }
 </style>
+
+<div id="lotte-login-fixed-bar">
+  <button class="llnb-btn llnb-share"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('\uacf5\uc720\ud558\uae30')!==-1){bs[i].click();break;}
+      }
+    })()">📤<br>공유하기</button>
+
+  <button class="llnb-btn llnb-strategy"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('3\ub300 \uc804\ub7b5')!==-1){bs[i].click();break;}
+      }
+    })()">🔷<br>AI핵심 3대전략</button>
+
+  <button class="llnb-btn llnb-card"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('\uba85\ud568\ubcf4\uae30')!==-1){bs[i].click();break;}
+      }
+    })()">💼<br>부동산명함보기</button>
+</div>
 """, unsafe_allow_html=True)
 
+    # ── 실제 Streamlit 버튼 (숨겨짐, JS onclick이 찾아서 클릭) ──
     c1, c2, c3 = st.columns(3)
     with c1:
         if st.button("📤\n공유하기", use_container_width=True, key="nav_login_share"):
@@ -1289,30 +1493,108 @@ div[data-key="btn_biz_card_login"] button {
             st.rerun()
     with c2:
         if st.button("🔷\nAI 핵심 3대 전략", use_container_width=True, key="nav_login_strategy"):
-            st.session_state["scroll_to"] = "login-top"
+            st.session_state["scroll_to"] = "ai-strategy-section"
             st.rerun()
     with c3:
         if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
             show_business_card_dialog()
 
 def render_main_bottom_nav():
-    """메인(로그인 후) 화면 전용 하단 Nav: 이전 | 홈 | 맨위로"""
-    st.markdown(BOTTOM_NAV_CSS + """
-<div class="bottom-nav">
-    <a href="#" class="nav-btn" onclick="history.back(); return false;">
-        <span>⬅</span>
-        <span>이전</span>
-    </a>
-    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
-        <span>🏠</span>
-        <span>홈으로</span>
-    </a>
-    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
-        <span>⬆️</span>
-        <span>맨위로</span>
-    </a>
+    """항상 화면 하단에 고정된 네비게이션 바"""
+
+    # ── 1. 고정 HTML 버튼 바 (position:fixed) + 숨김 Streamlit 버튼 스타일 ──
+    st.markdown("""
+<style>
+/* 본문 하단 여백 */
+.block-container { padding-bottom: 90px !important; }
+
+/* 실제 Streamlit 버튼 숨기기 (기능은 유지) */
+div[data-key="nav_main_matching"],
+div[data-key="nav_main_shorts"],
+div[data-key="nav_main_top"] {
+    visibility: hidden !important;
+    height: 0px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 고정 HTML 버튼 바 */
+#lotte-fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background: #ffffff;
+    border-top: 2px solid #e2e8f0;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    padding: 8px 10px;
+}
+.lnb-btn {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.80rem;
+    font-weight: 800;
+    padding: 7px 4px;
+    text-align: center;
+    line-height: 1.5;
+    transition: background 0.15s, transform 0.1s;
+    font-family: sans-serif;
+}
+.lnb-btn:hover  { background: #f1f5f9; transform: translateY(-1px); }
+.lnb-btn:active { transform: translateY(0); }
+.lnb-matching { color: #2563eb; }
+.lnb-shorts   { color: #7c3aed; }
+.lnb-top      { color: #dc2626; }
+</style>
+
+<div id="lotte-fixed-bar">
+  <button class="lnb-btn lnb-matching"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\ub9e4\uce6d\uc0ac\uc804\uc608\uc57d\uac00\uae30')!==-1){bs[i].click();break;}
+      }
+    })()">🤖<br>AI매칭사전예약가기</button>
+
+  <button class="lnb-btn lnb-shorts"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\uc20f\uce20')!==-1){bs[i].click();break;}
+      }
+    })()">🎬<br>AI숏츠 바로가기</button>
+
+  <button class="lnb-btn lnb-top"
+    onclick="(function(){
+      var bs=document.querySelectorAll('button');
+      for(var i=0;i<bs.length;i++){
+        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\uc800\ud3c9\uac00\ub9e4\ubb3c')!==-1){bs[i].click();break;}
+      }
+    })()">⬆️<br>AI저평가매물보기</button>
 </div>
 """, unsafe_allow_html=True)
+
+    # ── 2. 실제 Streamlit 버튼 (숨겨짐, onclick이 찾아서 클릭) ──
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        if st.button("🤖\nAI매칭사전예약가기", use_container_width=True, key="nav_main_matching"):
+            st.session_state["nav_tab_idx"] = 2
+            st.rerun()
+    with c2:
+        if st.button("🎬\nAI숏츠 바로가기", use_container_width=True, key="nav_main_shorts"):
+            st.session_state["nav_tab_idx"] = 3
+            st.rerun()
+    with c3:
+        if st.button("⬆️\nAI저평가매물보기", use_container_width=True, key="nav_main_top"):
+            st.session_state["nav_tab_idx"] = 1
+            st.rerun()
 
 # --- Main ---
 def main():
@@ -1341,34 +1623,38 @@ def main():
 
     # Define Tabs and Functions
     tab_config = [
-        ("🏠 대치1동 특성 (초중고)", render_home), 
-        ("⭐ 추천매물", render_listing), 
-        ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation), 
-        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),
-        ("🤝 AI공동매물매칭", render_joint_matching),
-        ("🔒 시스템/영업팩생성", render_admin_system)
+        ("🏠 대치1동 특성 (초중고)", render_home),           # idx 0
+        ("⭐ AI저평가추천매물", render_listing),              # idx 1
+        ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation),  # idx 2
+        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),      # idx 3
+        ("🤝 AI공동매물매칭", render_joint_matching),           # idx 4
+        ("🔒 시스템/영업팩생성", render_admin_system)             # idx 5
     ]
 
-    # Handle Manual Navigation (Reorder Tabs)
-    target = st.session_state.get("manual_nav_target")
-    if target:
-        # Special case for "HOME"
-        if target == "HOME":
-            target = "🏠" # Match the icon
-        
-        # Find index
-        found_idx = -1
-        for i, (name, _) in enumerate(tab_config):
-            if target in name:
-                found_idx = i
-                break
-        
-        # Move to front if found
-        if found_idx > 0:
-            item = tab_config.pop(found_idx)
+    # ── 직접 탭 인덱스 설정 (버튼 클릭 시 nav_tab_idx 사용)
+    target_idx = st.session_state.pop("nav_tab_idx", None)
+    if target_idx is not None:
+        idx = int(target_idx)
+        if 0 < idx < len(tab_config):
+            item = tab_config.pop(idx)
             tab_config.insert(0, item)
-            # Show toast only once
-            # st.toast(f"'{item[0]}' 메뉴로 이동했습니다!") 
+
+    # ── 탁임 누늘스 호환: 문자열매칭이 스트링으로 온 경우 인덱스 전환
+    legacy_target = st.session_state.pop("manual_nav_target", None)
+    if legacy_target and target_idx is None:
+        mapping = {
+            "AI저평가추천매물": 1,
+            "AI매칭": 2,
+            "AI매칭/사전등록": 2,
+            "AI 숏츠": 3,
+            "대치1동": 0,
+        }
+        for key, val in mapping.items():
+            if key in legacy_target:
+                if val > 0:
+                    item = tab_config.pop(val)
+                    tab_config.insert(0, item)
+                break
 
     # Render Tabs
     tabs = st.tabs([t[0] for t in tab_config])
