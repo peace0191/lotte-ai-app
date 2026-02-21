@@ -1021,7 +1021,44 @@ def render_login_page():
     </div>
     """, unsafe_allow_html=True)
 
+    # ── 앱 소개글 ──
+    st.markdown("""
+<div style="background:linear-gradient(135deg,#0f172a,#1e3a5f); color:white; border-radius:14px;
+            padding:24px 22px; margin-bottom:20px;">
+  <h4 style="color:#fcd34d; margin:0 0 14px 0; font-size:1.05rem;">
+    🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
+  </h4>
+
+  <div style="display:flex; gap:10px; margin-bottom:12px;">
+    <div style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1;">
+      <div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
+      <div style="font-size:0.82rem; color:#e2e8f0; line-height:1.6;">
+        학군 이사 가족은 <b>10년간</b> 같은 지역에 머뭅니다.<br>
+        원하는 시기·가격의 매물은 <b>구조적으로 희소</b>합니다.
+      </div>
+    </div>
+    <div style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1;">
+      <div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
+      <div style="font-size:0.82rem; color:#e2e8f0; line-height:1.6;">
+        AI가 저평가 매물을 <b>1초 분석</b>.<br>
+        매도·임대인 ↔ 매수·임차인 이사 시기를 <b>사전 자동매칭</b>.
+      </div>
+    </div>
+  </div>
+
+  <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
+    <div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
+    <div style="font-size:0.8rem; color:#e2e8f0; line-height:1.8;">
+      👨‍👩‍👧 <b>소비자</b> — 입주·입학 시기 혼란 해소 &nbsp;|&nbsp;
+      📊 <b>시장</b> — 수급 투명화, 가격 왜곡 감소 &nbsp;|&nbsp;
+      🏙️ <b>사회</b> — 기존 주거지역 흐름 안정화
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
     # Login Form
+
     with st.container(border=True):
         st.markdown("### 📱 핸드폰 인증 로그인")
         name = st.text_input("이름을 입력하세요", placeholder="예: 홍길동")
