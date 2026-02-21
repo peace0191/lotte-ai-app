@@ -965,8 +965,8 @@ def render_login_page():
         </div>
         <h3 style="color: #fcd34d; margin-top: 10px; font-size: 1.3rem;">"대치1동은 자녀의 미래를 향한 베이스캠프입니다."</h3>
         <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
-            AI 저평가 분석과 자동 매칭 시스템으로 숨겨진 부동산 가치를 극대화하고,<br>
-            대한민국 최고의 교육 환경으로 가는 최적의 거점을 찾아드립니다.
+            AI 저평가 분석과 매수(임차)·매도(임대) 매물 예약 AI자동 매칭 시스템으로<br>
+            최적의 부동산 가치를 발굴하고, 대한민국 최고의 교육 환경으로 가는 출발점을 AI 매칭 해보세요.
         </p>
     </div>
     """, unsafe_allow_html=True)
