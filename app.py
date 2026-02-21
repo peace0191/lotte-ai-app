@@ -1412,9 +1412,7 @@ def render_login_bottom_nav():
 /* 본문 하단 여백 (fixed bar 뒤로 내용 안 가리게) */
 .block-container { padding-bottom: 90px !important; }
 
-/* 실제 Streamlit 버튼 숨기기 (기능은 유지) */
-div[data-key="nav_login_share"],
-div[data-key="nav_login_strategy"],
+/* 명함보기 숨김 Streamlit 버튼만 숨김 */
 div[data-key="btn_biz_card_login"] {
     visibility: hidden !important;
     height: 0px !important;
@@ -1459,45 +1457,38 @@ div[data-key="btn_biz_card_login"] {
 </style>
 
 <div id="lotte-login-fixed-bar">
+  <!-- ① 공유하기: JS scrollIntoView 직접 (새로고침 없이 스크롤만) -->
   <button class="llnb-btn llnb-share"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
-      for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('\uacf5\uc720\ud558\uae30')!==-1){bs[i].click();break;}
-      }
+      var el=document.getElementById('kakao-share-section');
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+      else{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
     })()">📤<br>공유하기</button>
 
+  <!-- ② AI3대전략: JS scrollIntoView 직접 (새로고침 없이 스크롤만) -->
   <button class="llnb-btn llnb-strategy"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
-      for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('3\ub300 \uc804\ub7b5')!==-1){bs[i].click();break;}
-      }
+      var el=document.getElementById('ai-strategy-section');
+      if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+      else{window.scrollTo({top:0,behavior:'smooth'});}
     })()">🔷<br>AI핵심 3대전략</button>
 
+  <!-- ③ 명함보기: data-testid로 Streamlit 전용 버튼만 클릭 (HTML 버튼과 혼동 방지) -->
   <button class="llnb-btn llnb-card"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
+      var bs=document.querySelectorAll('button[data-testid]');
       for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('\uba85\ud568\ubcf4\uae30')!==-1){bs[i].click();break;}
+        var t=bs[i].innerText||'';
+        if(t.indexOf('명함보기')!==-1){bs[i].click();break;}
       }
     })()">💼<br>부동산명함보기</button>
 </div>
 """, unsafe_allow_html=True)
 
-    # ── 실제 Streamlit 버튼 (숨겨짐, JS onclick이 찾아서 클릭) ──
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        if st.button("📤\n공유하기", use_container_width=True, key="nav_login_share"):
-            st.session_state["scroll_to"] = "kakao-share-section"
-            st.rerun()
-    with c2:
-        if st.button("🔷\nAI 핵심 3대 전략", use_container_width=True, key="nav_login_strategy"):
-            st.session_state["scroll_to"] = "ai-strategy-section"
-            st.rerun()
-    with c3:
-        if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
-            show_business_card_dialog()
+    # ── 명함보기 전용 숨겨진 Streamlit 버튼 (JS data-testid 필터로 클릭 트리거) ──
+    # 공유하기 / 3대전략은 scrollIntoView로 직접 처리하므로 Streamlit 버튼 불필요
+    if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
+        show_business_card_dialog()
 
 def render_main_bottom_nav():
     """항상 화면 하단에 고정된 네비게이션 바"""
