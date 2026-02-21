@@ -508,21 +508,27 @@ def render_home():
             
     st.markdown("---")
 
-    # 4. Complex Analysis
-    st.markdown("#### 🏢 주요 명품 단지 분석")
-    t1, t2, t3 = st.tabs(["래미안대치팰리스", "대치SK뷰 / 대치아이파크", "은마아파트"])
-    with t1:
-        st.success("### 👑 대치동의 대장주")
-        st.markdown("- 대치초 배정, 학원가 바로 앞\n- 수영장/조식 등 완벽한 커뮤니티")
-        st.image("https://images.unsplash.com/photo-1600596542815-e328701102b9?auto=format&fit=crop&w=600&q=80", use_column_width=True)
-    with t2:
-        st.warning("### ⚖️ 실속과 환경의 조화")
-        st.markdown("- 대치역/한티역 역세권, 백화점 슬세권\n- 쾌적한 주거 환경")
-        st.image("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80", use_column_width=True)
-    with t3:
-        st.error("### 🏗️ 재건축의 상징")
-        st.markdown("- 강남 재건축의 바로미터\n- 대곡초 배정, 압도적 투자가치")
-        st.image("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80", use_column_width=True)
+    # 4. Complex Analysis — 4-tab, 60% column
+    tab_col, _ = st.columns([6, 4])
+    with tab_col:
+        st.markdown("#### 🏘️ 주요 유명 단지 분석")
+        t1, t2, t3, t4 = st.tabs(["래미안 대치팩리스", "대치SK뷰/대치아이파크", "삼환아르누보2/시그니엘", "은마아파트"])
+        with t1:
+            st.success("### 👑 대치동의 대장주")
+            st.markdown("- 대치초 배정, 학원가 바로 앞\n- 수영장/조식 등 완벽한 커뮤니티")
+            st.image("https://images.unsplash.com/photo-1600596542815-e328701102b9?auto=format&fit=crop&w=600&q=80", use_column_width=True)
+        with t2:
+            st.warning("### ⚖️ 실속과 환경의 조화")
+            st.markdown("- 대치역/한티역 역세권, 백화점 슬세권\n- 쿨적한 주거 환경")
+            st.image("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80", use_column_width=True)
+        with t3:
+            st.info("### 🏙️ 프리미엄 래지던스 & 오피스텔")
+            st.markdown("- 시그니엘: 롤데월드타워 최고층 글로벌 레지던스\n- 삼환아르누보2: 대치1동 학원가 도보 3분 오피스텔 가성비")
+            st.image("https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80", use_column_width=True)
+        with t4:
+            st.error("### 🏗️ 재건축의 상징")
+            st.markdown("- 강남 재건축의 바로미터\n- 대공초 배정, 압도적 투자가치")
+            st.image("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80", use_column_width=True)
         
     st.markdown("---")
 
@@ -945,7 +951,7 @@ def render_login_page():
                 👨‍💼
             </div>
             <div>
-                <h2 style="margin: 0 0 5px 0; font-size: 1.2rem; color: #f8fafc; line-height: 1.3;">롯데타워앤강남빌딩부동산중개주식회사</h2>
+                <h2 style="margin: 0 0 5px 0; font-size: 1.2rem; color: #f8fafc; line-height: 1.3;">롤데타워앤강남빌딩부동산중개주식회사</h2>
                 <div style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 5px;">
                     등록번호: 11680-2023-00078 | 사업자: 461-86-02740
                 </div>
@@ -957,15 +963,16 @@ def render_login_page():
                 </div>
             </div>
         </div>
-        <h3 style="color: #fcd34d; margin-top: 10px; font-size: 1.3rem;">"대치1동은 자녀의 미래를 위한<br>베이스캠프입니다."</h3>
+        <h3 style="color: #fcd34d; margin-top: 10px; font-size: 1.3rem;">"대치1동은 자녀의 미래를 향한 베이스캠프입니다."</h3>
         <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
-            단순한 중개가 아닙니다. <b>AI 저평가 분석</b>과 <b>자동 매칭 시스템</b>으로<br>
-            고객님의 자산 가치를 극대화하고, 최적의 교육 환경을 찾아드립니다.
+            AI 저평가 분석과 자동 매칭 시스템으로 숨겨진 부동산 가치를 극대화하고,<br>
+            대한민국 최고의 교육 환경으로 가는 최적의 거점을 찾아드립니다.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    # 3 Core Strategies Section
+    # 3 Core Strategies Section — 았커 id 추가
+    st.markdown('<div id="ai-strategy-section"></div>', unsafe_allow_html=True)
     st.markdown("#### 🔷 AI 부동산 핵심 3대 전략")
     
     st.markdown("""
@@ -1054,16 +1061,16 @@ BOTTOM_NAV_CSS = """
 """
 
 def render_login_bottom_nav():
-    """로그인 화면 전용 하단 Nav: 공유하기 | 목록으로 | 맨위로"""
+    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 맨위로"""
     st.markdown(BOTTOM_NAV_CSS + """
 <div class="bottom-nav">
     <a href="#kakao-share-section" class="nav-btn">
         <span>📤</span>
         <span>공유하기</span>
     </a>
-    <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
-        <span>🏠</span>
-        <span>목록으로</span>
+    <a href="#ai-strategy-section" class="nav-btn">
+        <span>🔷</span>
+        <span>AI 핵심 3대 전략</span>
     </a>
     <a href="#" class="nav-btn" onclick="window.scrollTo(0,0); return false;">
         <span>⬆️</span>
