@@ -1060,8 +1060,84 @@ BOTTOM_NAV_CSS = """
 </style>
 """
 
+@st.dialog("💼 롯데타워&강남빌딩 부동산 중개(주) 명함", width="large")
+def show_business_card_dialog():
+    """부동산 명함 팝업 (st.dialog)"""
+    CARD_HTML = """
+    <style>
+    .biz-card {
+        background: linear-gradient(135deg, #003087, #1565c0);
+        border-radius: 14px; padding: 22px 24px;
+        color: white; margin-bottom: 16px; position: relative;
+    }
+    .biz-card .logo-tag {
+        font-size: 0.68rem; color: #90caf9; line-height: 1.6;
+        margin-bottom: 6px;
+    }
+    .biz-card .company {
+        font-size: 1.05rem; font-weight: 900; color: #ffd54f; margin-bottom: 2px;
+    }
+    .biz-card .sub { font-size: 0.78rem; color: #bbdefb; margin-bottom: 12px; }
+    .biz-card .title-label { font-size: 0.82rem; color: #90caf9; }
+    .biz-card .name { font-size: 1.5rem; font-weight: 900; letter-spacing: 4px; color: #fff; margin: 4px 0; }
+    .biz-card .mobile { color: #ffd54f; font-size: 0.95rem; font-weight: bold; margin: 4px 0; }
+    .biz-card .contact { color: #fff; font-size: 0.82rem; margin: 2px 0; }
+    .biz-card .addr { color: #bbdefb; font-size: 0.75rem; margin-top: 4px; }
+    .biz-card .desc-list {
+        margin-top: 14px; padding-top: 12px;
+        border-top: 1px solid #1976d2;
+        font-size: 0.76rem; color: #bbdefb; line-height: 1.9;
+    }
+    </style>
+
+    <!-- 이상수 대표 명함 -->
+    <div class="biz-card">
+      <div class="logo-tag">KNR 롯데월드타워 몰 시그니엘 레지던스 전문 | 학원가 한티 삼환·오피스텔 렌트</div>
+      <div class="company">롯데타워 &amp; 강남빌딩 부동산 중개(주)</div>
+      <div class="sub">LOTTE WORLD TOWER</div>
+      <div class="title-label">대 표 / 공인중개사</div>
+      <div class="name">이 상 수</div>
+      <div class="mobile">Mobile : 010-8985-8945</div>
+      <div class="contact">E-mail : 5788285@naver.com &nbsp;|&nbsp; tel : 578-8285</div>
+      <div class="addr">서울시 강남구 도곡로 405, 5층 507호 [대치동, 삼환 아르누보2]</div>
+      <div class="desc-list">
+        ■ 랜드마크명품 주거 : 에테르노 청담 입주<br>
+        ■ 주거 : 단대·숙명 인근아파트상담(래미안대치팰리스, SK뷰 외 다수)<br>
+        ■ 입주 : 개포(THE HFIRSTIER IPARK)<br>
+        ■ 투자 : 은마·미도·재건축 / 용산·한남 3구역 재개발<br>
+        ■ 사업 : 상가·학원·건물·요양병원개설·토지
+      </div>
+    </div>
+
+    <!-- 김은경 이사 명함 -->
+    <div class="biz-card">
+      <div class="logo-tag">KNR 롯데월드타워 몰 시그니엘 레지던스 전문 | 학원가 삼환 클레시아 랜드</div>
+      <div class="company">롯데타워 &amp; 강남빌딩 부동산 중개(주)</div>
+      <div class="sub">LOTTE WORLD TOWER</div>
+      <div class="title-label">이 사</div>
+      <div class="name">김 은 경</div>
+      <div class="mobile">Mobile : 010-2482-2460</div>
+      <div class="contact">E-mail : koung713@naver.com &nbsp;|&nbsp; tel : 578-8285</div>
+      <div class="addr">서울시 강남구 도곡로 405, 5층 507호 [대치동, 삼환 아르누보2]</div>
+      <div class="desc-list">
+        ■ 랜드마크명품 주거 : 에테르노 청담 입주<br>
+        ■ 주거 : 단대·숙명 인근아파트상담(래미안대치팰리스, SK뷰 외 다수)<br>
+        ■ 입주 : 개포(THE HFIRSTIER IPARK)<br>
+        ■ 투자 : 은마·미도·재건축 / 용산·한남 3구역 재개발<br>
+        ■ 사업 : 상가·학원·건물·요양병원개설·토지
+      </div>
+    </div>
+
+    <p style="text-align:center; color:#64748b; font-size:0.75rem; margin-top:8px;">
+      📞 대표번호 02-578-8285 &nbsp;|&nbsp; 등록번호: 11680-2023-00078 &nbsp;|&nbsp; 사업자: 461-86-02740
+    </p>
+    """
+    st.markdown(CARD_HTML, unsafe_allow_html=True)
+
+
 def render_login_bottom_nav():
-    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(팝업)"""
+    """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(st.dialog 팝업)"""
+    # ── HTML 앵커 링크 2개 + Python 버튼 1개 조합
     st.markdown(BOTTOM_NAV_CSS + """
 <div class="bottom-nav">
     <a href="#kakao-share-section" class="nav-btn">
@@ -1072,100 +1148,30 @@ def render_login_bottom_nav():
         <span>🔷</span>
         <span>AI 핵심 3대 전략</span>
     </a>
-    <div class="nav-btn" onclick="document.getElementById('bizCardModal').style.display='flex'" style="cursor:pointer;">
-        <span>💼</span>
-        <span>부동산명함보기</span>
-    </div>
 </div>
-
-<!-- ========== 부동산 명함 팝업 모달 ========== -->
-<div id="bizCardModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-     background:rgba(0,0,0,0.8); z-index:999999; align-items:center; justify-content:center;
-     padding:16px; box-sizing:border-box;">
-  <div style="background:#fff; border-radius:18px; padding:28px 24px; max-width:820px; width:100%;
-              max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
-
-    <!-- 닫기 버튼 -->
-    <button onclick="document.getElementById('bizCardModal').style.display='none'"
-            style="position:absolute; top:14px; right:16px; background:#ef4444; color:white;
-                   border:none; border-radius:50%; width:34px; height:34px; cursor:pointer;
-                   font-size:1.1rem; font-weight:900; line-height:34px; text-align:center;">✕</button>
-
-    <h3 style="text-align:center; color:#0f172a; margin:0 0 20px 0; font-size:1.2rem;">
-        💼 롯데타워&amp;강남빌딩 부동산 중개(주) 명함
-    </h3>
-
-    <!-- ── 이상수 대표 명함 ── -->
-    <div style="background:linear-gradient(135deg,#003087,#1565c0); border-radius:14px; padding:22px 24px;
-                margin-bottom:16px; color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; right:16px; top:12px; font-size:0.7rem; color:#90caf9; text-align:right; line-height:1.5;">
-        KNR 롯데월드타워 몰 시그니엘 레지던스 전문<br>학원가 한티 삼환·오피스텔 렌트
-      </div>
-      <div style="font-size:1.05rem; font-weight:900; color:#ffd54f; margin-bottom:6px;">
-        롯데타워 &amp; 강남빌딩 부동산 중개(주)
-      </div>
-      <div style="font-size:0.8rem; color:#bbdefb; margin-bottom:12px;">LOTTE WORLD TOWER</div>
-      <div style="display:flex; align-items:center; gap:16px;">
-        <div>
-          <div style="font-size:0.85rem; color:#90caf9;">대 표 / 공인중개사</div>
-          <div style="font-size:1.6rem; font-weight:900; letter-spacing:4px; color:#fff;">이 상 수</div>
-          <div style="color:#ffd54f; font-size:1rem; font-weight:bold; margin-top:4px;">Mobile : 010-8985-8945</div>
-          <div style="color:#fff; font-size:0.85rem; margin-top:4px;">
-            E-mail : 5788285@naver.com &nbsp;|&nbsp; tel: <b>578-8285</b>
-          </div>
-          <div style="color:#bbdefb; font-size:0.78rem; margin-top:6px;">
-            서울시 강남구 도곡로 405, 5층 507호 [대치동, 삼환 아르누보2]
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:14px; padding-top:12px; border-top:1px solid #1976d2; font-size:0.78rem; color:#bbdefb; line-height:1.8;">
-        ■ 랜드마크명품 주거 : 에테르노 청담 입주<br>
-        ■ 주거 : 단대·숙명 인근아파트상담(래미안대치팰리스, SK뷰 외 다수)<br>
-        ■ 입주 : 개포(THE HFIRSTIER IPARK)<br>
-        ■ 투자 : 은마·미도·재건축 / 용산·한남 3구역 재개발<br>
-        ■ 사업 : 상가·학원·건물·요양병원개설·토지
-      </div>
-    </div>
-
-    <!-- ── 김은경 이사 명함 ── -->
-    <div style="background:linear-gradient(135deg,#003087,#1565c0); border-radius:14px; padding:22px 24px;
-                color:white; position:relative; overflow:hidden;">
-      <div style="position:absolute; right:16px; top:12px; font-size:0.7rem; color:#90caf9; text-align:right; line-height:1.5;">
-        KNR 롯데월드타워 몰 시그니엘 레지던스 전문<br>학원가 삼환 클레시아 랜드
-      </div>
-      <div style="font-size:1.05rem; font-weight:900; color:#ffd54f; margin-bottom:6px;">
-        롯데타워 &amp; 강남빌딩 부동산 중개(주)
-      </div>
-      <div style="font-size:0.8rem; color:#bbdefb; margin-bottom:12px;">LOTTE WORLD TOWER</div>
-      <div style="display:flex; align-items:center; gap:16px;">
-        <div>
-          <div style="font-size:0.85rem; color:#90caf9;">이 사</div>
-          <div style="font-size:1.6rem; font-weight:900; letter-spacing:4px; color:#fff;">김 은 경</div>
-          <div style="color:#ffd54f; font-size:1rem; font-weight:bold; margin-top:4px;">Mobile : 010-2482-2460</div>
-          <div style="color:#fff; font-size:0.85rem; margin-top:4px;">
-            E-mail : koung713@naver.com &nbsp;|&nbsp; tel: <b>578-8285</b>
-          </div>
-          <div style="color:#bbdefb; font-size:0.78rem; margin-top:6px;">
-            서울시 강남구 도곡로 405, 5층 507호 [대치동, 삼환 아르누보2]
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:14px; padding-top:12px; border-top:1px solid #1976d2; font-size:0.78rem; color:#bbdefb; line-height:1.8;">
-        ■ 랜드마크명품 주거 : 에테르노 청담 입주<br>
-        ■ 주거 : 단대·숙명 인근아파트상담(래미안대치팰리스, SK뷰 외 다수)<br>
-        ■ 입주 : 개포(THE HFIRSTIER IPARK)<br>
-        ■ 투자 : 은마·미도·재건축 / 용산·한남 3구역 재개발<br>
-        ■ 사업 : 상가·학원·건물·요양병원개설·토지
-      </div>
-    </div>
-
-    <p style="text-align:center; color:#94a3b8; font-size:0.78rem; margin-top:14px;">
-        📞 대표번호 02-578-8285 &nbsp;|&nbsp; 등록번호: 11680-2023-00078 &nbsp;|&nbsp; 사업자: 461-86-02740
-    </p>
-  </div>
-</div>
-<!-- ========== 팝업 끝 ========== -->
 """, unsafe_allow_html=True)
+
+    # 명함 버튼 — 실제 Streamlit 버튼 (dialog 트리거)
+    st.markdown("""
+<style>
+div[data-testid="stButton"] > button[kind="secondary"]:has-text("부동산명함보기"),
+div.biz-card-btn > button {
+    position: fixed; bottom: 12px; right: 16px;
+    background: #1d4ed8; color: white; border: none;
+    border-radius: 30px; padding: 8px 18px;
+    font-weight: 700; font-size: 0.9rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    z-index: 9999; cursor: pointer;
+}
+</style>
+<div class="biz-card-btn"></div>
+""", unsafe_allow_html=True)
+
+    col_l, col_c, col_r = st.columns([4, 3, 3])
+    with col_r:
+        if st.button("💼 부동산명함보기", use_container_width=True,
+                     key="btn_biz_card_login", type="primary"):
+            show_business_card_dialog()
 
 def render_main_bottom_nav():
     """메인(로그인 후) 화면 전용 하단 Nav: 이전 | 홈 | 맨위로"""
