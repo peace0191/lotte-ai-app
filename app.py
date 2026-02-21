@@ -1546,27 +1546,31 @@ div[data-key="nav_main_top"] {
 </style>
 
 <div id="lotte-fixed-bar">
+  <!-- data-testid 필터: Streamlit 전용 버튼만 탐색 (HTML 버튼 자신 제외) -->
   <button class="lnb-btn lnb-matching"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
+      var bs=document.querySelectorAll('button[data-testid]');
       for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\ub9e4\uce6d\uc0ac\uc804\uc608\uc57d\uac00\uae30')!==-1){bs[i].click();break;}
+        var t=bs[i].innerText||'';
+        if(t.indexOf('AI매칭사전예약가기')!==-1){bs[i].click();break;}
       }
     })()">🤖<br>AI매칭사전예약가기</button>
 
   <button class="lnb-btn lnb-shorts"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
+      var bs=document.querySelectorAll('button[data-testid]');
       for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\uc20f\uce20')!==-1){bs[i].click();break;}
+        var t=bs[i].innerText||'';
+        if(t.indexOf('AI숏츠')!==-1){bs[i].click();break;}
       }
-    })()">🎬<br>AI숏츠 바로가기</button>
+    })()">�<br>AI숏츠 바로가기</button>
 
   <button class="lnb-btn lnb-top"
     onclick="(function(){
-      var bs=document.querySelectorAll('button');
+      var bs=document.querySelectorAll('button[data-testid]');
       for(var i=0;i<bs.length;i++){
-        if(bs[i].innerText&&bs[i].innerText.indexOf('AI\uc800\ud3c9\uac00\ub9e4\ubb3c')!==-1){bs[i].click();break;}
+        var t=bs[i].innerText||'';
+        if(t.indexOf('AI저평가매물')!==-1){bs[i].click();break;}
       }
     })()">⬆️<br>AI저평가매물보기</button>
 </div>
