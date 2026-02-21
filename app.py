@@ -1412,12 +1412,13 @@ def render_login_bottom_nav():
 /* 본문 하단 여백 (fixed bar 뒤로 내용 안 가리게) */
 .block-container { padding-bottom: 90px !important; }
 
-/* 명함보기 숨김 Streamlit 버튼: off-screen 방식 (클릭은 작동) */
+/* 명함보기 숨김 Streamlit 버튼: 화면 차지 0, JS click()은 작동 */
 div[data-key="btn_biz_card_login"] {
-    position: fixed !important;
-    top: -9999px !important;
-    left: -9999px !important;
-    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* 고정 HTML 버튼 바 */
@@ -1496,14 +1497,15 @@ def render_main_bottom_nav():
 /* 본문 하단 여백 */
 .block-container { padding-bottom: 90px !important; }
 
-/* Streamlit 버튼 off-screen 숨김 (클릭은 작동) */
+/* Streamlit 버튼 숨김: 화면 차지 0, JS click()은 정상 작동 */
 div[data-key="nav_main_matching"],
 div[data-key="nav_main_shorts"],
 div[data-key="nav_main_top"] {
-    position: fixed !important;
-    top: -9999px !important;
-    left: -9999px !important;
-    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* 고정 HTML 버튼 바 */
@@ -1563,20 +1565,16 @@ div[data-key="nav_main_top"] {
 </div>
 """, unsafe_allow_html=True)
 
-    # ── 2. 실제 Streamlit 버튼 (off-screen 숨겨짐, data-key HTML 버튼이 컨테이너를 찾아서 클릭) ──
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        if st.button("🤖\nAI매칭사전예약가기", use_container_width=True, key="nav_main_matching"):
-            st.session_state["nav_tab_idx"] = 2
-            st.rerun()
-    with c2:
-        if st.button("�\nAI숏츠 바로가기", use_container_width=True, key="nav_main_shorts"):
-            st.session_state["nav_tab_idx"] = 3
-            st.rerun()
-    with c3:
-        if st.button("⬆️\nAI저평가매물보기", use_container_width=True, key="nav_main_top"):
-            st.session_state["nav_tab_idx"] = 1
-            st.rerun()
+    # ── 2. 실제 Streamlit 버튼: columns 미사용 (흡색박스 방지), 개별 렌더링으로 숨김 ──
+    if st.button("🤖\nAI매칭사전예약가기", use_container_width=True, key="nav_main_matching"):
+        st.session_state["nav_tab_idx"] = 2
+        st.rerun()
+    if st.button("🎬\nAI숏츠 바로가기", use_container_width=True, key="nav_main_shorts"):
+        st.session_state["nav_tab_idx"] = 3
+        st.rerun()
+    if st.button("⬆️\nAI저평가매물보기", use_container_width=True, key="nav_main_top"):
+        st.session_state["nav_tab_idx"] = 1
+        st.rerun()
 
 # --- Main ---
 def main():
