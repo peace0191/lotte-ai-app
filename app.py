@@ -1137,40 +1137,48 @@ def show_business_card_dialog():
 
 def render_login_bottom_nav():
     """로그인 화면 전용 하단 Nav: 공유하기 | AI핵심3대전략 | 부동산명함보기(st.dialog 팝업)"""
-    # ── HTML 앵커 링크 2개 + Python 버튼 1개 조합
-    st.markdown(BOTTOM_NAV_CSS + """
-<div class="bottom-nav">
-    <a href="#kakao-share-section" class="nav-btn">
-        <span>📤</span>
-        <span>공유하기</span>
-    </a>
-    <a href="#ai-strategy-section" class="nav-btn">
-        <span>🔷</span>
-        <span>AI 핵심 3대 전략</span>
-    </a>
-</div>
-""", unsafe_allow_html=True)
-
-    # 명함 버튼 — 실제 Streamlit 버튼 (dialog 트리거)
+    # ── 3개 버튼 모두 st.columns로 통합 (fixed nav CSS 포함)
     st.markdown("""
 <style>
-div[data-testid="stButton"] > button[kind="secondary"]:has-text("부동산명함보기"),
-div.biz-card-btn > button {
-    position: fixed; bottom: 12px; right: 16px;
-    background: #1d4ed8; color: white; border: none;
-    border-radius: 30px; padding: 8px 18px;
-    font-weight: 700; font-size: 0.9rem;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-    z-index: 9999; cursor: pointer;
+/* 하단 고정 버튼 영역 여백 */
+.block-container { padding-bottom: 90px !important; }
+/* 3열 nav 컨테이너 고정 */
+div[data-testid="stHorizontalBlock"]:has(> div > div[data-testid="stButton"] button[data-key="nav_login_share"]) {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 2px solid #e2e8f0;
+    padding: 6px 8px; z-index: 9999;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+    max-width: 100% !important; width: 100% !important;
+}
+/* nav 버튼 공통 스타일 */
+div[data-key="nav_login_share"] button,
+div[data-key="nav_login_strategy"] button,
+div[data-key="btn_biz_card_login"] button {
+    background: transparent !important;
+    color: #2563eb !important;
+    border: none !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    padding: 4px 0 !important;
+    box-shadow: none !important;
+}
+div[data-key="btn_biz_card_login"] button {
+    color: #dc2626 !important;
 }
 </style>
-<div class="biz-card-btn"></div>
 """, unsafe_allow_html=True)
 
-    col_l, col_c, col_r = st.columns([4, 3, 3])
-    with col_r:
-        if st.button("💼 부동산명함보기", use_container_width=True,
-                     key="btn_biz_card_login", type="primary"):
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        if st.button("📤\n공유하기", use_container_width=True, key="nav_login_share"):
+            st.markdown('<script>document.querySelector("[id*=kakao]")?.scrollIntoView();</script>',
+                        unsafe_allow_html=True)
+    with c2:
+        if st.button("🔷\nAI 핵심 3대 전략", use_container_width=True, key="nav_login_strategy"):
+            st.markdown('<script>document.querySelector("[id*=ai-strategy]")?.scrollIntoView();</script>',
+                        unsafe_allow_html=True)
+    with c3:
+        if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
             show_business_card_dialog()
 
 def render_main_bottom_nav():
