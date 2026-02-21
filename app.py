@@ -951,7 +951,7 @@ def render_login_page():
                 👨‍💼
             </div>
             <div>
-                <h2 style="margin: 0 0 5px 0; font-size: 1.2rem; color: #f8fafc; line-height: 1.3;">롤데타워앤강남빌딩부동산중개주식회사</h2>
+                <h2 style="margin: 0 0 5px 0; font-size: 1.2rem; color: #f8fafc; line-height: 1.3;">롯데타워앤강남빌딩부동산중개주식회사</h2>
                 <div style="color: #94a3b8; font-size: 0.8rem; margin-bottom: 5px;">
                     등록번호: 11680-2023-00078 | 사업자: 461-86-02740
                 </div>
