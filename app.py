@@ -943,6 +943,14 @@ def render_admin_system():
 
 
 def render_login_page():
+    # ── 스크롤 플래그 처리 (하단 nav 버튼 클릭 후 이동)
+    scroll_target = st.session_state.pop("scroll_to", None)
+    if scroll_target:
+        st.markdown(
+            f'<script>setTimeout(function(){{var el=document.getElementById("{scroll_target}");if(el)el.scrollIntoView({{behavior:"smooth"}});}},300);</script>',
+            unsafe_allow_html=True
+        )
+
     # Styled Header Section (Dark Blue)
     st.markdown("""
     <div style="background-color: #0f172a; color: white; padding: 30px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
@@ -1219,12 +1227,12 @@ div[data-key="btn_biz_card_login"] button {
     c1, c2, c3 = st.columns(3)
     with c1:
         if st.button("📤\n공유하기", use_container_width=True, key="nav_login_share"):
-            st.markdown('<script>document.querySelector("[id*=kakao]")?.scrollIntoView();</script>',
-                        unsafe_allow_html=True)
+            st.session_state["scroll_to"] = "kakao-share-section"
+            st.rerun()
     with c2:
         if st.button("🔷\nAI 핵심 3대 전략", use_container_width=True, key="nav_login_strategy"):
-            st.markdown('<script>document.querySelector("[id*=ai-strategy]")?.scrollIntoView();</script>',
-                        unsafe_allow_html=True)
+            st.session_state["scroll_to"] = "ai-strategy-section"
+            st.rerun()
     with c3:
         if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
             show_business_card_dialog()
