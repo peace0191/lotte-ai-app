@@ -951,6 +951,9 @@ def render_login_page():
             unsafe_allow_html=True
         )
 
+    # 최상단 앵커 (베이스캠프 헤더로 이동용)
+    st.markdown('<div id="login-top"></div>', unsafe_allow_html=True)
+
     # Styled Header Section (Dark Blue)
     st.markdown("""
     <div style="background-color: #0f172a; color: white; padding: 30px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
@@ -1231,7 +1234,7 @@ div[data-key="btn_biz_card_login"] button {
             st.rerun()
     with c2:
         if st.button("🔷\nAI 핵심 3대 전략", use_container_width=True, key="nav_login_strategy"):
-            st.session_state["scroll_to"] = "ai-strategy-section"
+            st.session_state["scroll_to"] = "login-top"
             st.rerun()
     with c3:
         if st.button("💼\n부동산명함보기", use_container_width=True, key="btn_biz_card_login"):
