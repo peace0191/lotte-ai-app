@@ -54,6 +54,24 @@ if 'manual_nav_target' not in st.session_state:
 # --- Custom CSS ---
 st.markdown("""
 <style>
+    /* ── 부드러운 스크롤 & 앵커 오프셋 보정 ── */
+    html {
+        scroll-behavior: smooth !important;
+        scroll-padding-top: 100px;   /* Streamlit 고정 헤더 + 하단 nav 여백 보정 */
+    }
+    /* 섹션 앵커 여백 */
+    div[id="login-top"],
+    div[id="kakao-share-section"],
+    div[id="ai-strategy-section"] {
+        scroll-margin-top: 80px;
+        padding-top: 4px;
+    }
+    /* 로그인 페이지 섹션 간 구분선 */
+    .login-section-divider {
+        border: none;
+        border-top: 2px dashed #e2e8f0;
+        margin: 28px 0;
+    }
     header {visibility: hidden;}
     footer {visibility: hidden;}
     .stTabs [data-baseweb="tab-list"] {
