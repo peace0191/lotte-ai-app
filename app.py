@@ -1412,13 +1412,18 @@ def render_login_bottom_nav():
 /* 본문 하단 여백 (fixed bar 뒤로 내용 안 가리게) */
 .block-container { padding-bottom: 90px !important; }
 
-/* 명함보기 숨김 Streamlit 버튼: 화면 차지 0, JS click()은 작동 */
+/* 명함보기 숨김 버튼: Visually Hidden (존재하지만 화면에 없음) */
 div[data-key="btn_biz_card_login"] {
-    visibility: hidden !important;
-    height: 0px !important;
-    overflow: hidden !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
     padding: 0 !important;
-    margin: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 /* 고정 HTML 버튼 바 */
@@ -1497,15 +1502,20 @@ def render_main_bottom_nav():
 /* 본문 하단 여백 */
 .block-container { padding-bottom: 90px !important; }
 
-/* Streamlit 버튼 숨김: 화면 차지 0, JS click()은 정상 작동 */
+/* Streamlit 버튼 Visually Hidden: DOM 유지 + 화면에서 완전히 사라짐 */
 div[data-key="nav_main_matching"],
 div[data-key="nav_main_shorts"],
 div[data-key="nav_main_top"] {
-    visibility: hidden !important;
-    height: 0px !important;
-    overflow: hidden !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
     padding: 0 !important;
-    margin: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 /* 고정 HTML 버튼 바 */
