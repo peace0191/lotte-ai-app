@@ -799,8 +799,248 @@ def render_listing():
     with c2: property_card("삼환아르누보 17평형 복층", "1,000만 / 122만", "17평형 · 북동향 · 고층", "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=400&q=80", "월세")
     with c3: property_card("삼환아르누보 18평형 복층", "2,000만 / 200만", "18평형 · 북동향 · 2룸 확장형", "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=400&q=80")
 
+# ─────────────────────────────────────────────────────────────────────────────
+# AI 홍보·영업 도구 패널 (공유 함수 — 매칭예약 & 공동매물 양쪽에서 호출)
+# ─────────────────────────────────────────────────────────────────────────────
+def render_marketing_action_tools(section_key: str = "default"):
+    """
+    매물 숏츠 광고 제작 / 카카오톡 매칭 알리기 / 대기자 영업브리핑 문자발송 /
+    자동 알림 장치 — 통합 AI 홍보·영업 도구 패널
+    """
+    APP_URL = "https://lotte-ai-app.streamlit.app/"
+
+    st.markdown("""
+    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);
+                border-radius:16px; padding:24px 20px; margin-bottom:8px;">
+      <h3 style="color:#fcd34d; margin:0 0 6px 0; font-size:1.15rem;">
+        📣 AI 자동 홍보 &amp; 영업 도구 센터
+      </h3>
+      <p style="color:#94a3b8; font-size:0.85rem; margin:0;">
+        접수된 매물·수요 정보를 즉시 광고·문자·카카오로 전파하세요.
+      </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    tool_tab1, tool_tab2, tool_tab3, tool_tab4 = st.tabs([
+        "🎬 숏츠·유튜버 광고",
+        "💛 카카오톡 매칭 알리기",
+        "📱 대기자 문자발송",
+        "🔔 자동 알림 장치",
+    ])
+
+    # ── 탭 1: 매물 숏츠·유튜버 광고 만들기 ───────────────────────────────
+    with tool_tab1:
+        st.markdown("#### 🎬 매물 숏츠 & 유튜버 광고 자동 제작")
+        st.caption("AI가 매물 정보를 기반으로 유튜브/인스타 숏츠 스크립트·자막·멘트를 자동 생성합니다.")
+
+        with st.container(border=True):
+            c1, c2 = st.columns(2)
+            shorts_complex = c1.text_input("단지명", placeholder="래미안대치팰리스", key=f"{section_key}_sh_complex")
+            shorts_price   = c2.text_input("가격 요약", placeholder="34평 전세 8억", key=f"{section_key}_sh_price")
+            shorts_style   = st.radio("숏츠 스타일",
+                ["💥 임팩트형 (빠른 컷·강렬 BGM)", "✨ 고급형 (시네마틱·클래식)", "🎵 트렌디형 (힙합·Z세대)"],
+                horizontal=True, key=f"{section_key}_sh_style")
+            shorts_point   = st.text_area("매물 핵심 포인트 (AI 스크립트 생성 근거)",
+                placeholder="예) 대치초 배정, 학원가 도보 3분, 풀옵션, 즉시입주 가능",
+                height=80, key=f"{section_key}_sh_point")
+
+            if st.button("🚀 AI 숏츠 스크립트 자동 생성", type="primary",
+                         use_container_width=True, key=f"{section_key}_btn_shorts"):
+                if not shorts_complex:
+                    st.warning("단지명을 입력해주세요.")
+                else:
+                    with st.spinner("🎬 AI가 숏츠 스크립트를 작성 중입니다..."):
+                        import time as _t; _t.sleep(1.2)
+                    st.success("✅ 숏츠 스크립트 생성 완료!")
+                    st.markdown(f"""
+<div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;margin-top:8px;">
+  <div style="color:#38bdf8;font-weight:700;margin-bottom:8px;">📜 오프닝 멘트 (0~3초)</div>
+  <div style="color:#e2e8f0;font-size:0.9rem;line-height:1.7;">
+    "지금 당장 봐야 할 대치동 역대급 매물이 나왔습니다!"
+  </div>
+  <div style="color:#38bdf8;font-weight:700;margin:12px 0 8px 0;">🏠 매물 브리핑 (3~15초)</div>
+  <div style="color:#e2e8f0;font-size:0.9rem;line-height:1.7;">
+    "{shorts_complex} {shorts_price}<br>
+    {shorts_point if shorts_point else '핵심 포인트를 입력하시면 맞춤 멘트가 생성됩니다.'}<br>
+    이 가격, 이 조건 — 다시는 없습니다!"
+  </div>
+  <div style="color:#38bdf8;font-weight:700;margin:12px 0 8px 0;">🔔 클로징 CTA (15~30초)</div>
+  <div style="color:#e2e8f0;font-size:0.9rem;line-height:1.7;">
+    "지금 바로 롯데타워 AI 부동산 앱에서 예약하세요!<br>
+    링크는 바이오에 있습니다. 놓치면 후회합니다! 👉 {APP_URL}"
+  </div>
+</div>
+                    """, unsafe_allow_html=True)
+                    st.info("💡 위 스크립트를 복사하여 YOU-LAB 탭에서 실제 숏츠를 제작하세요!")
+
+    # ── 탭 2: 카카오톡 AI 예약 매칭 알리기 ──────────────────────────────
+    with tool_tab2:
+        st.markdown("#### 💛 카카오톡으로 AI 매칭 결과 알리기")
+        st.caption("접수 완료된 매물·수요 정보를 카카오톡 오픈채팅 또는 1:1 링크로 즉시 공유합니다.")
+
+        with st.container(border=True):
+            kakao_msg_template = st.selectbox("메시지 템플릿 선택", [
+                "📢 공급 매물 접수 알림 (공동중개 요청)",
+                "🔍 수요 손님 접수 알림 (매물 찾기)",
+                "🚀 AI 매칭 성공 알림 (계약 촉진)",
+                "✉️ 직접 작성",
+            ], key=f"{section_key}_kk_tmpl")
+
+            TEMPLATES = {
+                "📢 공급 매물 접수 알림 (공동중개 요청)":
+                    f"안녕하세요! 롯데타워 AI 부동산 이상수 대표입니다.\n"
+                    f"방금 전 우수 매물이 접수되었습니다. 공동중개 가능하신 분 연락주세요!\n"
+                    f"👉 상세보기: {APP_URL}",
+                "🔍 수요 손님 접수 알림 (매물 찾기)":
+                    f"대표님, 롯데타워 AI 부동산입니다.\n"
+                    f"조건 딱 맞는 손님이 대기 등록 하셨습니다. 혹시 매물 있으시면 바로 연락 주세요!\n"
+                    f"👉 {APP_URL}",
+                "🚀 AI 매칭 성공 알림 (계약 촉진)":
+                    f"[AI 매칭 성공 🎉] 롯데타워 AI 부동산입니다.\n"
+                    f"귀하의 매물/수요 조건과 99% 일치하는 상대방이 발견되었습니다!\n"
+                    f"지금 바로 확인하세요 👉 {APP_URL}",
+                "✉️ 직접 작성": "",
+            }
+
+            default_msg = TEMPLATES.get(kakao_msg_template, "")
+            kakao_body  = st.text_area("발송 메시지 (수정 가능)",
+                                       value=default_msg, height=120,
+                                       key=f"{section_key}_kk_body")
+
+            c1, c2 = st.columns(2)
+            with c1:
+                kakao_open_url = f"https://open.kakao.com/o/share?url={APP_URL}&text={kakao_body[:50]}..."
+                st.markdown(
+                    f'<a href="{kakao_open_url}" target="_blank" style="display:block;text-align:center;'
+                    f'background:#fef01b;color:#3c1e1e;font-weight:bold;padding:12px;'
+                    f'border-radius:10px;text-decoration:none;font-size:0.95rem;">💛 카카오톡 오픈채팅 공유</a>',
+                    unsafe_allow_html=True)
+            with c2:
+                if st.button("📋 메시지 복사 (클립보드)", use_container_width=True,
+                             key=f"{section_key}_kk_copy"):
+                    st.code(kakao_body, language="text")
+                    st.toast("📋 메시지가 준비되었습니다. 위 박스에서 복사하세요!")
+
+    # ── 탭 3: 대기자 영업브리핑 문자발송 ─────────────────────────────────
+    with tool_tab3:
+        st.markdown("#### 📱 대기자에게 영업브리핑 문자 자동 발송")
+        st.caption("등록된 대기 수요자 목록에 개인화 영업브리핑 문자를 일괄 발송합니다.")
+
+        with st.container(border=True):
+            briefing_type = st.radio("브리핑 유형",
+                ["🏠 신규 매물 출시 알림", "📊 시세 변동 긴급 브리핑", "🎯 맞춤 매물 발견 알림", "📅 계약 만료 사전 안내"],
+                horizontal=True, key=f"{section_key}_sms_type")
+            briefing_complex = st.text_input("대상 단지/지역", placeholder="대치동 래미안대치팰리스 34평",
+                                             key=f"{section_key}_sms_complex")
+            briefing_point   = st.text_input("핵심 브리핑 포인트", placeholder="학원가 3분, 8억 전세, 즉시입주",
+                                             key=f"{section_key}_sms_point")
+
+            SMS_TEMPLATES = {
+                "🏠 신규 매물 출시 알림":
+                    f"[롯데타워AI부동산] 안녕하세요!\n{briefing_complex} 신규 매물이 출시되었습니다.\n"
+                    f"{briefing_point}\n지금 바로 확인: {APP_URL}\n문의: 010-8985-8945",
+                "📊 시세 변동 긴급 브리핑":
+                    f"[긴급] 롯데타워AI부동산입니다.\n{briefing_complex} 최근 시세가 변동되었습니다!\n"
+                    f"{briefing_point}\n상세분석: {APP_URL}",
+                "🎯 맞춤 매물 발견 알림":
+                    f"[AI매칭] 고객님 안녕하세요! 롯데타워AI부동산입니다.\n"
+                    f"고객님 조건과 일치하는 {briefing_complex} 매물이 발견되었습니다!\n"
+                    f"빠른 확인 부탁드립니다 👉 {APP_URL}",
+                "📅 계약 만료 사전 안내":
+                    f"[계약만료안내] 롯데타워AI부동산 이상수 대표입니다.\n"
+                    f"고객님의 계약 만료가 다가오고 있습니다. {briefing_complex}\n"
+                    f"이사 계획 상담: 010-8985-8945 | {APP_URL}",
+            }
+            sms_body = st.text_area("발송 문자 내용 (수정 가능)",
+                                    value=SMS_TEMPLATES.get(briefing_type, ""),
+                                    height=130, key=f"{section_key}_sms_body")
+
+            c1, c2, c3 = st.columns(3)
+            recv_phone = c1.text_input("수신 번호", placeholder="01012345678", key=f"{section_key}_sms_recv")
+            recv_name  = c2.text_input("수신자 이름", placeholder="홍길동 대표님", key=f"{section_key}_sms_name")
+            send_count = c3.number_input("대기자 일괄발송 수", 1, 500, 1, key=f"{section_key}_sms_count")
+
+            col_s1, col_s2 = st.columns(2)
+            with col_s1:
+                if st.button("📨 1:1 문자 발송 (데모)", use_container_width=True,
+                             type="primary", key=f"{section_key}_btn_sms1"):
+                    if not recv_phone:
+                        st.warning("수신 번호를 입력해주세요.")
+                    else:
+                        with st.spinner("문자 발송 중..."):
+                            import time as _t; _t.sleep(0.8)
+                        st.success(f"✅ {recv_name or recv_phone}님께 영업 브리핑 문자가 발송되었습니다! (데모)")
+                        st.code(f"수신: {recv_phone}\n내용: {sms_body}", language="text")
+            with col_s2:
+                if st.button(f"📢 대기자 {send_count}명 일괄발송 (데모)", use_container_width=True,
+                             key=f"{section_key}_btn_sms_bulk"):
+                    with st.spinner(f"대기자 {send_count}명에게 발송 중..."):
+                        import time as _t; _t.sleep(1.0)
+                    st.success(f"✅ {send_count}명의 대기자에게 영업 브리핑 문자 발송 완료! (데모)")
+                    st.info("💡 실제 발송은 알리고·CoolSMS 등 문자 API 연동 시 자동 실행됩니다.")
+
+    # ── 탭 4: 자동 알림 장치 ──────────────────────────────────────────────
+    with tool_tab4:
+        st.markdown("#### 🔔 자동 알림 & 스케줄 관리")
+        st.caption("매물 변동·매칭 성공 시 자동으로 알림을 발송하는 스케줄 설정입니다.")
+
+        with st.container(border=True):
+            st.markdown("##### ⚙️ 자동 알림 설정")
+            c1, c2 = st.columns(2)
+            auto_sms   = c1.toggle("📱 문자 자동발송", value=True,  key=f"{section_key}_auto_sms")
+            auto_kakao = c2.toggle("💛 카카오 자동발송", value=True, key=f"{section_key}_auto_kk")
+            c3, c4 = st.columns(2)
+            auto_match = c3.toggle("🤝 매칭 성공 시 즉시 알림", value=True, key=f"{section_key}_auto_match")
+            auto_price = c4.toggle("📊 시세 변동 시 자동 브리핑", value=False, key=f"{section_key}_auto_price")
+
+            st.divider()
+            st.markdown("##### 📅 브리핑 스케줄")
+            c1, c2, c3 = st.columns(3)
+            sched_day  = c1.multiselect("발송 요일", ["월","화","수","목","금","토","일"],
+                                        default=["월","수","금"], key=f"{section_key}_sched_day")
+            sched_time = c2.selectbox("발송 시각", ["08:00","09:00","10:00","11:00","14:00","16:00","18:00"],
+                                      index=2, key=f"{section_key}_sched_time")
+            sched_who  = c3.selectbox("발송 대상", ["전체 대기자","매매 대기자","전세 대기자","월세 대기자"],
+                                      key=f"{section_key}_sched_who")
+
+            st.divider()
+            st.markdown("##### 🎯 현재 대기자 현황 (실시간)")
+            kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+            kpi1.metric("📥 총 대기자", "4,218명", "+23 오늘")
+            kpi2.metric("🏠 공급 접수", "187건",   "+5 오늘")
+            kpi3.metric("🤝 AI매칭률", "94.2%",   "+1.3%")
+            kpi4.metric("📨 금일 발송", "1,204건",  "진행중")
+
+            st.divider()
+            col_a1, col_a2 = st.columns(2)
+            with col_a1:
+                if st.button("🔔 지금 즉시 전체 대기자 알림 발송", type="primary",
+                             use_container_width=True, key=f"{section_key}_btn_now"):
+                    with st.spinner("전체 대기자에게 알림 발송 중..."):
+                        import time as _t; _t.sleep(1.2)
+                    st.success("✅ 4,218명에게 알림이 발송되었습니다! (데모)")
+                    st.balloons()
+            with col_a2:
+                if st.button(f"📅 스케줄 등록 ({'/'.join(sched_day)} {sched_time})",
+                             use_container_width=True, key=f"{section_key}_btn_sched"):
+                    with st.spinner("스케줄 등록 중..."):
+                        import time as _t; _t.sleep(0.6)
+                    st.success(f"✅ 매주 {', '.join(sched_day)} {sched_time}에 {sched_who}에게 자동 브리핑이 예약되었습니다!")
+
+            st.markdown("""
+            <div style="background:#0f172a;border-radius:10px;padding:14px;margin-top:10px;
+                        border:1px solid #334155;font-size:0.8rem;color:#94a3b8;">
+              💡 <b>실제 운영 연동:</b><br>
+              &nbsp;&nbsp;• 문자: 알리고(Aligo) · CoolSMS API<br>
+              &nbsp;&nbsp;• 카카오: 카카오 비즈메시지 API<br>
+              &nbsp;&nbsp;• 스케줄: Airflow DAG 등록<br>
+              &nbsp;&nbsp;• 실시간 매칭 알림: MLflow 파이프라인 트리거
+            </div>
+            """, unsafe_allow_html=True)
+
 
 def render_matching_and_reservation():
+
     # 1. AI Chatbot Section (Revamped Dashboard Style)
     with st.expander("💬 AI 챗봇 상담 (열기/닫기)", expanded=True):
         st.markdown("""
@@ -884,19 +1124,27 @@ def render_matching_and_reservation():
             st.checkbox("👑 VIP 대기 수요자(4,200명) 우선 매칭 알림", value=True)
 
             st.markdown("---")
+            supply_agree = st.checkbox(
+                "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+                key="match_supply_agree"
+            )
+            st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
             if st.form_submit_button("🚀 AI 마케팅 및 매칭 예약 완료", use_container_width=True):
-                st.success("✅ 등록 완료! 현재 대기 수요자 데이터와 대조한 결과입니다.")
-                st.markdown("""
-                <div style="background-color:#1e3a8a; padding:20px; border-radius:10px; text-align:center; color:white; border:1px solid #3b82f6;">
-                    <div style="font-size:0.9em; opacity:0.8;">AI 기반 매칭 예상 점수</div>
-                    <div style="font-size:2.5em; font-weight:bold; color:#facc15;">94 / 100</div>
-                    <div style="font-size:0.8em; margin-top:10px;">
-                    🚨 <b>코멘트:</b> 현재 대치동 학군지 인근 수요가 급증하고 있어,<br>
-                    등록하신 가격대는 '1주일 내 계약' 확률이 매우 높습니다.<br>
-                    <b>나노 바나나 CEO 숏츠 제작을 즉시 시작합니다!</b>
+                if not supply_agree:
+                    st.error("개인정보 수집·이용 동의가 필요합니다.")
+                else:
+                    st.success("✅ 등록 완료! 현재 대기 수요자 데이터와 대조한 결과입니다.")
+                    st.markdown("""
+                    <div style="background-color:#1e3a8a; padding:20px; border-radius:10px; text-align:center; color:white; border:1px solid #3b82f6;">
+                        <div style="font-size:0.9em; opacity:0.8;">AI 기반 매칭 예상 점수</div>
+                        <div style="font-size:2.5em; font-weight:bold; color:#facc15;">94 / 100</div>
+                        <div style="font-size:0.8em; margin-top:10px;">
+                        🚨 <b>코멘트:</b> 현재 대치동 학군지 인근 수요가 급증하고 있어,<br>
+                        등록하신 가격대는 '1주일 내 계약' 확률이 매우 높습니다.<br>
+                        <b>나노 바나나 CEO 숏츠 제작을 즉시 시작합니다!</b>
+                        </div>
                     </div>
-                </div>
-                """, unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
 
         st.caption("본 시스템은 Fast Campus MLOps 파이프라인(MLflow, Airflow)을 통해 실시간으로 데이터를 검증하고 있습니다.")
             
@@ -909,7 +1157,21 @@ def render_matching_and_reservation():
             with c2: st.slider("예산 범위 (억)", 10, 100, (30, 50))
             st.text_input("연락처")
             st.checkbox("🔔 개인화 매칭 알림 수신 동의")
-            st.form_submit_button("매칭 대기 등록하기", use_container_width=True)
+            st.markdown("---")
+            demand_agree = st.checkbox(
+                "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+                key="match_demand_agree"
+            )
+            st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
+            if st.form_submit_button("매칭 대기 등록하기", use_container_width=True):
+                if not demand_agree:
+                    st.error("개인정보 수집·이용 동의가 필요합니다.")
+                else:
+                    st.success("✅ VIP 매칭 대기 등록이 완료되었습니다! 조건에 맞는 매물 발생 시 즉시 연락드립니다.")
+
+    # ── AI 홍보·영업 도구 패널 ──────────────────────────────────────────
+    st.markdown("---")
+    render_marketing_action_tools(section_key="match")
 
 def render_shorts_and_youlab():
     st.markdown("### 🎬 AI 숏츠 플레이어")
@@ -969,14 +1231,12 @@ def render_shorts_and_youlab():
             """, language="bash")
 
 def render_joint_matching():
+    import datetime
+    import pandas as pd
     st.markdown("### 🤝 AI 부동산 공동중개 플랫폼")
     st.caption("강남구 등록된 1,500개 부동산과 실시간으로 매칭됩니다. (공동중개망 연동)")
 
-    # 1. Register Requests (Send Management -> Find Client/Property)
-    st.markdown("#### 📢 요청 등록 (고객 / 물건 찾기)")
-    
     req_tab1, req_tab2 = st.tabs(["🙋‍♂️ 고객 찾아요 (매수/임차 의뢰)", "🏠 물건 찾아요 (전속 매물 공유)"])
-    
     with req_tab1:
         st.info("💡 **'고객 찾아요'**는 내가 보유한 **매물**을 소화해줄 매수(임차) 손님을 찾는 기능입니다.")
         with st.form("find_client_form"):
@@ -984,10 +1244,8 @@ def render_joint_matching():
             with c1: st.selectbox("보유 매물", ["대치SK뷰 34평 전세", "은마 31평 매매", "직접입력"])
             with c2: st.number_input("거래 금액 (억)", value=15)
             with c3: st.text_input("특이사항", placeholder="입기협 전세자금대출 가능")
-            
             if st.form_submit_button("🔔 전체 부동산에 '손님 찾기' 알림 발송", use_container_width=True):
-                 st.toast("📢 강남구 1,500개 부동산에 알림이 발송되었습니다!")
-
+                st.toast("📢 강남구 1,500개 부동산에 알림이 발송되었습니다!")
     with req_tab2:
         st.info("💡 **'물건 찾아요'**는 내 **손님**에게 딱 맞는 공동 중개 매물을 찾는 기능입니다.")
         with st.form("find_property_form"):
@@ -995,47 +1253,214 @@ def render_joint_matching():
             with c1: st.text_input("찾는 물건", placeholder="래대팰 45평 판상형")
             with c2: st.number_input("손님 예산 (억)", value=45)
             with c3: st.text_input("손님 조건", placeholder="3개월 내 입주, 현금보유")
-            
             if st.form_submit_button("🔔 전체 부동산에 '매물 요청' 알림 발송", use_container_width=True):
-                 st.toast("📢 공동 중개망에 매물 요청이 등록되었습니다.")
-    
+                st.toast("📢 공동 중개망에 매물 요청이 등록되었습니다.")
+
     st.markdown("---")
-
-    # 2. Matching Results (Receive Management -> AI Joint Matching)
-    st.markdown("#### ⚡ AI 공동매칭 결과 (자동 챗봇 연결)")
-    st.info("✅ **AI 매칭 성공!** 귀하의 요청과 딱 맞는 상대방 부동산이 발견되었습니다. 버튼을 누르면 **자동 채팅**이 연결됩니다.")
-
-    # Mock Data
+    st.markdown("#### ⚡ AI 공동매칭 결과")
+    st.info("✅ **AI 매칭 성공!** 귀하의 요청과 딱 맞는 상대방 부동산이 발견되었습니다.")
     data = {
         "시간": ["방금 전", "10분 전", "30분 전", "1시간 전", "어제"],
         "구분": ["🚨 매칭성공", "🚨 매칭성공", "수신", "수신", "발신"],
-        "제목 (AI 요약)": [
-            "래대팰 45평 판상형 매물 보유 (진공인)", 
-            "SK뷰 34평 전세 손님 대기 (대박부동산)",
-            "은마 31평 급매 찾으시는 분",
-            "학원가 50평 임대 맞춤 가능",
-            "대치아이파크 매수 손님 의뢰"
-        ],
+        "제목 (AI 요약)": ["래대팰 45평 판상형 매물 보유 (진공인)", "SK뷰 34평 전세 손님 대기 (대박부동산)",
+                         "은마 31평 급매 찾으시는 분", "학원가 50평 임대 맞춤 가능", "대치아이파크 매수 손님 의뢰"],
         "상대 부동산": ["진공인중개사", "대박부동산", "개포굿", "한티역공인", "전체발송"],
         "매칭률": ["99%", "97%", "85%", "82%", "-"],
         "상태": ["💬 채팅 연결 대기", "💬 채팅 연결 대기", "확인중", "확인중", "발송완료"]
     }
-    df = pd.DataFrame(data)
-    
-    # Simulating a grid view
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True
-    )
-    
-    st.markdown("""
-    <style>
-    div[data-testid="stDataFrame"] {
-        font-size: 1.1rem;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
+
+    # ── 파발마 스타일 상세 물건 접수 폼 ──────────────────────────────────
+    _PROP_TYPES  = ["아파트", "빌라/연립", "오피스텔", "상가/상업", "토지", "기타"]
+    _TRADE_TYPES = ["매매", "전세", "월세(반전세 포함)"]
+    _FEATURES_S  = ["💰 금액조절 가능","👀 바로 볼 수 있는","🏗️ 새로 지은",
+                    "🙋 손님 대기중","🚇 역세권 위치","🔧 수리 깨끗한","🏦 전세대출 가능","🛋️ 풀옵션"]
+    _FEATURES_D  = ["💰 금액조절 가능","🚀 즉시입주 가능","🚗 주차 필수",
+                    "🏫 학군 중요","🚇 역세권 선호","🏗️ 신축 선호","🏦 대출 활용 예정","🏠 실거주 목적"]
+    _REGIONS_GU  = ["강남구","서초구","송파구","강동구","마포구","용산구","성동구","광진구",
+                    "강서구","양천구","영등포구","동작구","관악구","서대문구","은평구","노원구"]
+    def _sqm2py(v): return round(v / 3.3058, 2)
+
+    st.markdown("---")
+    st.markdown("## 📋 AI 공동매물매칭 물건 접수 (파발마 상세 폼)")
+    st.caption("있습니다(공급) / 구합니다(수요) 중 해당 탭을 선택해 입력하세요.")
+
+    jm_tab_s, jm_tab_d = st.tabs(["🏠 있습니다 (공급/매도·임대)", "🔍 구합니다 (수요/매수·임차)"])
+
+    with jm_tab_s:
+        st.markdown("##### 👤 기본 인적사항")
+        jc1, jc2 = st.columns(2)
+        js_name  = jc1.text_input("이름(중개사명)", placeholder="홍길동 공인중개사", key="jm_s_name")
+        js_phone = jc2.text_input("연락처", placeholder="010-1234-5678", key="jm_s_phone")
+        st.divider()
+        st.markdown("##### 🏷️ 매물 종류 & 거래 구분")
+        jc1, jc2 = st.columns(2)
+        js_prop  = jc1.selectbox("매물 종류", _PROP_TYPES, key="jm_s_prop")
+        js_trade = jc2.radio("거래 구분", _TRADE_TYPES, horizontal=True, key="jm_s_trade")
+        st.divider()
+        st.markdown("##### 📍 위치 정보")
+        jc1, jc2 = st.columns(2)
+        js_complex = jc1.text_input("단지명/건물명", placeholder="○○아파트", key="jm_s_complex")
+        js_dongho  = jc2.text_input("동/호수", placeholder="101동 1501호", key="jm_s_dongho")
+        jc3, jc4, jc5, jc6 = st.columns(4)
+        js_floor  = jc3.number_input("해당 층", 1, 100, 5,  key="jm_s_fl")
+        js_tfloor = jc4.number_input("총 층수", 1, 200, 20, key="jm_s_tfl")
+        js_rooms  = jc5.number_input("방 수",   1, 20,  3,  key="jm_s_rm")
+        js_baths  = jc6.number_input("화장실",  1, 10,  2,  key="jm_s_bt")
+        st.divider()
+        st.markdown("##### 📐 면적/규모")
+        ja1, ja2, ja3 = st.columns(3)
+        js_sup = ja1.number_input("공급면적(㎡)", 0.0, step=0.5, format="%.1f", key="jm_s_sup")
+        js_prv = ja2.number_input("전용면적(㎡)", 0.0, step=0.5, format="%.1f", key="jm_s_prv")
+        js_ld  = ja3.number_input("대지면적(㎡)", 0.0, step=0.5, format="%.1f", key="jm_s_ld")
+        if js_sup > 0 or js_prv > 0:
+            jp1, jp2, jp3 = st.columns(3)
+            if js_sup > 0: jp1.info(f"≈ **{_sqm2py(js_sup)}평**")
+            if js_prv > 0: jp2.info(f"≈ **{_sqm2py(js_prv)}평**")
+            if js_ld  > 0: jp3.info(f"≈ **{_sqm2py(js_ld)}평**")
+        st.divider()
+        st.markdown("##### 💵 가격 정보")
+        if js_trade == "매매":
+            jp1, jp2 = st.columns(2)
+            js_price = {"매매가_억": jp1.number_input("매매가(억)", 0.0, step=0.1, format="%.1f", key="jm_s_sale"),
+                        "매매가_만원": jp2.number_input("+ 만원단위", 0, step=100, key="jm_s_sale_m")}
+        elif js_trade == "전세":
+            jp1, jp2 = st.columns(2)
+            js_price = {"보증금_억": jp1.number_input("보증금(억)", 0.0, step=0.1, format="%.1f", key="jm_s_dep"),
+                        "보증금_만원": jp2.number_input("+ 만원단위", 0, step=100, key="jm_s_dep_m")}
+        else:
+            jp1, jp2, jp3 = st.columns(3)
+            js_price = {"보증금_억": jp1.number_input("보증금(억)", 0.0, step=0.1, format="%.1f", key="jm_s_mdep"),
+                        "보증금_만원": jp2.number_input("+ 만원단위", 0, step=100, key="jm_s_mdep_m"),
+                        "월세_만원": jp3.number_input("월세(만원)", 0, step=5, key="jm_s_rent")}
+        st.divider()
+        st.markdown("##### ✅ 매물 특징 (해당 사항 모두 체크)")
+        js_feats = []
+        jfc = st.columns(4)
+        for i, f in enumerate(_FEATURES_S):
+            if jfc[i%4].checkbox(f, key=f"jm_sf_{i}"): js_feats.append(f)
+        st.divider()
+        st.markdown("##### 📅 일정 & 특이사항")
+        jd1, jd2 = st.columns(2)
+        js_date = jd1.date_input("이사예정일/인도가능일",
+                                  value=datetime.date.today()+datetime.timedelta(days=30), key="jm_s_date")
+        js_memo = jd2.text_area("특이사항 메모", placeholder="세입자 이사 후 즉시 가능 등", height=90, key="jm_s_memo")
+        st.divider()
+        st.markdown("##### 📡 발송 지역")
+        jg1, jg2 = st.columns(2)
+        js_gu     = jg1.multiselect("발송 구 선택", _REGIONS_GU, default=["강남구"], key="jm_s_gu")
+        js_custom = jg2.text_input("추가 직접 입력(동 등)", placeholder="대치동, 압구정동", key="jm_s_custom")
+        st.divider()
+        js_agree = st.checkbox(
+            "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+            key="jm_s_agree"
+        )
+        st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
+        if st.button("🚀 [있습니다] 공급 물건 접수하기", type="primary", use_container_width=True, key="jm_btn_s"):
+            errs = []
+            if not js_name:    errs.append("이름을 입력해주세요.")
+            if not js_phone:   errs.append("연락처를 입력해주세요.")
+            if not js_complex: errs.append("단지명을 입력해주세요.")
+            if not js_agree:   errs.append("개인정보 수집·이용 동의가 필요합니다.")
+            if errs:
+                for e in errs: st.error(e)
+            else:
+                sub = {"접수유형": "있습니다(공급)", "이름": js_name, "연락처": js_phone,
+                       "매물종류": js_prop, "거래구분": js_trade, "단지명": js_complex, "동호수": js_dongho,
+                       "층수": f"{js_floor}/{js_tfloor}층", "방수": js_rooms, "화장실수": js_baths,
+                       "공급면적_㎡": js_sup, "공급면적_평": _sqm2py(js_sup),
+                       "전용면적_㎡": js_prv, "전용면적_평": _sqm2py(js_prv),
+                       **js_price, "특징": js_feats, "이사예정일": str(js_date), "특이사항": js_memo,
+                       "발송구": js_gu, "발송지역추가": js_custom,
+                       "개인정보동의": "동의", "접수시각": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                import time as _t
+                with st.spinner("🔒 암호화 전송 중..."): _t.sleep(1.0)
+                st.success("✅ [있습니다] 공급 물건 접수 완료!")
+                st.balloons()
+                with st.expander("📊 접수 내용 확인", expanded=True): st.json(sub)
+                st.info("담당자 확인 후 매칭 수요자에게 연락드립니다.")
+
+    with jm_tab_d:
+        st.markdown("##### 👤 기본 인적사항")
+        dc1, dc2 = st.columns(2)
+        jd_name  = dc1.text_input("이름", placeholder="홍길동", key="jm_d_name")
+        jd_phone = dc2.text_input("연락처", placeholder="010-1234-5678", key="jm_d_phone")
+        st.divider()
+        st.markdown("##### 🏷️ 희망 매물 종류 & 거래 유형")
+        dc1, dc2 = st.columns(2)
+        jd_prop  = dc1.selectbox("희망 매물 종류", _PROP_TYPES, key="jm_d_prop")
+        jd_trade = dc2.radio("희망 거래 유형", _TRADE_TYPES, horizontal=True, key="jm_d_trade")
+        st.divider()
+        st.markdown("##### 📍 희망 지역 & 단지")
+        dc1, dc2 = st.columns(2)
+        jd_region  = dc1.text_input("희망 지역(구/동)", placeholder="강남구 대치동", key="jm_d_region")
+        jd_complex = dc2.text_input("희망 단지명(선택)", placeholder="래미안 팰리스", key="jm_d_complex")
+        st.divider()
+        st.markdown("##### 📐 희망 면적 범위")
+        da1, da2 = st.columns(2)
+        jd_amin = da1.number_input("최소 면적(㎡)", 0.0, step=1.0, format="%.1f", key="jm_d_amin")
+        jd_amax = da2.number_input("최대 면적(㎡)", 0.0, step=1.0, format="%.1f", key="jm_d_amax")
+        if jd_amin > 0 or jd_amax > 0:
+            st.info(f"≈ {_sqm2py(jd_amin)}평 ~ {_sqm2py(jd_amax)}평")
+        st.divider()
+        st.markdown("##### 💵 희망 가격 범위")
+        if jd_trade == "매매":
+            dp1, dp2 = st.columns(2)
+            jd_price = {"희망_매매_최소_억": dp1.number_input("매매가 최소(억)", 0.0, step=0.5, format="%.1f", key="jm_d_pmin"),
+                        "희망_매매_최대_억": dp2.number_input("매매가 최대(억)", 0.0, step=0.5, format="%.1f", key="jm_d_pmax")}
+        elif jd_trade == "전세":
+            dp1, dp2 = st.columns(2)
+            jd_price = {"희망_보증금_최소_억": dp1.number_input("보증금 최소(억)", 0.0, step=0.5, format="%.1f", key="jm_d_depmin"),
+                        "희망_보증금_최대_억": dp2.number_input("보증금 최대(억)", 0.0, step=0.5, format="%.1f", key="jm_d_depmax")}
+        else:
+            dp1, dp2, dp3 = st.columns(3)
+            jd_price = {"희망_보증금_최소_억": dp1.number_input("보증금 최소(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmin"),
+                        "희망_보증금_최대_억": dp2.number_input("보증금 최대(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmax"),
+                        "희망_월세_최대_만원": dp3.number_input("월세 최대(만원)", 0, step=5, key="jm_d_rentmax")}
+        st.divider()
+        st.markdown("##### ✅ 희망 조건 선택")
+        jd_feats = []
+        jdf = st.columns(4)
+        for i, f in enumerate(_FEATURES_D):
+            if jdf[i%4].checkbox(f, key=f"jm_df_{i}"): jd_feats.append(f)
+        st.divider()
+        st.markdown("##### 📅 입주 희망일 & 기타 요청")
+        dd1, dd2 = st.columns(2)
+        jd_date = dd1.date_input("입주 희망일",
+                                  value=datetime.date.today()+datetime.timedelta(days=60), key="jm_d_date")
+        jd_memo = dd2.text_area("기타 요청사항", placeholder="반려동물 가능, 주차 2대 필수 등", height=90, key="jm_d_memo")
+        st.divider()
+        jd_agree = st.checkbox(
+            "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+            key="jm_d_agree"
+        )
+        st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
+        if st.button("🔍 [구합니다] 수요 조건 접수하기", type="primary", use_container_width=True, key="jm_btn_d"):
+            errs = []
+            if not jd_name:   errs.append("이름을 입력해주세요.")
+            if not jd_phone:  errs.append("연락처를 입력해주세요.")
+            if not jd_region: errs.append("희망 지역을 입력해주세요.")
+            if not jd_agree:  errs.append("개인정보 수집·이용 동의가 필요합니다.")
+            if errs:
+                for e in errs: st.error(e)
+            else:
+                sub = {"접수유형": "구합니다(수요)", "이름": jd_name, "연락처": jd_phone,
+                       "희망_매물종류": jd_prop, "희망_거래유형": jd_trade,
+                       "희망_지역": jd_region, "희망_단지": jd_complex,
+                       "희망_면적": f"{jd_amin}~{jd_amax}㎡ ({_sqm2py(jd_amin)}~{_sqm2py(jd_amax)}평)",
+                       **jd_price, "희망_조건": jd_feats,
+                       "입주희망일": str(jd_date), "기타요청": jd_memo,
+                       "개인정보동의": "동의", "접수시각": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                import time as _t
+                with st.spinner("🔒 암호화 전송 중..."): _t.sleep(1.0)
+                st.success("✅ [구합니다] 수요 조건 접수 완료!")
+                st.balloons()
+                with st.expander("📊 접수 내용 확인", expanded=True): st.json(sub)
+                st.info("AI가 조건에 맞는 매물을 분석하여 담당자가 연락드립니다.")
+
+    # ── AI 홍보·영업 도구 패널 ──────────────────────────────────────────
+    st.markdown("---")
+    render_marketing_action_tools(section_key="joint")
 
 def render_admin_system():
     if "admin_unlocked" not in st.session_state:
