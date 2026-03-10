@@ -9,7 +9,9 @@ from pathlib import Path
 import pydeck as pdk
 import random
 import time
-from datetime import datetime
+import datetime  # 모듈 전체 사용: datetime.date.today(), datetime.timedelta() 등
+# datetime.now() 단축 호출 호환을 위해 모듈에 now 속성 추가
+datetime.now = datetime.datetime.now
 
 # Ensure services are importable if running from root
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -54,130 +56,195 @@ if 'manual_nav_target' not in st.session_state:
 # --- Custom CSS ---
 st.markdown("""
 <style>
-    /* ── 부드러운 스크롤 & 앵커 오프셋 보정 ── */
-    html {
-        scroll-behavior: smooth !important;
-        scroll-padding-top: 100px;   /* Streamlit 고정 헤더 + 하단 nav 여백 보정 */
-    }
-    /* 섹션 앵커 여백 */
-    div[id="login-top"],
-    div[id="kakao-share-section"],
-    div[id="ai-strategy-section"] {
-        scroll-margin-top: 80px;
-        padding-top: 4px;
-    }
-    /* 로그인 페이지 섹션 간 구분선 */
-    .login-section-divider {
-        border: none;
-        border-top: 2px dashed #e2e8f0;
-        margin: 28px 0;
-    }
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2px;
-        background-color: #ffffff;
-        padding: 10px 5px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        position: sticky;
-        top: 0;
-        z-index: 999;
-    }
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        flex-grow: 1;
-        font-size: 12px;
-        font-weight: 600;
-        color: #64748b;
-        border-radius: 5px;
-        margin: 0 2px;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #eff6ff;
-        color: #2563eb;
-        font-weight: bold;
-        border-bottom: 2px solid #2563eb;
-    }
-    .card {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        margin-bottom: 1rem;
-        border: 1px solid #f1f5f9;
-        color: #1e293b;
-    }
-    .stButton > button {
-        width: 100%;
-        border-radius: 0.75rem;
-        font-weight: bold;
-    }
-    /* Metric styling fix */
-    div[data-testid="stMetricValue"] {
-        font-size: 1.5rem;
-    }
-    
-    /* External Link Buttons */
-    .ext-link {
-        display: block;
-        padding: 12px;
-        text-decoration: none;
-        color: white;
-        text-align: center;
-        border-radius: 8px;
-        font-weight: bold;
-        margin-bottom: 5px;
-        transition: 0.3s;
-    }
-    .ext-link:hover { opacity: 0.9; }
-    
-    /* Section Header */
-    .section-header {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #334155;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #e2e8f0;
-    }
-    
-    /* Sticky Bottom Nav */
-    .bottom-nav {
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        background-color: white;
-        border-top: 1px solid #eee;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 9999;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    }
-    .nav-btn {
-        text-decoration: none;
-        color: #333;
-        font-weight: bold;
-        font-size: 0.9rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 5px;
-    }
-    .nav-btn:hover { color: #2563eb; background-color: #f8fafc; border-radius:8px;}
-    
-    /* Adjust content padding so it's not hidden behind bottom nav */
-    .block-container {
-        padding-bottom: 80px;
-    }
-</style>
+/* ═══════════════════════════════════════════════
+   롯데타워 AI 앱 — 프리미엄 테마 (최소 개입)
+   배경: 고급 쿨 그레이 | 텍스트: Streamlit 기본
+═══════════════════════════════════════════════ */
 
-<!-- 하단 네비게이션은 Python에서 상태별로 동적 렌더링 -->
+/* ── 구글 폰트 ── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap');
+html, body, [class*="css"] { font-family: 'Noto Sans KR', sans-serif !important; }
+
+/* ── 앱 배경: 따뜻한 쿨 그레이 ── */
+.stApp {
+    background: #ffffff !important;
+}
+
+/* ── 메인 컨테이너 ── */
+.block-container {
+    background: #ffffff !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 90px !important;
+    max-width: 1100px !important;
+}
+/* 기본 텍스트 가독성 */
+p, span, div, li, td, th {
+    color: #111827;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #0f172a !important;
+}
+.stMarkdown p {
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+
+/* ── 헤더/푸터 숨김 ── */
+header { visibility: hidden; }
+footer { visibility: hidden; }
+
+/* ── 스크롤 & 앵커 ── */
+html { scroll-behavior: smooth !important; scroll-padding-top: 100px; }
+div[id="login-top"], div[id="kakao-share-section"], div[id="ai-strategy-section"] {
+    scroll-margin-top: 80px; padding-top: 4px;
+}
+
+/* ══════════════════════════════════════
+   🗂️ 탭 네비게이션 — 다크 네이비
+══════════════════════════════════════ */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 3px;
+    background: linear-gradient(135deg, #1e2d40 0%, #0f1e30 100%);
+    padding: 8px 6px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    position: sticky; top: 0; z-index: 999;
+}
+.stTabs [data-baseweb="tab"] {
+    height: 44px; flex-grow: 1;
+    font-size: 13px !important; font-weight: 700 !important;
+    color: #7c8fa6 !important;
+    border-radius: 8px; margin: 0 2px; letter-spacing: -0.3px;
+    transition: all 0.2s;
+}
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important; font-weight: 900 !important;
+    border-bottom: 3px solid #facc15 !important;
+    box-shadow: 0 3px 12px rgba(37,99,235,0.4) !important;
+}
+.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
+    background-color: rgba(255,255,255,0.08) !important;
+    color: #e2e8f0 !important;
+}
+
+/* ══════════════════════════════════════
+   📝 입력 폼 — 흰 카드 느낌
+══════════════════════════════════════ */
+/* 라벨 — 진한 회색 (그레이 배경 위 가독성) */
+label {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+}
+/* 텍스트 입력 필드 */
+input[type="text"], input[type="number"], input[type="tel"],
+input[type="email"], input[type="password"], textarea {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #111827 !important;
+    background-color: #ffffff !important;
+    border: 1.5px solid #d1d5db !important;
+    border-radius: 8px !important;
+}
+input[type="text"]:focus, textarea:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
+    outline: none !important;
+}
+/* Placeholder */
+::placeholder { color: #9ca3af !important; font-style: italic; font-size: 13px; }
+
+/* ══════════════════════════════════════
+   🔢 NumberInput & Date
+══════════════════════════════════════ */
+.stNumberInput > div > div > input {
+    color: #111827 !important;
+    background: #ffffff !important;
+}
+
+/* ══════════════════════════════════════
+   🔘 라디오 & 체크박스
+══════════════════════════════════════ */
+.stRadio label, .stCheckbox label {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+}
+
+/* ══════════════════════════════════════
+   📦 카드 & divider
+══════════════════════════════════════ */
+.card {
+    background: #ffffff;
+    padding: 1.5rem; border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+    margin-bottom: 1rem; border: 1px solid #e5e7eb;
+}
+hr { border-color: #d1d5db !important; }
+.login-section-divider { border: none; border-top: 2px dashed #cbd5e1; margin: 28px 0; }
+
+/* ══════════════════════════════════════
+   🎯 버튼
+══════════════════════════════════════ */
+.stButton > button {
+    border-radius: 10px !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    letter-spacing: -0.3px;
+    transition: all 0.2s !important;
+}
+.ext-link {
+    display: block; padding: 12px; text-decoration: none;
+    color: white !important; text-align: center;
+    border-radius: 10px; font-weight: 800; font-size: 14px;
+    margin-bottom: 5px; transition: 0.25s;
+}
+.ext-link:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   📊 메트릭 카드 (어두운 배경 위)
+══════════════════════════════════════ */
+div[data-testid="stMetricValue"] {
+    font-size: 1.6rem !important; font-weight: 900 !important;
+}
+div[data-testid="stMetricLabel"] {
+    font-size: 0.82rem !important; font-weight: 600 !important;
+}
+
+/* ══════════════════════════════════════
+   📌 하단 고정 네비게이션
+══════════════════════════════════════ */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: linear-gradient(180deg, #1e2d40 0%, #0f172a 100%);
+    border-top: 2px solid #2d3f55;
+    padding: 7px 20px;
+    display: flex; justify-content: space-around; align-items: center;
+    z-index: 9999;
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.35);
+}
+.nav-btn {
+    text-decoration: none; color: #8fa8c0 !important;
+    font-weight: 800; font-size: 12px;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 5px 8px; border-radius: 10px; transition: 0.2s;
+}
+.nav-btn:hover { color: #facc15 !important; background-color: rgba(255,255,255,0.08); }
+
+/* ══════════════════════════════════════
+   🔔 알림 박스
+══════════════════════════════════════ */
+.stAlert { border-radius: 10px !important; }
+</style>
 """, unsafe_allow_html=True)
+
+
+
+
+
+
+
 
 # --- Constants & Data for Map ---
 POINTS_PATH = Path("data/daechi_points.json")
@@ -446,17 +513,31 @@ def calculate_metrics():
 def render_home():
     # 1. Hero Section
     st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 2rem; border-radius: 0 0 2rem 2rem; margin: -1rem -1rem 1rem -1rem; color: white;">
+    <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+                padding: 1.8rem; border-radius: 0 0 1.5rem 1.5rem;
+                margin: -1rem -1rem 1rem -1rem; color: white;
+                border-bottom: 3px solid #facc15;">
         <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-            <div style="width: 50px; height: 50px; background-color: #fccc15; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 24px;">👑</div>
+            <div style="width: 52px; height: 52px; background: linear-gradient(135deg,#facc15,#f59e0b);
+                        border-radius: 50%; display: flex; align-items: center;
+                        justify-content: center; margin-right: 1rem; font-size: 26px;
+                        box-shadow: 0 4px 12px rgba(250,204,21,0.4);">👑</div>
             <div>
-                <h3 style="margin: 0; font-size: 1.1rem; font-weight: bold;">공인중개사 이상수 대표</h3>
-                <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">롯데타워앤강남빌딩부동산중개(주)</p>
+                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 900;
+                           color: #ffffff; letter-spacing: -0.5px;">공인중개사 이상수 대표</h3>
+                <p style="margin: 2px 0 0 0; font-size: 0.85rem; font-weight: 600;
+                          color: #e2e8f0;">롯데타워앤강남빌딩부동산중개(주)</p>
             </div>
         </div>
-        <h2 style="font-size: 1.5rem; font-weight: bold; line-height: 1.4; margin-bottom: 0.5rem;">
-            "대치1동은 자녀의 미래를 위한<br/><span style="color: #facc15;">베이스캠프</span>입니다."
+        <h2 style="font-size: 1.55rem; font-weight: 900; line-height: 1.45;
+                   margin-bottom: 0.3rem; color: #ffffff; letter-spacing: -0.8px;">
+            "대치1동은 자녀의 미래를 위한<br/>
+            <span style="color: #facc15; text-shadow: 0 0 20px rgba(250,204,21,0.5);">베이스캠프</span>입니다."
         </h2>
+        <p style="margin: 0.4rem 0 0 0; font-size: 0.9rem; font-weight: 600; color: #cbd5e1;">
+            AI 저평가 분석과 예약 AI자동 매칭 시스템으로 숨겨진 부동산 가치를 발굴하고,<br/>
+            대한민국 최고의 교육 환경으로 가는 최적의 출발점을 찾아드립니다.
+        </p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -1105,69 +1186,298 @@ def render_matching_and_reservation():
     </div>
     """, unsafe_allow_html=True)
     
+    _MC_PROP_TYPES  = ["아파트", "빌라/연립", "오피스텔", "상가/상업", "토지", "기타"]
+    _MC_TRADE_TYPES = ["매매", "전세", "월세(반전세 포함)"]
+    _MC_FEATURES_S  = ["💰 금액조절 가능","👀 바로 볼 수 있는","🏗️ 새로 지은",
+                       "🙋 손님 대기중","🚇 역세권 위치","🔧 수리 깨끗한","🏦 전세대출 가능","🛋️ 풀옵션"]
+    _MC_FEATURES_D  = ["💰 금액조절 가능","🚀 즉시입주 가능","🚗 주차 필수",
+                       "🏫 학군 중요","🚇 역세권 선호","🏗️ 신축 선호","🏦 대출 활용 예정","🏠 실거주 목적"]
+    _MC_REGIONS_GU  = ["강남구","서초구","송파구","강동구","마포구","용산구","성동구","광진구",
+                       "강서구","양천구","영등포구","동작구","관악구","서대문구","은평구","노원구"]
+    # 대치1동 주요 단지 드롭다운
+    _MC_COMPLEX_OPTS = [
+        "래미안대치팰리스",
+        "대치SK뷰",
+        "대치아이파크",
+        "은마아파트",
+        "삼환아르누보2 오피스텔",
+        "롯데월드타워몰 시그니엘레지던스",
+        "직접입력",
+    ]
+    def _mc_sqm2py(v): return round(v / 3.3058, 2)
+
     tab_supply, tab_demand = st.tabs(["🏠 1. 공급자(임대/매도) 등록", "🔑 2. 수요자(임차/매수) 등록"])
     
     with tab_supply:
-        st.info("### 🛡️ 내 집의 골든타임 예약 (공급)\nAI가 주변 실거래와 학원가 입지 데이터를 분석하여 가장 비싸게 거래될 시점에 마케팅을 시작합니다.")
-        with st.form("form_supply"):
-            c1, c2 = st.columns(2)
-            with c1: st.selectbox("대상 단지", ["래미안대치팰리스", "시그니엘", "대치SK뷰", "은마아파트", "삼환아르누보2", "기타"])
-            with c2: st.text_input("동/호수 (비공개 보안 유지)", placeholder="예: 101동 1502호")
-            
-            c3, c4 = st.columns(2)
-            with c3: st.number_input("희망 가격 (억 단위)", min_value=0, value=30, step=1)
-            with c4: st.date_input("매물 인도 가능일")
+        st.markdown("""
+        <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:14px;
+                    padding:18px 20px;margin-bottom:16px;border-left:5px solid #facc15;">
+          <div style="font-size:1.1rem;font-weight:900;color:#facc15;">🛡️ 내 집의 골든타임 예약 (공급)</div>
+          <div style="font-size:0.85rem;color:#94a3b8;margin-top:4px;">
+            AI가 주변 실거래와 학원가 입지 데이터를 분석하여 가장 비싸게 거래될 시점에 마케팅을 시작합니다.
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-            st.markdown("#### 🎁 AI 공급자 패키지 (체크 시 자동 수행)")
-            st.checkbox("🎥 나노 바나나 CEO AI 숏츠 제작 및 배포", value=True)
-            st.checkbox("📊 주변 단지 대비 저평가 분석 리포트 생성", value=True)
-            st.checkbox("👑 VIP 대기 수요자(4,200명) 우선 매칭 알림", value=True)
+        # ── 섹션 1: 기본 인적사항
+        st.markdown("##### 👤 기본 인적사항")
+        mc_s_c1, mc_s_c2 = st.columns(2)
+        mc_s_name  = mc_s_c1.text_input("이름 (공급자)", placeholder="홍길동", key="mc_s_name")
+        mc_s_phone = mc_s_c2.text_input("연락처", placeholder="010-1234-5678", key="mc_s_phone")
+        st.divider()
 
-            st.markdown("---")
-            supply_agree = st.checkbox(
-                "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
-                key="match_supply_agree"
-            )
-            st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
-            if st.form_submit_button("🚀 AI 마케팅 및 매칭 예약 완료", use_container_width=True):
-                if not supply_agree:
-                    st.error("개인정보 수집·이용 동의가 필요합니다.")
-                else:
-                    st.success("✅ 등록 완료! 현재 대기 수요자 데이터와 대조한 결과입니다.")
-                    st.markdown("""
-                    <div style="background-color:#1e3a8a; padding:20px; border-radius:10px; text-align:center; color:white; border:1px solid #3b82f6;">
-                        <div style="font-size:0.9em; opacity:0.8;">AI 기반 매칭 예상 점수</div>
-                        <div style="font-size:2.5em; font-weight:bold; color:#facc15;">94 / 100</div>
-                        <div style="font-size:0.8em; margin-top:10px;">
-                        🚨 <b>코멘트:</b> 현재 대치동 학군지 인근 수요가 급증하고 있어,<br>
-                        등록하신 가격대는 '1주일 내 계약' 확률이 매우 높습니다.<br>
-                        <b>나노 바나나 CEO 숏츠 제작을 즉시 시작합니다!</b>
-                        </div>
+        # ── 섹션 2: 매물 종류 & 거래 구분
+        st.markdown("##### 🏷️ 매물 종류 & 거래 구분")
+        mc_s_pc1, mc_s_pc2 = st.columns(2)
+        mc_s_prop  = mc_s_pc1.selectbox("매물 종류", _MC_PROP_TYPES, key="mc_s_prop")
+        mc_s_trade = mc_s_pc2.radio("거래 구분", _MC_TRADE_TYPES, horizontal=True, key="mc_s_trade")
+        st.divider()
+
+        # ── 섹션 3: 위치 정보
+        st.markdown("##### 📍 위치 정보")
+        mc_s_lc1, mc_s_lc2 = st.columns(2)
+        mc_s_cplx_sel = mc_s_lc1.selectbox("단지명/건물명", _MC_COMPLEX_OPTS, key="mc_s_cplx_sel")
+        mc_s_dongho  = mc_s_lc2.text_input("동/호수 (비공개 보안 유지)", placeholder="101동 1501호", key="mc_s_dongho")
+        if mc_s_cplx_sel == "직접입력":
+            mc_s_complex = st.text_input("단지명 직접 입력", placeholder="단지명/건물명을 입력하세요", key="mc_s_complex")
+        else:
+            mc_s_complex = mc_s_cplx_sel
+        mc_s_fc1, mc_s_fc2, mc_s_fc3, mc_s_fc4 = st.columns(4)
+        mc_s_floor  = mc_s_fc1.number_input("해당 층",  1, 100, 5,  key="mc_s_fl")
+        mc_s_tfloor = mc_s_fc2.number_input("총 층수",  1, 200, 20, key="mc_s_tfl")
+        mc_s_rooms  = mc_s_fc3.number_input("방 수",    1, 20,  3,  key="mc_s_rm")
+        mc_s_baths  = mc_s_fc4.number_input("화장실",   1, 10,  2,  key="mc_s_bt")
+        st.divider()
+
+        # ── 섹션 4: 면적/규모
+        st.markdown("##### 📐 면적/규모")
+        mc_s_ac1, mc_s_ac2, mc_s_ac3 = st.columns(3)
+        mc_s_sup = mc_s_ac1.number_input("공급면적(㎡)", 0.0, step=0.5, format="%.1f", key="mc_s_sup")
+        mc_s_prv = mc_s_ac2.number_input("전용면적(㎡)", 0.0, step=0.5, format="%.1f", key="mc_s_prv")
+        mc_s_ld  = mc_s_ac3.number_input("대지면적(㎡)", 0.0, step=0.5, format="%.1f", key="mc_s_ld")
+        if mc_s_sup > 0 or mc_s_prv > 0:
+            mc_s_ip1, mc_s_ip2, mc_s_ip3 = st.columns(3)
+            if mc_s_sup > 0: mc_s_ip1.info(f"≈ **{_mc_sqm2py(mc_s_sup)}평**")
+            if mc_s_prv > 0: mc_s_ip2.info(f"≈ **{_mc_sqm2py(mc_s_prv)}평**")
+            if mc_s_ld  > 0: mc_s_ip3.info(f"≈ **{_mc_sqm2py(mc_s_ld)}평**")
+        st.divider()
+
+        # ── 섹션 5: 가격 정보
+        st.markdown("##### 💵 가격 정보")
+        if mc_s_trade == "매매":
+            mc_s_pp1, mc_s_pp2 = st.columns(2)
+            mc_s_price = {
+                "매매가_억":  mc_s_pp1.number_input("매매가(억)", 0.0, step=0.1, format="%.1f", key="mc_s_sale"),
+                "매매가_만원": mc_s_pp2.number_input("+ 만원단위", 0, step=100, key="mc_s_sale_m")
+            }
+        elif mc_s_trade == "전세":
+            mc_s_pp1, mc_s_pp2 = st.columns(2)
+            mc_s_price = {
+                "보증금_억":   mc_s_pp1.number_input("보증금(억)", 0.0, step=0.1, format="%.1f", key="mc_s_dep"),
+                "보증금_만원": mc_s_pp2.number_input("+ 만원단위", 0, step=100, key="mc_s_dep_m")
+            }
+        else:  # 월세(반전세 포함)
+            mc_s_pp1, mc_s_pp2, mc_s_pp3 = st.columns(3)
+            mc_s_price = {
+                "보증금_억":   mc_s_pp1.number_input("보증금(억)", 0.0, step=0.1, format="%.1f", key="mc_s_mdep"),
+                "보증금_만원": mc_s_pp2.number_input("+ 만원단위", 0, step=100,   key="mc_s_mdep_m"),
+                "월세_만원":   mc_s_pp3.number_input("월세(만원)", 0, step=5,     key="mc_s_rent")
+            }
+        st.divider()
+
+        # ── 섹션 6: 매물 특징
+        st.markdown("##### ✅ 매물 특징 (해당 사항 모두 체크)")
+        mc_s_feats = []
+        mc_s_fcs = st.columns(4)
+        for _i, _f in enumerate(_MC_FEATURES_S):
+            if mc_s_fcs[_i % 4].checkbox(_f, key=f"mc_sf_{_i}"): mc_s_feats.append(_f)
+        st.divider()
+
+        # ── 섹션 7: 일정 & 특이사항
+        st.markdown("##### 📅 일정 & 특이사항")
+        mc_s_dc1, mc_s_dc2 = st.columns(2)
+        mc_s_date = mc_s_dc1.date_input("이사예정일/인도가능일",
+                                         value=datetime.date.today()+datetime.timedelta(days=30), key="mc_s_date")
+        mc_s_memo = mc_s_dc2.text_area("특이사항 메모", placeholder="세입자 이사 후 즉시 가능 등", height=90, key="mc_s_memo")
+        st.divider()
+
+        # ── 섹션 8: 발송 지역
+        st.markdown("##### 📡 발송 지역")
+        mc_s_gc1, mc_s_gc2 = st.columns(2)
+        mc_s_gu     = mc_s_gc1.multiselect("발송 구 선택", _MC_REGIONS_GU, default=["강남구"], key="mc_s_gu")
+        mc_s_custom = mc_s_gc2.text_input("추가 직접 입력(동 등)", placeholder="대치동, 압구정동", key="mc_s_custom")
+        st.divider()
+
+        # ── AI 공급자 패키지
+        st.markdown("##### 🎁 AI 공급자 패키지 (체크 시 자동 수행)")
+        mc_s_pkg1 = st.checkbox("🎥 나노 바나나 CEO AI 숏츠 제작 및 배포",          value=True, key="mc_s_pkg1")
+        mc_s_pkg2 = st.checkbox("📊 주변 단지 대비 저평가 분석 리포트 생성",          value=True, key="mc_s_pkg2")
+        mc_s_pkg3 = st.checkbox("👑 VIP 대기 수요자(4,200명) 우선 매칭 알림",        value=True, key="mc_s_pkg3")
+        st.divider()
+
+        supply_agree = st.checkbox(
+            "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+            key="match_supply_agree"
+        )
+        st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
+        if st.button("🚀 AI 마케팅 및 매칭 예약 완료", use_container_width=True, type="primary", key="mc_btn_supply"):
+            mc_s_errs = []
+            if not mc_s_name:    mc_s_errs.append("이름을 입력해주세요.")
+            if not mc_s_phone:   mc_s_errs.append("연락처를 입력해주세요.")
+            if not mc_s_complex: mc_s_errs.append("단지명을 입력해주세요.")
+            if not supply_agree: mc_s_errs.append("개인정보 수집·이용 동의가 필요합니다.")
+            if mc_s_errs:
+                for _e in mc_s_errs: st.error(_e)
+            else:
+                import time as _t
+                with st.spinner("🔒 암호화 전송 중..."): _t.sleep(1.0)
+                st.success("✅ 등록 완료! 현재 대기 수요자 데이터와 대조한 결과입니다.")
+                st.markdown("""
+                <div style="background-color:#1e3a8a; padding:20px; border-radius:10px;
+                            text-align:center; color:white; border:1px solid #3b82f6;">
+                    <div style="font-size:0.9em; opacity:0.8;">AI 기반 매칭 예상 점수</div>
+                    <div style="font-size:2.5em; font-weight:bold; color:#facc15;">94 / 100</div>
+                    <div style="font-size:0.8em; margin-top:10px;">
+                    🚨 <b>코멘트:</b> 현재 대치동 학군지 인근 수요가 급증하고 있어,<br>
+                    등록하신 가격대는 '1주일 내 계약' 확률이 매우 높습니다.<br>
+                    <b>나노 바나나 CEO 숏츠 제작을 즉시 시작합니다!</b>
                     </div>
-                    """, unsafe_allow_html=True)
-
+                </div>
+                """, unsafe_allow_html=True)
+                st.balloons()
         st.caption("본 시스템은 Fast Campus MLOps 파이프라인(MLflow, Airflow)을 통해 실시간으로 데이터를 검증하고 있습니다.")
             
     with tab_demand:
-        st.success("### 🎯 VIP 입주 희망 대기 (수요)\n비공개 급매물이나 퇴거 예정 매물을 일반 포털보다 48시간 먼저 선점하세요.")
-        with st.form("form_demand"):
-            st.multiselect("선호 단지 (복수 선택)", ["시그니엘", "래미안대치팰리스", "대치SK뷰", "대치아이파크", "은마아파트", "삼환아르누보2", "기타"])
-            c1, c2 = st.columns(2)
-            with c1: st.selectbox("희망 거래", ["매수 (사기)", "전세 찾기", "월세 찾기"])
-            with c2: st.slider("예산 범위 (억)", 10, 100, (30, 50))
-            st.text_input("연락처")
-            st.checkbox("🔔 개인화 매칭 알림 수신 동의")
-            st.markdown("---")
-            demand_agree = st.checkbox(
-                "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
-                key="match_demand_agree"
-            )
-            st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
-            if st.form_submit_button("매칭 대기 등록하기", use_container_width=True):
-                if not demand_agree:
-                    st.error("개인정보 수집·이용 동의가 필요합니다.")
-                else:
-                    st.success("✅ VIP 매칭 대기 등록이 완료되었습니다! 조건에 맞는 매물 발생 시 즉시 연락드립니다.")
+        st.markdown("""
+        <div style="background:linear-gradient(135deg,#0f2a1a,#0f3a2a);border-radius:14px;
+                    padding:18px 20px;margin-bottom:16px;border-left:5px solid #22c55e;">
+          <div style="font-size:1.1rem;font-weight:900;color:#4ade80;">🎯 VIP 입주 희망 대기 (수요)</div>
+          <div style="font-size:0.85rem;color:#94a3b8;margin-top:4px;">
+            비공개 급매물이나 퇴거 예정 매물을 일반 포털보다 48시간 먼저 선점하세요.
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # ── 섹션 1: 기본 인적사항
+        st.markdown("##### 👤 기본 인적사항")
+        mc_d_c1, mc_d_c2 = st.columns(2)
+        mc_d_name  = mc_d_c1.text_input("이름 (수요자)", placeholder="홍길동", key="mc_d_name")
+        mc_d_phone = mc_d_c2.text_input("연락처", placeholder="010-1234-5678", key="mc_d_phone")
+        st.divider()
+
+        # ── 섹션 2: 희망 매물 종류 & 거래 유형
+        st.markdown("##### 🏷️ 희망 매물 종류 & 거래 유형")
+        mc_d_tc1, mc_d_tc2 = st.columns(2)
+        mc_d_prop  = mc_d_tc1.selectbox("희망 매물 종류", _MC_PROP_TYPES, key="mc_d_prop")
+        mc_d_trade = mc_d_tc2.radio("희망 거래 유형", _MC_TRADE_TYPES, horizontal=True, key="mc_d_trade")
+        st.divider()
+
+        # ── 섹션 3: 희망 지역 & 단지
+        st.markdown("##### 📍 희망 지역 & 단지")
+        mc_d_lc1, mc_d_lc2 = st.columns(2)
+        mc_d_region    = mc_d_lc1.text_input("희망 지역(구/동)", placeholder="강남구 대치동", key="mc_d_region")
+        mc_d_cplx_sel  = mc_d_lc2.selectbox("희망 단지명", _MC_COMPLEX_OPTS, key="mc_d_cplx_sel")
+        if mc_d_cplx_sel == "직접입력":
+            mc_d_complex = st.text_input("단지명 직접 입력", placeholder="단지명/건물명을 입력하세요", key="mc_d_complex")
+        else:
+            mc_d_complex = mc_d_cplx_sel
+        st.divider()
+
+        # ── 섹션 4: 희망 층수/방/화장실
+        st.markdown("##### 🏢 희망 층수 & 구조")
+        mc_d_fc1, mc_d_fc2, mc_d_fc3 = st.columns(3)
+        mc_d_floor_pref = mc_d_fc1.selectbox("선호 층",
+            ["무관","저층(1~5)","중층(6~15)","고층(16층+)"], key="mc_d_fpref")
+        mc_d_rooms = mc_d_fc2.number_input("희망 방 수",  1, 10, 3, key="mc_d_rm")
+        mc_d_baths = mc_d_fc3.number_input("희망 화장실", 1, 5,  2, key="mc_d_bt")
+        st.divider()
+
+        # ── 섹션 5: 희망 면적 범위
+        st.markdown("##### 📐 희망 면적 범위")
+        mc_d_ac1, mc_d_ac2 = st.columns(2)
+        mc_d_amin = mc_d_ac1.number_input("최소 면적(㎡)", 0.0, step=1.0, format="%.1f", key="mc_d_amin")
+        mc_d_amax = mc_d_ac2.number_input("최대 면적(㎡)", 0.0, step=1.0, format="%.1f", key="mc_d_amax")
+        if mc_d_amin > 0 or mc_d_amax > 0:
+            st.info(f"≈ {_mc_sqm2py(mc_d_amin)}평 ~ {_mc_sqm2py(mc_d_amax)}평")
+        st.divider()
+
+        # ── 섹션 6: 희망 가격 범위
+        st.markdown("##### 💵 희망 가격 범위")
+        if mc_d_trade == "매매":
+            mc_d_pp1, mc_d_pp2 = st.columns(2)
+            mc_d_price = {
+                "희망_매매_최소_억": mc_d_pp1.number_input("매매가 최소(억)", 0.0, step=0.5, format="%.1f", key="mc_d_pmin"),
+                "희망_매매_최대_억": mc_d_pp2.number_input("매매가 최대(억)", 0.0, step=0.5, format="%.1f", key="mc_d_pmax")
+            }
+        elif mc_d_trade == "전세":
+            mc_d_pp1, mc_d_pp2 = st.columns(2)
+            mc_d_price = {
+                "희망_보증금_최소_억": mc_d_pp1.number_input("보증금 최소(억)", 0.0, step=0.5, format="%.1f", key="mc_d_depmin"),
+                "희망_보증금_최대_억": mc_d_pp2.number_input("보증금 최대(억)", 0.0, step=0.5, format="%.1f", key="mc_d_depmax")
+            }
+        else:  # 월세(반전세 포함)
+            st.markdown("###### 💰 보증금 범위")
+            mc_d_pp1, mc_d_pp2 = st.columns(2)
+            mc_dep_min = mc_d_pp1.number_input("보증금 최소(억)", 0.0, step=0.1, format="%.1f", key="mc_d_mdepmin")
+            mc_dep_max = mc_d_pp2.number_input("보증금 최대(억)", 0.0, step=0.1, format="%.1f", key="mc_d_mdepmax")
+            if mc_dep_min > 0 or mc_dep_max > 0:
+                st.info(f"보증금 범위: {mc_dep_min}억 ~ {mc_dep_max}억")
+            st.markdown("###### 💸 월세 범위")
+            mc_d_pp3, mc_d_pp4 = st.columns(2)
+            mc_rent_min = mc_d_pp3.number_input("월세 최소(만원)", 0, step=5, key="mc_d_rentmin")
+            mc_rent_max = mc_d_pp4.number_input("월세 최대(만원)", 0, step=5, key="mc_d_rentmax")
+            if mc_rent_min > 0 or mc_rent_max > 0:
+                st.info(f"월세 범위: {mc_rent_min}만원 ~ {mc_rent_max}만원")
+            mc_d_price = {
+                "희망_보증금_최소_억": mc_dep_min,
+                "희망_보증금_최대_억": mc_dep_max,
+                "희망_월세_최소_만원": mc_rent_min,
+                "희망_월세_최대_만원": mc_rent_max
+            }
+        st.divider()
+
+        # ── 섹션 7: 희망 조건 선택
+        st.markdown("##### ✅ 희망 조건 선택")
+        mc_d_feats = []
+        mc_d_fcs = st.columns(4)
+        for _i, _f in enumerate(_MC_FEATURES_D):
+            if mc_d_fcs[_i % 4].checkbox(_f, key=f"mc_df_{_i}"): mc_d_feats.append(_f)
+        st.divider()
+
+        # ── 섹션 8: 입주 희망일 & 기타 요청
+        st.markdown("##### 📅 입주 희망일 & 기타 요청")
+        mc_d_dc1, mc_d_dc2 = st.columns(2)
+        mc_d_date = mc_d_dc1.date_input("입주 희망일",
+                                         value=datetime.date.today()+datetime.timedelta(days=60), key="mc_d_date")
+        mc_d_memo = mc_d_dc2.text_area("기타 요청사항", placeholder="반려동물 가능, 주차 2대 필수 등", height=90, key="mc_d_memo")
+        st.divider()
+
+        # ── 섹션 9: 발송 지역
+        st.markdown("##### 📡 발송 지역")
+        mc_d_gc1, mc_d_gc2 = st.columns(2)
+        mc_d_gu     = mc_d_gc1.multiselect("발송 구 선택", _MC_REGIONS_GU, default=["강남구"], key="mc_d_gu")
+        mc_d_custom = mc_d_gc2.text_input("추가 직접 입력(동 등)", placeholder="대치동, 압구정동", key="mc_d_custom")
+        st.divider()
+
+        st.checkbox("🔔 개인화 매칭 알림 수신 동의", key="mc_d_notif")
+        demand_agree = st.checkbox(
+            "✅ [필수] 개인정보 수집·이용에 동의합니다. (이름·연락처는 매칭 목적으로만 활용됩니다)",
+            key="match_demand_agree"
+        )
+        st.caption("※ 개인정보 보호법에 따라 수집된 정보는 매칭 완료 후 즉시 파기됩니다.")
+        if st.button("🔍 VIP 매칭 대기 등록하기", use_container_width=True, type="primary", key="mc_btn_demand"):
+            mc_d_errs = []
+            if not mc_d_name:   mc_d_errs.append("이름을 입력해주세요.")
+            if not mc_d_phone:  mc_d_errs.append("연락처를 입력해주세요.")
+            if not mc_d_region: mc_d_errs.append("희망 지역을 입력해주세요.")
+            if not demand_agree: mc_d_errs.append("개인정보 수집·이용 동의가 필요합니다.")
+            if mc_d_errs:
+                for _e in mc_d_errs: st.error(_e)
+            else:
+                import time as _t
+                with st.spinner("🔒 암호화 전송 중..."): _t.sleep(1.0)
+                st.success("✅ VIP 매칭 대기 등록이 완료되었습니다! 조건에 맞는 매물 발생 시 즉시 연락드립니다.")
+                st.balloons()
 
     # ── AI 홍보·영업 도구 패널 ──────────────────────────────────────────
     st.markdown("---")
@@ -1231,7 +1541,6 @@ def render_shorts_and_youlab():
             """, language="bash")
 
 def render_joint_matching():
-    import datetime
     import pandas as pd
     st.markdown("### 🤝 AI 부동산 공동중개 플랫폼")
     st.caption("강남구 등록된 1,500개 부동산과 실시간으로 매칭됩니다. (공동중개망 연동)")
@@ -1279,6 +1588,16 @@ def render_joint_matching():
                     "🏫 학군 중요","🚇 역세권 선호","🏗️ 신축 선호","🏦 대출 활용 예정","🏠 실거주 목적"]
     _REGIONS_GU  = ["강남구","서초구","송파구","강동구","마포구","용산구","성동구","광진구",
                     "강서구","양천구","영등포구","동작구","관악구","서대문구","은평구","노원구"]
+    # 대치1동 주요 단지 드롭다운
+    _MC_COMPLEX_OPTS = [
+        "래미안대치팰리스",
+        "대치SK뷰",
+        "대치아이파크",
+        "은마아파트",
+        "삼환아르누보2 오피스텔",
+        "롯데월드타워몰 시그니엘레지던스",
+        "직접입력",
+    ]
     def _sqm2py(v): return round(v / 3.3058, 2)
 
     st.markdown("---")
@@ -1290,7 +1609,7 @@ def render_joint_matching():
     with jm_tab_s:
         st.markdown("##### 👤 기본 인적사항")
         jc1, jc2 = st.columns(2)
-        js_name  = jc1.text_input("이름(중개사명)", placeholder="홍길동 공인중개사", key="jm_s_name")
+        js_name  = jc1.text_input("이름 (공급자)", placeholder="홍길동", key="jm_s_name")
         js_phone = jc2.text_input("연락처", placeholder="010-1234-5678", key="jm_s_phone")
         st.divider()
         st.markdown("##### 🏷️ 매물 종류 & 거래 구분")
@@ -1300,8 +1619,12 @@ def render_joint_matching():
         st.divider()
         st.markdown("##### 📍 위치 정보")
         jc1, jc2 = st.columns(2)
-        js_complex = jc1.text_input("단지명/건물명", placeholder="○○아파트", key="jm_s_complex")
+        js_cplx_sel = jc1.selectbox("단지명/건물명", _MC_COMPLEX_OPTS, key="jm_s_cplx_sel")
         js_dongho  = jc2.text_input("동/호수", placeholder="101동 1501호", key="jm_s_dongho")
+        if js_cplx_sel == "직접입력":
+            js_complex = st.text_input("단지명 직접 입력", placeholder="단지명/건물명을 입력하세요", key="jm_s_complex")
+        else:
+            js_complex = js_cplx_sel
         jc3, jc4, jc5, jc6 = st.columns(4)
         js_floor  = jc3.number_input("해당 층", 1, 100, 5,  key="jm_s_fl")
         js_tfloor = jc4.number_input("총 층수", 1, 200, 20, key="jm_s_tfl")
@@ -1412,11 +1735,25 @@ def render_joint_matching():
             dp1, dp2 = st.columns(2)
             jd_price = {"희망_보증금_최소_억": dp1.number_input("보증금 최소(억)", 0.0, step=0.5, format="%.1f", key="jm_d_depmin"),
                         "희망_보증금_최대_억": dp2.number_input("보증금 최대(억)", 0.0, step=0.5, format="%.1f", key="jm_d_depmax")}
-        else:
-            dp1, dp2, dp3 = st.columns(3)
-            jd_price = {"희망_보증금_최소_억": dp1.number_input("보증금 최소(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmin"),
-                        "희망_보증금_최대_억": dp2.number_input("보증금 최대(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmax"),
-                        "희망_월세_최대_만원": dp3.number_input("월세 최대(만원)", 0, step=5, key="jm_d_rentmax")}
+        else:  # 월세(반전세 포함)
+            st.markdown("###### 💰 보증금 범위")
+            dp1, dp2 = st.columns(2)
+            dep_min = dp1.number_input("보증금 최소(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmin")
+            dep_max = dp2.number_input("보증금 최대(억)", 0.0, step=0.1, format="%.1f", key="jm_d_mdepmax")
+            if dep_min > 0 or dep_max > 0:
+                st.info(f"보증금 범위: {dep_min}억 ~ {dep_max}억")
+            st.markdown("###### 💸 월세 범위")
+            dp3, dp4 = st.columns(2)
+            rent_min = dp3.number_input("월세 최소(만원)", 0, step=5, key="jm_d_rentmin")
+            rent_max = dp4.number_input("월세 최대(만원)", 0, step=5, key="jm_d_rentmax")
+            if rent_min > 0 or rent_max > 0:
+                st.info(f"월세 범위: {rent_min}만원 ~ {rent_max}만원")
+            jd_price = {
+                "희망_보증금_최소_억": dep_min,
+                "희망_보증금_최대_억": dep_max,
+                "희망_월세_최소_만원": rent_min,
+                "희망_월세_최대_만원": rent_max
+            }
         st.divider()
         st.markdown("##### ✅ 희망 조건 선택")
         jd_feats = []
@@ -1496,6 +1833,238 @@ def render_admin_system():
 
     st.markdown("---")
 
+    # ── 관리자 서브탭
+    adm_tab1, adm_tab2, adm_tab3, adm_tab4 = st.tabs(["🏢 매물관리", "👥 고객관리", "📑 AI영업팩 생성기", "⚙️ 시스템 관리"])
+
+    with adm_tab1:
+        _render_property_management_panel()
+
+    with adm_tab2:
+        _render_customer_management_panel()
+
+    with adm_tab3:
+        _render_sales_pack_generator()
+
+    with adm_tab4:
+        st.info("시스템 관리: 추후 구현 예정 (로그, 백업, 설정 등)")
+
+def _render_property_management_panel():
+    """파발마 스타일 매물관리 패널"""
+    import random as _rnd
+    import pandas as _pd
+    from datetime import date as _date, datetime as _dt, timedelta as _td
+
+    # ── 통계 카드
+    _kc = st.columns(5)
+    for _i, (_num, _label, _color) in enumerate([
+        ("120", "전체 매물", "#60a5fa"),
+        ("48", "매매", "#34d399"),
+        ("35", "전세", "#60a5fa"),
+        ("37", "월세", "#c084fc"),
+        ("8", "보류/검토", "#fbbf24"),
+    ]):
+        _kc[_i].markdown(f"""
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+                    border-radius:8px;padding:10px;text-align:center;margin-bottom:4px;">
+            <div style="font-size:1.5rem;font-weight:700;color:{_color};">{_num}</div>
+            <div style="font-size:0.72rem;color:#94a3b8;">{_label}</div>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+    # ── 검색 패널
+    with st.container():
+        r1c1, r1c2, r1c3, r1c4, r1c5 = st.columns([2, 2, 2, 3, 1.5])
+        with r1c1:
+            _d_from = st.date_input("조회 시작일", value=_date(2026, 2, 4), key="pm_d_from", label_visibility="visible")
+        with r1c2:
+            _d_to = st.date_input("조회 종료일", value=_date(2026, 3, 4), key="pm_d_to", label_visibility="visible")
+        with r1c3:
+            _search_cond = st.selectbox("검색조건", ["전체", "제목", "내용", "주소", "거래유형", "유형"], key="pm_cond")
+        with r1c4:
+            _search_kw = st.text_input("검색어", placeholder="검색어를 입력하세요...", key="pm_kw")
+        with r1c5:
+            st.markdown("<div style='height:27px'></div>", unsafe_allow_html=True)
+            _do_search = st.button("🔍 검색", use_container_width=True, key="pm_search_btn", type="primary")
+
+        fc1, fc2, fc3, fc4, fc5, fc6, fc7, fc8 = st.columns(8)
+        _chk_국 = fc1.checkbox("국내소재", value=True, key="pm_fc1")
+        _chk_직 = fc2.checkbox("직거래", key="pm_fc2")
+        _chk_신 = fc3.checkbox("새로 나온", key="pm_fc3")
+        _chk_급 = fc4.checkbox("급매물", key="pm_fc4")
+        _chk_주 = fc5.checkbox("집주인 직접", key="pm_fc5")
+        _chk_수 = fc6.checkbox("수익성 우수", key="pm_fc6")
+        _chk_미 = fc7.checkbox("미계약", key="pm_fc7")
+        _chk_ai = fc8.checkbox("AI 추천", key="pm_fc8")
+
+    # ── 액션 버튼 바
+    ab1, ab2, ab3, ab4, ab5, ab6 = st.columns([1.2, 1.2, 1.2, 1.8, 2.5, 1.5])
+    with ab1:
+        if st.button("✏️ 수기 등록", use_container_width=True, key="pm_act1"):
+            st.session_state["pm_show_form"] = True
+    with ab2:
+        if st.button("📋 대장보기", use_container_width=True, key="pm_act2"):
+            st.info("건축물대장 조회 기능 (연동 준비 중)")
+    with ab3:
+        if st.button("🔍 상세보기", use_container_width=True, key="pm_act3"):
+            st.info("선택 매물의 상세 정보를 확인합니다.")
+    with ab4:
+        if st.button("🤖 자동가격조정", use_container_width=True, type="primary", key="pm_act4"):
+            with st.spinner("AI 가격 분석 중..."):
+                import time as _time
+                _time.sleep(1.2)
+            st.success("✅ AI 기반 가격 자동 조정 완료!")
+    with ab5:
+        st.markdown("""
+        <div style='padding:7px;background:rgba(255,255,255,0.06);border-radius:8px;
+                    border:1px solid rgba(255,255,255,0.1);text-align:center;'>
+            <span style='color:#94a3b8;font-size:0.78rem;'>조회 건수 </span>
+            <span style='color:#fbbf24;font-size:1.1rem;font-weight:700;'> 총 120건</span>
+            <span style='color:#94a3b8;font-size:0.78rem;'> | AI매칭추천 </span>
+            <span style='color:#34d399;font-size:1rem;font-weight:700;'>8건 ✨</span>
+        </div>
+        """, unsafe_allow_html=True)
+    with ab6:
+        _ca, _cb = st.columns(2)
+        _ca.button("📥 엑셀", use_container_width=True, key="pm_exp1")
+        _cb.button("🖨️ 인쇄", use_container_width=True, key="pm_exp2")
+
+    st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+
+    # ── 샘플 데이터 생성
+    def _make_pm_data():
+        _rnd.seed(42)
+        _types = ["아파트", "오피스텔", "빌라", "상가", "오피스"]
+        _deals = ["매매", "전세", "월세"]
+        _gugun_list = ["강남구", "서초구", "송파구", "마포구", "성남시", "수원시", "연수구", "용산구"]
+        _dong_map = {
+            "강남구": ["대치동","삼성동","청담동","역삼동"],
+            "서초구": ["반포동","잠원동","양재동"],
+            "송파구": ["잠실동","방이동","가락동"],
+            "마포구": ["합정동","망원동","상수동"],
+            "성남시": ["분당동","수내동","정자동"],
+            "수원시": ["영통동","매탄동"],
+            "연수구": ["송도동","연수동"],
+            "용산구": ["한남동","이태원동"],
+        }
+        _names = ["래미안","힐스테이트","자이","롯데캐슬","아이파크","푸르지오","e편한세상","더샵"]
+        _base = _dt(2026, 2, 4)
+        _rows = []
+        for _i in range(80):
+            _sg = _rnd.choice(_gugun_list)
+            _se = _rnd.choice(_dong_map.get(_sg, ["기타동"]))
+            _tp = _rnd.choice(_deals)
+            _rows.append({
+                "쪽지": _rnd.choice(["●", ""]),
+                "이미구분": _rnd.choice(["공동","전속","일반"]),
+                "유형": _rnd.choice(_types),
+                "물건공부": _rnd.choice(["등기부","건축물대장"]),
+                "구군": _sg,
+                "읍면동": _se,
+                "매매가(억)": _rnd.randint(5, 80) if _tp =="매매" else "-",
+                "보증금(억)": _rnd.randint(1, 30) if _tp in ["전세","월세"] else "-",
+                "월세(만)": _rnd.randint(50, 300) if _tp == "월세" else "-",
+                "거래유형": _tp,
+                "제목": f"{_rnd.choice(_names)} {_rnd.randint(10,50)}평 {_tp}",
+                "내용": f"역세권 {_rnd.randint(1,10)}분, {_rnd.choice(['로얄층','저층','중층','고층'])} 급매",
+                "등록일": (_base +_td(days=_rnd.randint(0, 28))).strftime("%Y-%m-%d"),
+                "상태": _rnd.choice(["신규","진행중","완료","보류"]),
+            })
+        return _pd.DataFrame(_rows)
+
+    _df = _make_pm_data()
+
+    # 필터 적용
+    if _search_kw:
+        if _search_cond == "제목":
+            _df = _df[_df["제목"].str.contains(_search_kw, na=False)]
+        elif _search_cond == "주소":
+            _df = _df[_df["구군"].str.contains(_search_kw, na=False) | _df["읍면동"].str.contains(_search_kw, na=False)]
+        else:
+            _df = _df[_df["제목"].str.contains(_search_kw, na=False) | _df["내용"].str.contains(_search_kw, na=False)]
+    if _chk_신:
+        _df = _df[_df["상태"] == "신규"]
+    if _chk_급:
+        _df = _df[_df["내용"].str.contains("급", na=False)]
+
+    # ── 서브탭 (수신/구입/즐겨찾기)
+    _st1, _st2, _st3 = st.tabs(["📋 수신 파발마", "📤 구입 파발마", "⭐ 즐겨찾기"])
+    with _st1:
+        st.markdown(f"<span style='color:#94a3b8;font-size:0.82rem;'>총 <span style='color:#fbbf24;font-weight:700;'>{len(_df):,}건</span> 조회 | 열 헤더 클릭 시 정렬</span>", unsafe_allow_html=True)
+
+        def _style_status(val):
+            _m = {"신규":"background-color:rgba(16,185,129,0.2);color:#34d399;font-weight:bold;",
+                  "진행중":"background-color:rgba(59,130,246,0.2);color:#60a5fa;font-weight:bold;",
+                  "완료":"background-color:rgba(100,116,139,0.2);color:#94a3b8;",
+                  "보류":"background-color:rgba(245,158,11,0.2);color:#fbbf24;font-weight:bold;"}
+            return _m.get(val, "")
+
+        _styled = _df.style.applymap(_style_status, subset=["상태"])
+        st.dataframe(
+            _styled,
+            use_container_width=True,
+            height=420,
+            column_config={
+                "쪽지": st.column_config.TextColumn("쪽지", width=45),
+                "이미구분": st.column_config.TextColumn("이미구분", width=70),
+                "유형": st.column_config.TextColumn("유형", width=80),
+                "물건공부": st.column_config.TextColumn("물건공부", width=90),
+                "구군": st.column_config.TextColumn("구군", width=75),
+                "읍면동": st.column_config.TextColumn("읍면동", width=75),
+                "매매가(억)": st.column_config.TextColumn("매매가(억)", width=85),
+                "보증금(억)": st.column_config.TextColumn("보증금(억)", width=85),
+                "월세(만)": st.column_config.TextColumn("월세(만)", width=75),
+                "거래유형": st.column_config.TextColumn("거래유형", width=70),
+                "제목": st.column_config.TextColumn("제목", width=200),
+                "내용": st.column_config.TextColumn("내용", width=200),
+                "등록일": st.column_config.TextColumn("등록일", width=95),
+                "상태": st.column_config.TextColumn("상태", width=65),
+            }
+        )
+        # CSV 다운로드
+        _csv = _df.to_csv(index=False, encoding="utf-8-sig").encode("utf-8-sig")
+        st.download_button("📥 CSV 다운로드", data=_csv,
+            file_name=f"매물목록_{_date.today().strftime('%Y%m%d')}.csv",
+            mime="text/csv", key="pm_dl_csv")
+
+    with _st2:
+        st.info("📤 구입 파발마: 매수 희망 조건 수신 목록")
+        _buy = _pd.DataFrame({
+            "수신일": ["2026-03-04", "2026-03-03", "2026-03-02"],
+            "유형": ["아파트", "오피스텔", "빌라"],
+            "희망지역": ["강남구 대치동", "서초구 반포동", "마포구 합정동"],
+            "예산(억)": ["30~35", "8~12", "5~7"],
+            "특이사항": ["학군 필수, 30평 이상", "역세권 선호", "신축 선호"],
+            "연락처": ["010-****-1234", "010-****-5678", "010-****-9012"],
+            "상태": ["검토중", "매칭완료", "대기"]
+        })
+        st.dataframe(_buy, use_container_width=True)
+
+    with _st3:
+        st.info("⭐ 즐겨찾기 매물: 관심 등록된 매물 목록")
+        st.dataframe(_df.head(10), use_container_width=True)
+
+    # ── 수기 등록 폼
+    if st.session_state.get("pm_show_form"):
+        st.markdown("---")
+        st.markdown("#### ✏️ 새 매물 수기 등록")
+        with st.form("pm_register_form"):
+            _fr1, _fr2, _fr3, _fr4 = st.columns(4)
+            _ft = _fr1.selectbox("거래유형", ["매매","전세","월세"], key="pm_frm_trade")
+            _fp = _fr2.selectbox("부동산유형", ["아파트","오피스텔","빌라","상가","오피스"], key="pm_frm_prop")
+            _fs = _fr3.selectbox("시도", ["서울","경기","인천","부산","기타"], key="pm_frm_sido")
+            _fg = _fr4.text_input("구군", placeholder="강남구", key="pm_frm_gugun")
+            _fd = st.text_input("읍면동", placeholder="대치동", key="pm_frm_dong")
+            _fpr = st.number_input("가격(억)", min_value=0.0, step=0.1, key="pm_frm_price")
+            _ftt = st.text_input("매물 제목", key="pm_frm_title")
+            _fct = st.text_area("매물 내용", height=80, key="pm_frm_content")
+            _sub = st.form_submit_button("💾 저장", type="primary", use_container_width=True)
+            if _sub:
+                st.success(f"✅ '{_ftt}' 매물이 저장되었습니다!")
+                st.session_state["pm_show_form"] = False
+
+def _render_sales_pack_generator():
+    """AI 영업팩 생성기 (기존 코드)"""
     # 2. Admin Dashboard - Sales Pack Generator
     st.markdown("""
     <div style="text-align: center; margin-bottom: 30px;">
@@ -1505,37 +2074,157 @@ def render_admin_system():
     """, unsafe_allow_html=True)
 
     with st.form("admin_sales_pack_form"):
-        st.markdown("##### ⚡ 매물 기본 정보 입력 (자동 생성)")
-        
-        c1, c2, c3 = st.columns(3)
-        with c1: st.text_input("매물 이름 (단지명)", "대치 SK VIEW")
-        with c2: st.text_input("평형 / 타입", "34평 / A타입")
-        with c3: st.selectbox("거래 유형", ["매매", "전세", "월세"])
-        
-        st.markdown("---")
-        
-        c4, c5, c6 = st.columns(3)
-        with c4: st.text_input("학군 키워드", "대치초, 대청중 배정")
-        with c5: st.text_input("교통 키워드", "대치역 초역세권, 3호선")
-        with c6: st.text_input("입지 키워드", "대치동 학원가 도보 3분")
-        
-        st.markdown("---")
-        
-        # Full width red button
-        submit = st.form_submit_button("🚀 영업 문구 및 자료 생성하기",type="primary", use_container_width=True)
-        
+        st.markdown("""
+        <div style="background:linear-gradient(135deg,#1e3a5f,#0f172a);
+                    border-radius:12px; padding:16px 20px; margin-bottom:16px;
+                    border-left:5px solid #facc15;">
+            <div style="font-size:1.05rem;font-weight:900;color:#facc15;">
+                ⚡ 매물 기본 정보 입력 (자동 생성)
+            </div>
+            <div style="font-size:0.82rem;color:#94a3b8;margin-top:4px;">
+                아래 정보를 입력하면 AI가 블로그·카톡·숏츠 스크립트를 자동 생성합니다.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # ── 섹션 1: 기본 인적사항
+        st.markdown("##### 👤 기본 인적사항")
+        sp1, sp2, sp3 = st.columns(3)
+        sp_name  = sp1.text_input("이름 (공급자)", "이상수", key="sp_name")
+        sp_phone = sp2.text_input("연락처", "010-8985-8945", key="sp_phone")
+        sp_agency= sp3.text_input("소속 중개사무소", "롯데타워앤강남빌딩부동산중개㈜", key="sp_agency")
+        st.divider()
+
+        # ── 섹션 2: 매물 종류 & 거래 구분
+        st.markdown("##### 🏷️ 매물 종류 & 거래 구분")
+        sp_tc1, sp_tc2 = st.columns(2)
+        sp_prop  = sp_tc1.selectbox("매물 종류", ["아파트", "빌라/연립", "오피스텔", "상가/상업", "토지", "기타"], key="sp_prop")
+        sp_trade = sp_tc2.radio("거래 구분", ["매매", "전세", "월세(반전세 포함)"], horizontal=True, key="sp_trade")
+        st.divider()
+
+        # ── 섹션 3: 위치 정보
+        st.markdown("##### 📍 위치 정보")
+        sp_lc1, sp_lc2 = st.columns(2)
+        _SP_COMPLEX = ["래미안대치팰리스","대치SK뷰","대치아이파크","은마아파트",
+                       "삼환아르누보2 오피스텔","롯데월드타워몰 시그니엘레지던스","직접입력"]
+        sp_cplx_sel = sp_lc1.selectbox("단지명/건물명", _SP_COMPLEX, index=1, key="sp_cplx_sel")
+        sp_dongho   = sp_lc2.text_input("동/호수 (비공개 보안 유지)", placeholder="101동 1501호", key="sp_dongho")
+        if sp_cplx_sel == "직접입력":
+            sp_complex = st.text_input("단지명 직접 입력", placeholder="단지명/건물명을 입력하세요", key="sp_complex")
+        else:
+            sp_complex = sp_cplx_sel
+        sp_fc1, sp_fc2, sp_fc3, sp_fc4, sp_fc5 = st.columns(5)
+        sp_floor  = sp_fc1.number_input("해당 층", 1, 100, 10, key="sp_floor")
+        sp_tfloor = sp_fc2.number_input("총 층수", 1, 300, 35, key="sp_tfloor")
+        sp_rooms  = sp_fc3.number_input("방 수",   1,  20,  3, key="sp_rooms")
+        sp_baths  = sp_fc4.number_input("화장실",  1,  10,  2, key="sp_baths")
+        sp_byear  = sp_fc5.number_input("준공년도", 1970, 2030, 2005, key="sp_byear")
+        st.divider()
+
+        # ── 섹션 4: 면적/규모
+        st.markdown("##### 📐 면적/규모")
+        sp_ac1, sp_ac2, sp_ac3 = st.columns(3)
+        sp_sup = sp_ac1.number_input("공급면적(㎡)", 0.0, step=0.5, format="%.1f", key="sp_sup")
+        sp_prv = sp_ac2.number_input("전용면적(㎡)", 0.0, step=0.5, format="%.1f", key="sp_prv")
+        sp_pyg = sp_ac3.text_input("평형 / 타입", "34평 / A타입", key="sp_pyg")
+        st.divider()
+
+        # ── 섹션 5: 가격 정보 (최소~최대)
+        st.markdown("##### 💵 가격 정보")
+        if sp_trade == "매매":
+            sp_pp1, sp_pp2, sp_pp3, sp_pp4 = st.columns(4)
+            sp_pp1.number_input("매매가 최소(억)", 0.0, step=0.5, format="%.1f", key="sp_sale_min")
+            sp_pp2.number_input("+ 만원단위", 0, step=500, key="sp_sale_min_m")
+            sp_pp3.number_input("매매가 최대(억)", 0.0, step=0.5, format="%.1f", key="sp_sale_max")
+            sp_pp4.number_input("+ 만원단위", 0, step=500, key="sp_sale_max_m")
+        elif sp_trade == "전세":
+            sp_pp1, sp_pp2, sp_pp3, sp_pp4 = st.columns(4)
+            sp_pp1.number_input("보증금 최소(억)", 0.0, step=0.5, format="%.1f", key="sp_dep_min")
+            sp_pp2.number_input("+ 만원단위", 0, step=500, key="sp_dep_min_m")
+            sp_pp3.number_input("보증금 최대(억)", 0.0, step=0.5, format="%.1f", key="sp_dep_max")
+            sp_pp4.number_input("+ 만원단위", 0, step=500, key="sp_dep_max_m")
+        else:
+            sp_pp1, sp_pp2, sp_pp3, sp_pp4, sp_pp5, sp_pp6 = st.columns(6)
+            sp_pp1.number_input("보증금 최소(억)", 0.0, step=0.1, format="%.1f", key="sp_mdep_min")
+            sp_pp2.number_input("+ 만원단위", 0, step=100, key="sp_mdep_min_m")
+            sp_pp3.number_input("보증금 최대(억)", 0.0, step=0.1, format="%.1f", key="sp_mdep_max")
+            sp_pp4.number_input("+ 만원단위", 0, step=100, key="sp_mdep_max_m")
+            sp_pp5.number_input("월세 최소(만원)", 0, step=5, key="sp_rent_min")
+            sp_pp6.number_input("월세 최대(만원)", 0, step=5, key="sp_rent_max")
+        st.divider()
+
+        # ── 섹션 6: 물건 상세
+        st.markdown("##### 🏗️ 물건 상세 정보")
+        sp_dc1, sp_dc2, sp_dc3, sp_dc4 = st.columns(4)
+        sp_direction = sp_dc1.selectbox("향", ["남향","남동향","남서향","동향","서향","북향","판상형(4Bay)"], key="sp_dir")
+        sp_parking   = sp_dc2.selectbox("주차 여부", ["전용 주차","공용 주차","주차 없음"], key="sp_parking")
+        sp_heating   = sp_dc3.selectbox("난방 방식", ["개별난방","중앙난방","지역난방"], key="sp_heating")
+        sp_elevator  = sp_dc4.radio("엘리베이터", ["있음","없음"], horizontal=True, key="sp_elev")
+        sp_ex1, sp_ex2 = st.columns(2)
+        sp_remodel   = sp_ex1.radio("리모델링", ["없음","부분수리","올수리(풀리모델)","준신축"], horizontal=True, key="sp_remodel")
+        sp_expansion = sp_ex2.radio("확장 유무", ["확장형","비확장","일부확장"], horizontal=True, key="sp_expansion")
+        st.divider()
+
+        # ── 섹션 7: 권리관계 & 관리비
+        st.markdown("##### 🛡️ 권리관계 & 관리비")
+        sp_rc1, sp_rc2, sp_rc3 = st.columns(3)
+        sp_loan      = sp_rc1.number_input("융자금(만원)", 0, step=500, key="sp_loan")
+        sp_rights    = sp_rc2.selectbox("권리관계", ["깨끗","근저당 있음","가압류 있음","확인 필요"], key="sp_rights")
+        sp_mgmt      = sp_rc3.number_input("월 관리비(만원)", 0, step=1, key="sp_mgmt")
+        sp_occupy    = st.selectbox("현 거주 상황", ["공실(즉시입주)","본인거주","세입자 거주중","명도 필요"], key="sp_occupy")
+        st.divider()
+
+        # ── 섹션 8: 매물 특징
+        st.markdown("##### ✅ 매물 특징 (해당 항목 체크)")
+        _SP_FEATS = ["💰 금액조절 가능","👀 바로 볼 수 있는","🏗️ 새로 지은",
+                     "🙋 손님 대기중","🚇 역세권 위치","🔧 수리 깨끗한",
+                     "🏦 전세대출 가능","🛋️ 풀옵션","🎓 대치초 배정",
+                     "🏫 대청중 배정","🚌 단대부고 배정","🌳 공원 인근",
+                     "🅿️ 전용주차 가능","🌞 남향 로얄층","🏊 커뮤니티 완비","🔒 보안 우수"]
+        sp_feat_cols = st.columns(4)
+        for _i, _f in enumerate(_SP_FEATS):
+            sp_feat_cols[_i % 4].checkbox(_f, key=f"sp_ft_{_i}")
+        st.divider()
+
+        # ── 섹션 9: AI 홍보 키워드
+        st.markdown("##### 🎯 AI 홍보 키워드 (자동 생성용)")
+        sp_kc1, sp_kc2, sp_kc3 = st.columns(3)
+        sp_school = sp_kc1.text_input("학군 키워드", "대치초, 대청중 배정", key="sp_school")
+        sp_trans  = sp_kc2.text_input("교통 키워드", "대치역 초역세권, 3호선", key="sp_trans")
+        sp_local  = sp_kc3.text_input("입지 키워드", "대치동 학원가 도보 3분", key="sp_local")
+        sp_memo   = st.text_area("특이사항 & 어필 포인트", placeholder="예) 로얄층 판상형 4Bay, 풀리모델 직후 상태, 학군 최강 입지...", height=80, key="sp_memo")
+        st.divider()
+
+        # ── 제출 버튼
+        submit = st.form_submit_button("🚀 AI 영업팩 (블로그·카톡·숏츠 스크립트) 자동 생성!", type="primary", use_container_width=True)
+
         if submit:
             st.success("✅ AI 영업팩 생성이 완료되었습니다!")
-            st.markdown("""
-            <div style="background-color:#0f172a; padding:15px; border-radius:5px; border:1px solid #334155;">
-                <h4 style="color:#38bdf8;">[블로그 제목]</h4>
-                <p>대치동 학원가 바로 앞! SK VIEW 34평 귀한 전세, 놓치면 후회합니다.</p>
-                <h4 style="color:#38bdf8; margin-top:15px;">[카톡 브리핑]</h4>
-                <p>안녕하세요 대표님, 롯데AI부동산입니다.<br>
-                대치초 배정 가능한 34평 로얄층 물건이 방금 접수되었습니다.<br>
-                주말 내 계약 예상되오니 바로 연락 부탁드립니다.</p>
+            st.markdown(f"""
+            <div style="background:#0f172a; padding:20px; border-radius:10px; border:1px solid #334155; margin-top:10px;">
+                <h4 style="color:#38bdf8; margin:0 0 8px 0;">📝 [블로그 제목]</h4>
+                <p style="color:#e2e8f0; margin:0 0 16px 0;">
+                    대치동 학원가 바로 앞! {sp_complex} {sp_pyg} 귀한 {sp_trade}, 놓치면 후회합니다.
+                </p>
+                <h4 style="color:#38bdf8; margin:0 0 8px 0;">💬 [카톡 브리핑]</h4>
+                <p style="color:#e2e8f0; margin:0; line-height:1.8;">
+                    안녕하세요 대표님, 롯데AI부동산 <b style="color:#facc15;">{sp_name}</b> 중개사입니다.<br>
+                    {sp_school} 가능한 <b style="color:#facc15;">{sp_complex} {sp_pyg} {sp_floor}층</b> 물건이 방금 접수되었습니다.<br>
+                    {sp_trans} | {sp_local}<br>
+                    주말 내 계약 예상되오니 바로 연락 부탁드립니다.<br>
+                    ☎ {sp_phone}
+                </p>
+                <h4 style="color:#38bdf8; margin:16px 0 8px 0;">🎥 [숏츠 스크립트 오프닝]</h4>
+                <p style="color:#e2e8f0; margin:0; line-height:1.8;">
+                    "대치동에서 이 가격에 이 입지?! 안 사면 진짜 후회합니다.<br>
+                    {sp_complex} {sp_pyg}, {sp_trade} 물건인데요,<br>
+                    {sp_school}에 {sp_trans} 역세권입니다!"
+                </p>
             </div>
             """, unsafe_allow_html=True)
+            st.balloons()
+
+
 
 
 def render_login_page():
@@ -1975,7 +2664,7 @@ def main():
         ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation),  # idx 2
         ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),      # idx 3
         ("🤝 AI공동매물매칭", render_joint_matching),           # idx 4
-        ("🔒 시스템/영업팩생성", render_admin_system)             # idx 5
+        ("🔒 시스템/고객·영업팩", render_admin_system)             # idx 5
     ]
 
     # ── 직접 탭 인덱스 설정 (버튼 클릭 시 nav_tab_idx 사용)
@@ -2008,10 +2697,11 @@ def main():
     
     for i, tab in enumerate(tabs):
         with tab:
-            tab_config[i][1]()
+            tab_config[i][1]()````
 
     render_main_bottom_nav()
-
+``
 if __name__ == "__main__":
     main()
 
+``````
