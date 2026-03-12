@@ -1,5 +1,84 @@
 import streamlit as st
 
+# ===============================
+# UI 가독성 + 다크카드 글자 문제 해결 CSS
+# ===============================
+st.markdown("""
+<style>
+
+html, body, [class*="css"]  {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+/* 전체 화면 */
+.stApp {
+    background: #f8fafc;
+}
+
+/* 메인 영역 폭 */
+.block-container {
+    max-width: 1200px;
+    padding-top: 2rem;
+    padding-bottom: 100px;
+}
+
+/* 제목 */
+h1, h2, h3 {
+    color:#0f172a;
+    font-weight:800;
+}
+
+/* 일반 텍스트 */
+p, span, label {
+    font-size:16px;
+    line-height:1.7;
+    color:#334155;
+}
+
+/* 버튼 */
+.stButton > button {
+    font-size:16px;
+    font-weight:700;
+    border-radius:10px;
+    padding:10px 18px;
+}
+
+/* 입력창 */
+input, textarea {
+    font-size:16px !important;
+}
+
+/* ===== 다크 카드 안 글자 밝게 ===== */
+
+div[style*="#0f172a"] h1,
+div[style*="#0f172a"] h2,
+div[style*="#0f172a"] h3,
+div[style*="#0f172a"] h4,
+div[style*="#0f172a"] p,
+div[style*="#0f172a"] span,
+div[style*="#0f172a"] div {
+    color:#f8fafc !important;
+}
+
+/* 대표 이름 강조 */
+div[style*="#0f172a"] b,
+div[style*="#0f172a"] strong {
+    color:#fbbf24 !important;
+    font-weight:900 !important;
+}
+
+/* 카드 그림자 */
+.card {
+    background:#ffffff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    margin-bottom:15px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # -------- UI 가독성 개선 CSS --------
 st.markdown("""
 <style>
@@ -37,11 +116,6 @@ input, textarea {
 
 </style>
 """, unsafe_allow_html=True)
-import streamlit as st
-import pandas as pd
-import os
-import json
-import base64
 import sys
 import re
 from pathlib import Path
