@@ -80,7 +80,7 @@ div[style*="#0f172a"] strong {
 """, unsafe_allow_html=True)
 
 # -------- UI 가독성 개선 CSS --------
-    st.markdown("""
+st.markdown("""
     <div style="
         background: linear-gradient(135deg, #061537 0%, #081a45 100%);
         color: #ffffff;
