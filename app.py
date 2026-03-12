@@ -2799,8 +2799,8 @@ def main():
         ("🏠 대치1동 특성 (초중고)", render_home),                          # idx 0
         ("⭐ AI저평가추천매물", render_listing),                             # idx 1
         ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation),     # idx 2
-        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),                 # idx 3
-        ("🤝 AI공동매물매칭", render_joint_matching),                        # idx 4
+       #("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),                 # idx 3
+        #("🤝 AI공동매물매칭", render_joint_matching),                        # idx 4
         ("🔒 시스템/고객·영업팩", render_admin_system),                      # idx 5
     ]
 
