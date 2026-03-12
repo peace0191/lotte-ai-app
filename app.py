@@ -80,39 +80,99 @@ div[style*="#0f172a"] strong {
 """, unsafe_allow_html=True)
 
 # -------- UI 가독성 개선 CSS --------
-st.markdown("""
-<style>
+    st.markdown("""
+    <div style="
+        background: linear-gradient(135deg, #061537 0%, #081a45 100%);
+        color: #ffffff;
+        padding: 34px;
+        border-radius: 18px;
+        margin-bottom: 24px;
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.22);
+        border: 1px solid rgba(255,255,255,0.06);
+    ">
+        <div style="display: flex; align-items: flex-start; margin-bottom: 22px;">
+            <div style="
+                background-color: #fbbf24;
+                width: 76px;
+                height: 76px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 18px;
+                font-size: 36px;
+                flex-shrink: 0;
+                box-shadow: 0 6px 18px rgba(251,191,36,0.35);
+            ">
+                👨‍💼
+            </div>
 
-html, body, [class*="css"]  {
-    font-family: "Noto Sans KR", sans-serif;
-}
+            <div style="flex: 1;">
+                <div style="
+                    margin: 0 0 6px 0;
+                    font-size: 1.35rem;
+                    color: #f8fafc;
+                    line-height: 1.45;
+                    font-weight: 900;
+                    letter-spacing: -0.02em;
+                ">
+                    롯데타워앤강남빌딩부동산중개주식회사
+                </div>
 
-.block-container {
-    max-width: 1200px;
-    padding-top: 2rem;
-}
+                <div style="
+                    color: #cbd5e1;
+                    font-size: 0.92rem;
+                    margin-bottom: 8px;
+                    font-weight: 500;
+                ">
+                    등록번호: 11680-2023-00078 | 사업자: 461-86-02740
+                </div>
 
-h1, h2, h3 {
-    color:#0f172a;
-    font-weight:800;
-}
+                <div style="
+                    font-size: 1.55rem;
+                    color: #fbbf24;
+                    font-weight: 900;
+                    margin-bottom: 10px;
+                    letter-spacing: -0.03em;
+                ">
+                    대표: 공인중개사 이상수
+                </div>
 
-p, span, label {
-    font-size:16px;
-    line-height:1.7;
-    color:#334155;
-}
+                <div style="
+                    color: #f1f5f9;
+                    font-size: 1.03rem;
+                    font-weight: 600;
+                ">
+                    Tel: 02-578-8289 / 010-8985-8945
+                </div>
+            </div>
+        </div>
 
-.stButton > button {
-    font-size:16px;
-    font-weight:700;
-    border-radius:10px;
-    padding:10px 18px;
-}
+        <div style="
+            color: #fde68a;
+            margin-top: 10px;
+            font-size: 1.55rem;
+            font-weight: 900;
+            line-height: 1.5;
+            letter-spacing: -0.03em;
+        ">
+            대치1동은 자녀의 미래 베이스캠프입니다.
+        </div>
 
-input, textarea {
-    font-size:16px !important;
-}
+        <div style="
+            color: #e2e8f0;
+            line-height: 1.9;
+            font-size: 1.02rem;
+            margin-top: 14px;
+            font-weight: 500;
+        ">
+            AI 저평가 분석과 예약 AI자동 매칭 시스템으로 숨겨진 부동산 가치를 발굴하고,<br>
+            대한민국 최고의 교육 환경으로 가는 최적의 출발점을 찾아드립니다.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    div[style*="background: linear-gradient(135deg, #061537 0%, #081a45 100%)"] * {
+    color: inherit !important;}
 
 </style>
 """, unsafe_allow_html=True)
