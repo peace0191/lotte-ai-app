@@ -1,4 +1,43 @@
 import streamlit as st
+
+# -------- UI 가독성 개선 CSS --------
+st.markdown("""
+<style>
+
+html, body, [class*="css"]  {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.block-container {
+    max-width: 1200px;
+    padding-top: 2rem;
+}
+
+h1, h2, h3 {
+    color:#0f172a;
+    font-weight:800;
+}
+
+p, span, label {
+    font-size:16px;
+    line-height:1.7;
+    color:#334155;
+}
+
+.stButton > button {
+    font-size:16px;
+    font-weight:700;
+    border-radius:10px;
+    padding:10px 18px;
+}
+
+input, textarea {
+    font-size:16px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+import streamlit as st
 import pandas as pd
 import os
 import json
