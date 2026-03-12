@@ -2267,16 +2267,16 @@ def render_login_page():
     </div>
     """, unsafe_allow_html=True)
 
-    # 3 Core Strategies Section — 았커 id 추가
+    # 3 Core Strategies Section — 앵커 id 추가
     st.markdown('<div id="ai-strategy-section"></div>', unsafe_allow_html=True)
     st.markdown("#### 🔷 AI 부동산 핵심 3대 전략")
-    
+
     st.markdown("""
     <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3b82f6;">
         <h4 style="margin: 0 0 10px 0; color: #1e293b;">🎓 교육특구 1번지 분석</h4>
         <p style="margin: 0; color: #64748b; font-size: 0.9rem;">래대팰·SK뷰(대치초/단대부고) vs 아이파크(대도초/숙명여중고)<br>학군 정밀 분석 및 배정 원칙 데이터화</p>
     </div>
-    
+
     <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #8b5cf6;">
         <h4 style="margin: 0 0 10px 0; color: #1e293b;">🧬 AI저평가 매물 매수·매도·임대차 예약 AI자동매칭</h4>
         <p style="margin: 0; color: #64748b; font-size: 0.9rem;">빅데이터로 저평가 매물을 발굴하고, 매수·매도·임대차 예약 고객에게 <b>1초 만에 AI자동 매칭</b>하여 거래 성사율 극대화</p>
@@ -2325,12 +2325,11 @@ def render_login_page():
 """, unsafe_allow_html=True)
 
     # Login Form
-
     with st.container(border=True):
         st.markdown("### 📱 핸드폰 인증 로그인")
         name = st.text_input("이름을 입력하세요", placeholder="예: 홍길동")
         phone = st.text_input("휴대폰 번호를 입력하세요 (- 없이 입력)", placeholder="01012345678")
-        
+
         if st.button("인증번호 발송 및 로그인", use_container_width=True, type="primary"):
             if not name or len(name.strip()) < 2:
                 st.error("이름을 입력해주세요. (2자 이상)")
@@ -2343,24 +2342,22 @@ def render_login_page():
                 st.rerun()
 
     st.markdown("---")
-    
+
     # Kakao Share Section — 앵커 id 삽입
     st.markdown('<div id="kakao-share-section"></div>', unsafe_allow_html=True)
     st.markdown("### 🟡 카카오톡으로 AI 전략 공유하기")
-    
+
     APP_URL = "https://lotte-ai-app.streamlit.app/"
     APP_TITLE = "[공인중개사 이상수] 대치1동 AI 부동산 베이스캠프"
     APP_DESC = "⭐ AI 저평가 매물 분석 | 🎓 학군 1번지 | 🤖 자동 매칭"
     APP_IMG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80"
-    import urllib.parse as _up
-    _enc_url = _up.quote(APP_URL, safe='')
-    _enc_title = _up.quote(APP_TITLE, safe='')
 
-    # ── 카카오 공유 버튼 (Kakao JavaScript SDK)
-    st.markdown(f"""
+    st.markdown(
+        f"""
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
   integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
   crossorigin="anonymous"></script>
+
 <div style="background:linear-gradient(135deg,#FFF01E,#F9E000); border-radius:16px;
             padding:22px 20px; margin-bottom:16px; border:2px solid #E6C900;
             box-shadow:0 4px 20px rgba(249,224,0,0.35);"
@@ -2381,9 +2378,7 @@ def render_login_page():
     </div>
   </div>
 
-  <!-- 버튼 3종 -->
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-    <!-- 방법1: Kakao JS SDK 카드 공유 (앱 키 등록 시 활성) -->
     <button onclick="sendKakaoLink()" id="btn-kakao-sdk"
       style="background:#3c1e1e; color:#FFF01E; border:none; border-radius:10px;
              padding:12px 8px; font-size:0.88rem; font-weight:900; cursor:pointer;
@@ -2393,9 +2388,8 @@ def render_login_page():
       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.3)';"
       onmouseout="this.style.transform=''; this.style.boxShadow='0 3px 10px rgba(0,0,0,0.25)';"
     >💬 카카오링크 전송</button>
-    <!-- 방법2: 카카오 오픈채팅 URL 공유 -->
-    <a href="https://sharer.kakao.com/talk/friends/picker/easylink?app_key=DEMO&validation_action=default&validation_params=%7B%7D" target="_blank"
-      onclick="openKakaoShare(event)"
+
+    <a href="javascript:void(0)" onclick="openKakaoShare(event)"
       style="background:#FFF01E; color:#3c1e1e; border:2px solid #3c1e1e; border-radius:10px;
              padding:12px 8px; font-size:0.88rem; font-weight:900; cursor:pointer;
              text-align:center; text-decoration:none; display:flex; align-items:center;
@@ -2403,7 +2397,7 @@ def render_login_page():
              box-shadow:0 3px 10px rgba(0,0,0,0.15);"
     >📤 카카오로 바로공유</a>
   </div>
-  <!-- 방법3: URL 직접 복사 -->
+
   <button onclick="copyAppLink()" id="btn-copy-link"
     style="background:white; color:#1e293b; border:1.5px solid #d1d5db; border-radius:10px;
            padding:10px 8px; font-size:0.82rem; font-weight:700; cursor:pointer;
@@ -2414,8 +2408,7 @@ def render_login_page():
 </div>
 
 <script>
-// ─── Kakao JS SDK 초기화 (앱 키가 없어도 fallback 동작) ───
-var KAKAO_APP_KEY = 'YOUR_KAKAO_APP_KEY'; // 카카오 개발자 콘솔에서 발급
+var KAKAO_APP_KEY = 'YOUR_KAKAO_APP_KEY';
 var LOTTE_APP_URL = '{APP_URL}';
 var LOTTE_APP_TITLE = '{APP_TITLE}';
 var LOTTE_APP_DESC = '{APP_DESC}';
@@ -2425,7 +2418,9 @@ try {{
   if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {{
     Kakao.init(KAKAO_APP_KEY);
   }}
-}} catch(e) {{ console.log('Kakao SDK init deferred'); }}
+}} catch(e) {{
+  console.log('Kakao SDK init deferred');
+}}
 
 function sendKakaoLink() {{
   try {{
@@ -2458,23 +2453,21 @@ function sendKakaoLink() {{
 
 function openKakaoShare(e) {{
   if (e) e.preventDefault();
-  var shareUrl = 'https://sharer.kakao.com/talk/friends/picker/link?app_key=DEMO&' +
-    'validation_action=default&validation_params=%7B%22url%22%3A%22' +
-    encodeURIComponent(LOTTE_APP_URL) + '%22%7D';
-  // 모바일에서는 카카오앱 딥링크로 시도
   var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   if (isMobile) {{
-    // 카카오톡 앱 딥링크 (앱 설치 시 바로 공유)
     var kakaoDeeplink = 'kakaotalk://msg/sendlink?' +
       'url=' + encodeURIComponent(LOTTE_APP_URL) +
       '&text=' + encodeURIComponent(LOTTE_APP_TITLE + '\\n' + LOTTE_APP_DESC + '\\n' + LOTTE_APP_URL);
+
     var timeout = setTimeout(function() {{
       window.open(LOTTE_APP_URL, '_blank');
     }}, 1500);
+
     window.location.href = kakaoDeeplink;
-    window.addEventListener('blur', function() {{ clearTimeout(timeout); }});
+    window.addEventListener('blur', function() {{
+      clearTimeout(timeout);
+    }});
   }} else {{
-    // PC에서는 카카오 채팅방 URL 복사 유도
     var el = document.createElement('textarea');
     el.value = LOTTE_APP_TITLE + '\\n' + LOTTE_APP_DESC + '\\n' + LOTTE_APP_URL;
     document.body.appendChild(el);
@@ -2492,15 +2485,23 @@ function copyAppLink() {{
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
+
   var btn = document.getElementById('btn-copy-link');
   var orig = btn.innerHTML;
   btn.innerHTML = '✅ 복사 완료!';
   btn.style.background = '#dcfce7';
   btn.style.color = '#15803d';
-  setTimeout(function() {{ btn.innerHTML = orig; btn.style.background = 'white'; btn.style.color = '#1e293b'; }}, 2000);
+
+  setTimeout(function() {{
+    btn.innerHTML = orig;
+    btn.style.background = 'white';
+    btn.style.color = '#1e293b';
+  }}, 2000);
 }}
 </script>
-""", unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
 
     st.caption("💡 모바일: 카카오앱 직접 실행 | PC: 링크 복사 후 카카오톡에 붙여넣기")
     st.markdown("---")
@@ -2533,8 +2534,7 @@ function copyAppLink() {{
 
         col_btn1, col_btn2 = st.columns(2)
         with col_btn1:
-            if st.button("📨 링크 문자 전송 (데모)", use_container_width=True, type="primary",
-                         key="btn_send_sms"):
+            if st.button("📨 링크 문자 전송 (데모)", use_container_width=True, type="primary", key="btn_send_sms"):
                 if not sender_phone or len(sender_phone) < 10:
                     st.error("발신 번호를 올바르게 입력해주세요.")
                 elif not receiver_phone or len(receiver_phone) < 10:
@@ -2545,15 +2545,19 @@ function copyAppLink() {{
                     st.code(f"수신: {receiver_phone}\n발신: {sender_phone}\n내용: {send_msg}", language="text")
 
         with col_btn2:
-            # PC/모바일 모두 동작하는 카카오 공유
             st.markdown(
-                f'<a href="javascript:void(0)" onclick="openKakaoShare(event)" '
-                f'style="display:block; text-align:center; '
-                f'background:#FFF01E; color:#3c1e1e; font-weight:900; padding:11px; '
-                f'border-radius:8px; text-decoration:none; border:2px solid #3c1e1e; font-size:0.9rem;"
-                f'>💬 카카오링크 대화방 공유</a>',
+                """
+                <a href="javascript:void(0)" onclick="openKakaoShare(event)"
+                   style="display:block; text-align:center;
+                          background:#FFF01E; color:#3c1e1e; font-weight:900; padding:11px;
+                          border-radius:8px; text-decoration:none; border:2px solid #3c1e1e; font-size:0.9rem;">
+                   💬 카카오링크 대화방 공유
+                </a>
+                """,
                 unsafe_allow_html=True
             )
+
+
 # --- Bottom Navigation Renderers ---
 
 BOTTOM_NAV_CSS = """
@@ -2573,6 +2577,7 @@ BOTTOM_NAV_CSS = """
 .nav-btn:hover { color: #2563eb; background-color: #f8fafc; border-radius:8px; }
 </style>
 """
+
 
 @st.dialog("💼 롯데타워&강남빌딩 부동산 중개(주) 명함", width="large")
 def show_business_card_dialog():
@@ -2604,7 +2609,6 @@ def show_business_card_dialog():
     }
     </style>
 
-    <!-- 이상수 대표 명함 -->
     <div class="biz-card">
       <div class="logo-tag">KNR 롯데월드타워 몰 시그니엘 레지던스 전문 | 학원가 한티 삼환·오피스텔 렌트</div>
       <div class="company">롯데타워 &amp; 강남빌딩 부동산 중개(주)</div>
@@ -2623,7 +2627,6 @@ def show_business_card_dialog():
       </div>
     </div>
 
-    <!-- 김은경 이사 명함 -->
     <div class="biz-card">
       <div class="logo-tag">KNR 롯데월드타워 몰 시그니엘 레지던스 전문 | 학원가 삼환 클레시아 랜드</div>
       <div class="company">롯데타워 &amp; 강남빌딩 부동산 중개(주)</div>
@@ -2650,9 +2653,7 @@ def show_business_card_dialog():
 
 
 def render_login_bottom_nav():
-    """로그인 화면 하단 Nav — session_state 방식으로 완전 교체
-    공유하기 / AI핵심3대전략 / 부동산명함보기
-    """
+    """로그인 화면 하단 Nav"""
     st.markdown("""
 <style>
 .block-container { padding-bottom: 90px !important; }
@@ -2707,10 +2708,9 @@ div[data-key="nav_login_card"] {
         st.session_state["show_biz_card"] = True
         st.rerun()
 
+
 def render_main_bottom_nav():
-    """메인 화면 하단 Nav — session_state 방식으로 완전 교체
-    AI매칭사전예약가기 / AI숏츠 바로가기 / AI저평가매물보기
-    """
+    """메인 화면 하단 Nav"""
     st.markdown("""
 <style>
 .block-container { padding-bottom: 90px !important; }
@@ -2765,18 +2765,18 @@ div[data-key="nav_main_top"] {
         st.session_state["nav_tab_idx"] = 1
         st.rerun()
 
-# --- Main ---
+
 def main():
     # Sidebar: Share & Info
     st.sidebar.header("🔗 접속 주소 안내")
     st.sidebar.success("https://lotte-ai-estate.streamlit.app")
     st.sidebar.caption("👆 위 주소가 공식 앱 주소입니다. 복사해서 사용하세요!")
-    
+
     with st.sidebar.expander("📤 앱 공유 및 카톡 바로가기", expanded=True):
         st.markdown("👇 **친구에게 공유할 링크**")
         st.code("https://lotte-ai-estate.streamlit.app", language="text")
         st.warning("⚠️ **주의**: 카카오톡 등 인앱 브라우저에서는 주소창이 숨겨질 수 있습니다. 이 주소를 확인하세요!")
-        
+
         st.markdown("---")
         st.markdown("📱 **(개발용) 로컬 접속 시**")
         st.code("http://localhost:8502", language="text")
@@ -2784,31 +2784,33 @@ def main():
     # Session State Initialization
     if "logged_in" not in st.session_state:
         st.session_state["logged_in"] = False
-    
+
     if not st.session_state["logged_in"]:
         render_login_page()
+
+        if st.session_state.get("show_biz_card"):
+            st.session_state["show_biz_card"] = False
+            show_business_card_dialog()
+
         render_login_bottom_nav()
         return
 
-    # Define Tabs and Functions
     tab_config = [
-        ("🏠 대치1동 특성 (초중고)", render_home),           # idx 0
-        ("⭐ AI저평가추천매물", render_listing),              # idx 1
-        ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation),  # idx 2
-        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),      # idx 3
-        ("🤝 AI공동매물매칭", render_joint_matching),           # idx 4
-        ("🔒 시스템/고객·영업팩", render_admin_system)             # idx 5
+        ("🏠 대치1동 특성 (초중고)", render_home),                          # idx 0
+        ("⭐ AI저평가추천매물", render_listing),                             # idx 1
+        ("🤖 AI매칭/사전등록(예약)매칭", render_matching_and_reservation),     # idx 2
+        ("🎬 AI 숏츠 / YOU-LAB", render_shorts_and_youlab),                 # idx 3
+        ("🤝 AI공동매물매칭", render_joint_matching),                        # idx 4
+        ("🔒 시스템/고객·영업팩", render_admin_system),                      # idx 5
     ]
 
-    # ── 직접 탭 인덱스 설정 (버튼 클릭 시 nav_tab_idx 사용)
     target_idx = st.session_state.pop("nav_tab_idx", None)
     if target_idx is not None:
         idx = int(target_idx)
-        if 0 < idx < len(tab_config):
+        if 0 <= idx < len(tab_config):
             item = tab_config.pop(idx)
             tab_config.insert(0, item)
 
-    # ── 문자열 매핑 호환
     legacy_target = st.session_state.pop("manual_nav_target", None)
     if legacy_target and target_idx is None:
         mapping = {
@@ -2820,21 +2822,19 @@ def main():
         }
         for key, val in mapping.items():
             if key in legacy_target:
-                if val > 0:
+                if 0 <= val < len(tab_config):
                     item = tab_config.pop(val)
                     tab_config.insert(0, item)
                 break
 
-    # Render Tabs
     tabs = st.tabs([t[0] for t in tab_config])
-    
+
     for i, tab in enumerate(tabs):
         with tab:
-            tab_config[i][1]()````
+            tab_config[i][1]()
 
     render_main_bottom_nav()
-``
+
+
 if __name__ == "__main__":
     main()
-
-``````
