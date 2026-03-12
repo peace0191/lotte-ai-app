@@ -2344,35 +2344,166 @@ def render_login_page():
 
     st.markdown("---")
     
-    # Kakao Share Preview — 앵커 id 삽입 (공유하기 버튼 이동 대상)
+    # Kakao Share Section — 앵커 id 삽입
     st.markdown('<div id="kakao-share-section"></div>', unsafe_allow_html=True)
     st.markdown("### 🟡 카카오톡으로 AI 전략 공유하기")
     
-    # Layout for the 'Mock' Kakao Card
     APP_URL = "https://lotte-ai-app.streamlit.app/"
-    with st.container(border=True):
-        c_l, c_r = st.columns([1, 2])
-        with c_l:
-            st.markdown(f"""
-            <a href="{APP_URL}" target="_blank">
-                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=300&q=80" style="border-radius: 10px; width: 100%; height: 100px; object-fit: cover;" title="클릭하여 앱으로 이동">
-            </a>
-            """, unsafe_allow_html=True)
-        with c_r:
-            st.markdown(f"[**[공인중개사 이상수] 대치1동 베이스캠프**]({APP_URL})")
-            st.caption("""
-            1. 🎓 교육특구 1번지 학군 분석
-            2. 🧬 AI 저평가 매물 1초 매칭
-            3. 📢 자동화 마케팅 시스템
-            """)
-        
-        if st.button("카카오톡 링크 보내기 (데모)", use_container_width=True):
-             st.toast("🚀 카카오톡 공유 창이 활성화되었습니다! (실제 동작을 위해선 도메인 등록이 필요합니다)")
-             st.markdown(f"""
-             <div style="padding:10px; background-color:#fef01b; color:#3c1e1e; border-radius:5px; text-align:center; margin-top:10px; font-weight:bold;">
-                <a href="{APP_URL}" target="_blank" style="text-decoration:none; color:#3c1e1e;">앱으로 이동하기 👉 lotte-ai-app.streamlit.app</a>
-             </div>
-             """, unsafe_allow_html=True)
+    APP_TITLE = "[공인중개사 이상수] 대치1동 AI 부동산 베이스캠프"
+    APP_DESC = "⭐ AI 저평가 매물 분석 | 🎓 학군 1번지 | 🤖 자동 매칭"
+    APP_IMG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80"
+    import urllib.parse as _up
+    _enc_url = _up.quote(APP_URL, safe='')
+    _enc_title = _up.quote(APP_TITLE, safe='')
+
+    # ── 카카오 공유 버튼 (Kakao JavaScript SDK)
+    st.markdown(f"""
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+  integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
+  crossorigin="anonymous"></script>
+<div style="background:linear-gradient(135deg,#FFF01E,#F9E000); border-radius:16px;
+            padding:22px 20px; margin-bottom:16px; border:2px solid #E6C900;
+            box-shadow:0 4px 20px rgba(249,224,0,0.35);"
+     id="kakao-share-box">
+  <div style="text-align:center; margin-bottom:14px;">
+    <span style="font-size:2.2rem;">💬</span>
+    <div style="font-size:1.05rem; font-weight:900; color:#3c1e1e; margin-top:4px;">카카오링크 바로 보내기</div>
+    <div style="font-size:0.78rem; color:#7a6000; margin-top:2px;">아래 버튼 클릭 → 카카오톡으로 공유</div>
+  </div>
+
+  <div style="background:white; border-radius:12px; padding:14px 16px; margin-bottom:14px;
+              border:1px solid #e9d900; display:flex; gap:12px; align-items:center;">
+    <img src="{APP_IMG}" style="width:72px; height:72px; border-radius:8px; object-fit:cover; flex-shrink:0;">
+    <div>
+      <div style="font-size:0.88rem; font-weight:800; color:#1e293b;">{APP_TITLE}</div>
+      <div style="font-size:0.76rem; color:#64748b; margin-top:4px;">{APP_DESC}</div>
+      <div style="font-size:0.73rem; color:#2563eb; margin-top:4px;">👉 {APP_URL}</div>
+    </div>
+  </div>
+
+  <!-- 버튼 3종 -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+    <!-- 방법1: Kakao JS SDK 카드 공유 (앱 키 등록 시 활성) -->
+    <button onclick="sendKakaoLink()" id="btn-kakao-sdk"
+      style="background:#3c1e1e; color:#FFF01E; border:none; border-radius:10px;
+             padding:12px 8px; font-size:0.88rem; font-weight:900; cursor:pointer;
+             width:100%; display:flex; align-items:center; justify-content:center; gap:6px;
+             transition:transform 0.15s, box-shadow 0.15s;
+             box-shadow:0 3px 10px rgba(0,0,0,0.25);"
+      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.3)';"
+      onmouseout="this.style.transform=''; this.style.boxShadow='0 3px 10px rgba(0,0,0,0.25)';"
+    >💬 카카오링크 전송</button>
+    <!-- 방법2: 카카오 오픈채팅 URL 공유 -->
+    <a href="https://sharer.kakao.com/talk/friends/picker/easylink?app_key=DEMO&validation_action=default&validation_params=%7B%7D" target="_blank"
+      onclick="openKakaoShare(event)"
+      style="background:#FFF01E; color:#3c1e1e; border:2px solid #3c1e1e; border-radius:10px;
+             padding:12px 8px; font-size:0.88rem; font-weight:900; cursor:pointer;
+             text-align:center; text-decoration:none; display:flex; align-items:center;
+             justify-content:center; gap:6px;
+             box-shadow:0 3px 10px rgba(0,0,0,0.15);"
+    >📤 카카오로 바로공유</a>
+  </div>
+  <!-- 방법3: URL 직접 복사 -->
+  <button onclick="copyAppLink()" id="btn-copy-link"
+    style="background:white; color:#1e293b; border:1.5px solid #d1d5db; border-radius:10px;
+           padding:10px 8px; font-size:0.82rem; font-weight:700; cursor:pointer;
+           width:100%; margin-top:8px; transition:background 0.15s;"
+    onmouseover="this.style.background='#f1f5f9';"
+    onmouseout="this.style.background='white';"
+  >📋 앱 링크 클립보드 복사</button>
+</div>
+
+<script>
+// ─── Kakao JS SDK 초기화 (앱 키가 없어도 fallback 동작) ───
+var KAKAO_APP_KEY = 'YOUR_KAKAO_APP_KEY'; // 카카오 개발자 콘솔에서 발급
+var LOTTE_APP_URL = '{APP_URL}';
+var LOTTE_APP_TITLE = '{APP_TITLE}';
+var LOTTE_APP_DESC = '{APP_DESC}';
+var LOTTE_IMG_URL = '{APP_IMG}';
+
+try {{
+  if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {{
+    Kakao.init(KAKAO_APP_KEY);
+  }}
+}} catch(e) {{ console.log('Kakao SDK init deferred'); }}
+
+function sendKakaoLink() {{
+  try {{
+    if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {{
+      Kakao.Share.sendDefault({{
+        objectType: 'feed',
+        content: {{
+          title: LOTTE_APP_TITLE,
+          description: LOTTE_APP_DESC,
+          imageUrl: LOTTE_IMG_URL,
+          link: {{
+            mobileWebUrl: LOTTE_APP_URL,
+            webUrl: LOTTE_APP_URL
+          }}
+        }},
+        buttons: [
+          {{
+            title: '앱에서 보기',
+            link: {{ mobileWebUrl: LOTTE_APP_URL, webUrl: LOTTE_APP_URL }}
+          }}
+        ]
+      }});
+    }} else {{
+      openKakaoShare(null);
+    }}
+  }} catch(e) {{
+    openKakaoShare(null);
+  }}
+}}
+
+function openKakaoShare(e) {{
+  if (e) e.preventDefault();
+  var shareUrl = 'https://sharer.kakao.com/talk/friends/picker/link?app_key=DEMO&' +
+    'validation_action=default&validation_params=%7B%22url%22%3A%22' +
+    encodeURIComponent(LOTTE_APP_URL) + '%22%7D';
+  // 모바일에서는 카카오앱 딥링크로 시도
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {{
+    // 카카오톡 앱 딥링크 (앱 설치 시 바로 공유)
+    var kakaoDeeplink = 'kakaotalk://msg/sendlink?' +
+      'url=' + encodeURIComponent(LOTTE_APP_URL) +
+      '&text=' + encodeURIComponent(LOTTE_APP_TITLE + '\\n' + LOTTE_APP_DESC + '\\n' + LOTTE_APP_URL);
+    var timeout = setTimeout(function() {{
+      window.open(LOTTE_APP_URL, '_blank');
+    }}, 1500);
+    window.location.href = kakaoDeeplink;
+    window.addEventListener('blur', function() {{ clearTimeout(timeout); }});
+  }} else {{
+    // PC에서는 카카오 채팅방 URL 복사 유도
+    var el = document.createElement('textarea');
+    el.value = LOTTE_APP_TITLE + '\\n' + LOTTE_APP_DESC + '\\n' + LOTTE_APP_URL;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    alert('✅ 공유 메시지가 클립보드에 복사되었습니다!\\n카카오톡을 열어 붙여넣기(Ctrl+V) 하세요.');
+  }}
+}}
+
+function copyAppLink() {{
+  var el = document.createElement('textarea');
+  el.value = LOTTE_APP_URL;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  var btn = document.getElementById('btn-copy-link');
+  var orig = btn.innerHTML;
+  btn.innerHTML = '✅ 복사 완료!';
+  btn.style.background = '#dcfce7';
+  btn.style.color = '#15803d';
+  setTimeout(function() {{ btn.innerHTML = orig; btn.style.background = 'white'; btn.style.color = '#1e293b'; }}, 2000);
+}}
+</script>
+""", unsafe_allow_html=True)
+
+    st.caption("💡 모바일: 카카오앱 직접 실행 | PC: 링크 복사 후 카카오톡에 붙여넣기")
+    st.markdown("---")
 
     # ── 핸드폰 번호로 앱 링크 전송 ──
     st.markdown("#### 📲 핸드폰 번호로 앱 링크 전송")
@@ -2414,11 +2545,13 @@ def render_login_page():
                     st.code(f"수신: {receiver_phone}\n발신: {sender_phone}\n내용: {send_msg}", language="text")
 
         with col_btn2:
-            kakao_url = f"https://open.kakao.com/o/share?url={APP_URL}"
+            # PC/모바일 모두 동작하는 카카오 공유
             st.markdown(
-                f'<a href="{kakao_url}" target="_blank" style="display:block; text-align:center; '
-                f'background:#fef01b; color:#3c1e1e; font-weight:bold; padding:10px; '
-                f'border-radius:8px; text-decoration:none; border:1px solid #ddd;">💛 카카오톡으로 직접 공유</a>',
+                f'<a href="javascript:void(0)" onclick="openKakaoShare(event)" '
+                f'style="display:block; text-align:center; '
+                f'background:#FFF01E; color:#3c1e1e; font-weight:900; padding:11px; '
+                f'border-radius:8px; text-decoration:none; border:2px solid #3c1e1e; font-size:0.9rem;"
+                f'>💬 카카오링크 대화방 공유</a>',
                 unsafe_allow_html=True
             )
 # --- Bottom Navigation Renderers ---
