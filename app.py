@@ -1689,68 +1689,66 @@ def render_login_page():
 
     st.markdown('<div id="login-top"></div>', unsafe_allow_html=True)
 
+    # ✅ 상단 헤더 카드 (가독성 안정화 버전)
     st.markdown("""
     <div style="
         background: linear-gradient(135deg, #061537 0%, #081a45 100%);
-        color: #ffffff;
         padding: 34px;
         border-radius: 18px;
         margin-bottom: 24px;
         box-shadow: 0 10px 30px rgba(2, 6, 23, 0.22);
         border: 1px solid rgba(255,255,255,0.06);
     ">
-        <div style="display: flex; align-items: flex-start; margin-bottom: 22px;">
+        <div style="display:flex; align-items:flex-start; margin-bottom:22px;">
             <div style="
-                background-color: #fbbf24;
-                width: 76px;
-                height: 76px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 18px;
-                font-size: 36px;
-                flex-shrink: 0;
-                box-shadow: 0 6px 18px rgba(251,191,36,0.35);
-            ">
-                👨‍💼
-            </div>
+                background:#fbbf24;
+                width:76px;
+                height:76px;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                margin-right:18px;
+                font-size:36px;
+                flex-shrink:0;
+                box-shadow:0 6px 18px rgba(251,191,36,0.35);
+            ">👨‍💼</div>
 
-            <div style="flex: 1;">
+            <div style="flex:1;">
                 <div style="
-                    margin: 0 0 6px 0;
-                    font-size: 1.35rem;
-                    color: #f8fafc;
-                    line-height: 1.45;
-                    font-weight: 900;
-                    letter-spacing: -0.02em;
+                    margin:0 0 6px 0;
+                    font-size:1.35rem;
+                    line-height:1.45;
+                    font-weight:900;
+                    letter-spacing:-0.02em;
+                    color:#f8fafc;
                 ">
                     롯데타워앤강남빌딩부동산중개주식회사
                 </div>
 
                 <div style="
-                    color: #cbd5e1;
-                    font-size: 0.92rem;
-                    margin-bottom: 8px;
-                    font-weight: 500;
+                    font-size:0.92rem;
+                    margin-bottom:8px;
+                    font-weight:500;
+                    color:#cbd5e1;
                 ">
                     등록번호: 11680-2023-00078 | 사업자: 461-86-02740
                 </div>
 
                 <div style="
-                    font-size: 1.55rem;
-                    color: #fbbf24;
-                    font-weight: 900;
-                    margin-bottom: 10px;
-                    letter-spacing: -0.03em;
+                    font-size:1.55rem;
+                    font-weight:900;
+                    margin-bottom:10px;
+                    letter-spacing:-0.03em;
+                    color:#fbbf24;
                 ">
                     대표: 공인중개사 이상수
                 </div>
 
                 <div style="
-                    color: #f1f5f9;
-                    font-size: 1.03rem;
-                    font-weight: 600;
+                    font-size:1.03rem;
+                    font-weight:600;
+                    color:#f1f5f9;
                 ">
                     Tel: 02-578-8285 / 010-8985-8945
                 </div>
@@ -1758,26 +1756,46 @@ def render_login_page():
         </div>
 
         <div style="
-            color: #fde68a;
-            margin-top: 10px;
-            font-size: 1.55rem;
-            font-weight: 900;
-            line-height: 1.5;
-            letter-spacing: -0.03em;
+            margin-top:10px;
+            font-size:1.55rem;
+            font-weight:900;
+            line-height:1.5;
+            letter-spacing:-0.03em;
+            color:#fde68a;
         ">
             대치1동은 자녀의 미래 베이스캠프입니다.
         </div>
 
         <div style="
-            color: #e2e8f0;
-            line-height: 1.9;
-            font-size: 1.02rem;
-            margin-top: 14px;
-            font-weight: 500;
+            line-height:1.9;
+            font-size:1.02rem;
+            margin-top:14px;
+            font-weight:500;
+            color:#fde68a;
         ">
             AI 저평가 분석과 예약 AI자동 매칭 시스템으로 숨겨진 부동산 가치를 발굴하고,<br>
             대한민국 최고의 교육 환경으로 가는 최적의 출발점을 찾아드립니다.
         </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div id="ai-strategy-section"></div>', unsafe_allow_html=True)
+    st.markdown("#### 🔷 AI 부동산 핵심 3대 전략")
+
+    st.markdown("""
+    <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3b82f6;">
+        <h4 style="margin: 0 0 10px 0; color: #1e293b;">🎓 교육특구 1번지 분석</h4>
+        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">래대팰·SK뷰(대치초/단대부고) vs 아이파크(대도초/숙명여중고)<br>학군 정밀 분석 및 배정 원칙 데이터화</p>
+    </div>
+
+    <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #8b5cf6;">
+        <h4 style="margin: 0 0 10px 0; color: #1e293b;">🧬 AI저평가 매물 매수·매도·임대차 예약 AI자동매칭</h4>
+        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">빅데이터로 저평가 매물을 발굴하고, 매수·매도·임대차 예약 고객에게 <b>1초 만에 AI자동 매칭</b>하여 거래 성사율 극대화</p>
+    </div>
+
+    <div style="background-color: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid #ef4444;">
+        <h4 style="margin: 0 0 10px 0; color: #1e293b;">📢 AI 자동 홍보 시스템</h4>
+        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">매물 접수 즉시 영업 문구 자동 생성 및 타겟 고객 발송</p>
     </div>
     """, unsafe_allow_html=True)
 
