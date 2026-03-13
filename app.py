@@ -347,6 +347,12 @@ input[type="text"]:focus, textarea:focus {
     margin: 24px 0 14px 0;
     border-left: 4px solid #facc15;
 }
+.section-header,
+.section-header p,
+.section-header span,
+.section-header * {
+    color: #f8fafc !important;
+}
 
 hr { border-color: #d1d5db !important; }
 
@@ -452,6 +458,77 @@ div[data-testid="stMetricLabel"] {
 /* ─── 다크 카드 내부 텍스트 강제 흰색 ─── */
 .dark-card, .dark-card * {
     color: #f1f5f9 !important;
+}
+
+/* ── 인라인 style에 어두운 배경색이 지정된 모든 요소 → 텍스트 흰색 강제 ── */
+/* background:#0f172a 계열 */
+[style*="background:#0f172a"],
+[style*="background: #0f172a"],
+[style*="background:#0f172a"] p,
+[style*="background:#0f172a"] span,
+[style*="background:#0f172a"] div,
+[style*="background:#0f172a"] li,
+[style*="background:#0f172a"] td,
+[style*="background:#0f172a"] th,
+[style*="background:#0f172a"] label,
+[style*="background:#0f172a"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:#1e293b 계열 */
+[style*="background:#1e293b"],
+[style*="background: #1e293b"],
+[style*="background:#1e293b"] p,
+[style*="background:#1e293b"] span,
+[style*="background:#1e293b"] div,
+[style*="background:#1e293b"] li,
+[style*="background:#1e293b"] td,
+[style*="background:#1e293b"] th,
+[style*="background:#1e293b"] label,
+[style*="background:#1e293b"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:linear-gradient(135deg,#0f172a 계열 */
+[style*="background:linear-gradient(135deg,#0f172a"],
+[style*="background:linear-gradient(135deg,#0f172a"] *,
+[style*="background: linear-gradient(135deg, #0f172a"],
+[style*="background: linear-gradient(135deg, #0f172a"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:linear-gradient(135deg,#1e293b 계열 */
+[style*="background:linear-gradient(135deg,#1e293b"],
+[style*="background:linear-gradient(135deg,#1e293b"] *,
+[style*="background: linear-gradient(135deg, #1e293b"],
+[style*="background: linear-gradient(135deg, #1e293b"] *,
+[style*="background:linear-gradient(135deg,#1e293b 0%"],
+[style*="background:linear-gradient(135deg,#1e293b 0%"] * {
+    color: #f1f5f9 !important;
+}
+
+/* ── 어두운 배경 위 강조 색상 유지 (덮어쓰기 방지) ── */
+[style*="background:#0f172a"] [style*="color:#facc15"],
+[style*="background:#1e293b"] [style*="color:#facc15"],
+[style*="background:#0f172a"] [style*="color:#fbbf24"],
+[style*="background:#1e293b"] [style*="color:#fbbf24"] {
+    color: #facc15 !important;
+}
+[style*="background:#0f172a"] [style*="color:#4ade80"],
+[style*="background:#1e293b"] [style*="color:#4ade80"] {
+    color: #4ade80 !important;
+}
+[style*="background:#0f172a"] [style*="color:#f87171"],
+[style*="background:#1e293b"] [style*="color:#f87171"],
+[style*="background:#0f172a"] [style*="color:#dc2626"],
+[style*="background:#1e293b"] [style*="color:#dc2626"] {
+    color: #f87171 !important;
+}
+[style*="background:#0f172a"] [style*="color:#60a5fa"],
+[style*="background:#1e293b"] [style*="color:#60a5fa"],
+[style*="background:#0f172a"] [style*="color:#2563eb"],
+[style*="background:#1e293b"] [style*="color:#2563eb"] {
+    color: #60a5fa !important;
 }
 
 /* ─── 흰 배경 카드 — 텍스트 항상 진한색 ─── */
