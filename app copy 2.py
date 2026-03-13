@@ -48,8 +48,6 @@ input, textarea {
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     margin-bottom: 15px;
 }
-</style>
-""", unsafe_allow_html=True)
 
 </style>
 """, unsafe_allow_html=True)
