@@ -108,6 +108,19 @@ p, li, td, th, label {
 span { color: inherit; }
 div { color: inherit; }
 
+/* ─── 핵심: 밝은 배경 컨테이너에서 텍스트 강제 진한색 ─── */
+/* stMarkdown 내 흰 배경 div들의 텍스트를 진하게 */
+.stMarkdown {
+    color: #1e293b !important;
+}
+.stMarkdown > div {
+    color: #1e293b !important;
+}
+/* 컬럼 내부 전체 */
+[data-testid="column"] {
+    color: #1e293b !important;
+}
+
 .stMarkdown p {
     color: #1e293b !important;
     font-size: 14px !important;
@@ -309,12 +322,19 @@ input[type="text"]:focus, textarea:focus {
 
 /* ─── 카드 ─── */
 .card {
-    background: #ffffff;
+    background: #ffffff !important;
     padding: 1.5rem;
     border-radius: 14px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
     margin-bottom: 1rem;
     border: 1px solid #e5e7eb;
+    color: #1e293b !important;
+}
+.card * {
+    color: #1e293b !important;
+}
+.card h4, .card h3, .card h2 {
+    color: #0f172a !important;
 }
 
 /* ─── 섹션 헤더 ─── */
@@ -432,6 +452,55 @@ div[data-testid="stMetricLabel"] {
 /* ─── 다크 카드 내부 텍스트 강제 흰색 ─── */
 .dark-card, .dark-card * {
     color: #f1f5f9 !important;
+}
+
+/* ─── 흰 배경 카드 — 텍스트 항상 진한색 ─── */
+.white-card {
+    background: #ffffff !important;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    color: #0f172a !important;
+}
+.white-card * {
+    color: #1e293b !important;
+}
+
+/* 특성 카드 텍스트 */
+.card-title {
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 4px 0 !important;
+}
+.card-desc {
+    font-size: 0.76rem !important;
+    color: #475569 !important;
+    white-space: pre-line;
+    line-height: 1.5 !important;
+}
+
+/* 시세 카드 */
+.price-card {
+    padding: 16px !important;
+    text-align: center !important;
+}
+.price-label {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    margin-bottom: 4px !important;
+}
+.price-value {
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.price-jeonse {
+    font-size: 0.8rem !important;
+    color: #2563eb !important;
+    margin-top: 4px !important;
 }
 
 /* ─── 전략 카드 (밝은 배경) ─── */
@@ -831,14 +900,12 @@ def render_home():
     for col, (icon, color, title, desc) in zip([f1, f2, f3], feature_items):
         with col:
             st.markdown(f"""
-            <div style="background:#ffffff; border-radius:12px; padding:16px; text-align:center;
-                        border-left:4px solid {color}; box-shadow:0 2px 8px rgba(0,0,0,0.07);
-                        margin-bottom:8px;">
+            <div class="white-card" style="background:#ffffff; border-radius:12px; padding:16px;
+                        text-align:center; border-left:4px solid {color};
+                        box-shadow:0 2px 8px rgba(0,0,0,0.07); margin-bottom:8px;">
                 <div style="font-size:2rem;">{icon}</div>
-                <div style="font-size:0.9rem; font-weight:800; color:#0f172a !important;
-                            margin:4px 0;">{title}</div>
-                <div style="font-size:0.76rem; color:#64748b !important;
-                            white-space:pre-line; line-height:1.5;">{desc}</div>
+                <div class="card-title">{title}</div>
+                <div class="card-desc">{desc}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -863,20 +930,13 @@ def render_home():
         arrow_color = "#16a34a" if delta >= 0 else "#dc2626"
         delta_abs = abs(delta)
         st.markdown(f"""
-        <div style="background:#ffffff; padding:16px; border-radius:12px;
-                    border:1px solid #e2e8f0; text-align:center;
-                    box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-            <div style="font-size:0.85rem; color:#64748b !important; font-weight:700;
-                        margin-bottom:4px;">{title}</div>
-            <div style="font-size:2rem; font-weight:900; color:#0f172a !important;
-                        line-height:1.2;">{price}억</div>
-            <div style="font-size:0.82rem; color:{arrow_color} !important;
-                        font-weight:700; margin:4px 0;">
+        <div class="white-card price-card">
+            <div class="price-label">{title}</div>
+            <div class="price-value">{price}억</div>
+            <div style="font-size:0.82rem; font-weight:700; color:{arrow_color}; margin:4px 0;">
                 {arrow} 전일比 {delta_abs}% ({'+' if delta>=0 else ''}{round(price*delta/100,2)}억)
             </div>
-            <div style="font-size:0.8rem; color:#2563eb !important;">
-                전세가율 {int(jeonse_ratio*100)}% · 약 {jeonse_val}억
-            </div>
+            <div class="price-jeonse">전세가율 {int(jeonse_ratio*100)}% · 약 {jeonse_val}억</div>
         </div>
         """, unsafe_allow_html=True)
 
