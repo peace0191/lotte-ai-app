@@ -104,9 +104,9 @@ p, li, td, th, label {
     color: #1e293b !important;
 }
 
-span, div {
-    color: inherit;
-}
+/* span, div는 상속만 — 탭 내부 색상 간섭 방지 */
+span { color: inherit; }
+div { color: inherit; }
 
 .stMarkdown p {
     color: #1e293b !important;
@@ -224,39 +224,71 @@ div[data-testid="stMetricLabel"] {
 
 /* ─── 탭 바 ─── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 3px;
-    background: linear-gradient(135deg, #1e2d40 0%, #0f1e30 100%);
-    padding: 8px 6px;
+    gap: 4px;
+    background: #1e293b;
+    padding: 6px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     position: sticky;
     top: 0;
     z-index: 999;
+    border: 1px solid #334155;
 }
 
+/* 비활성 탭 — 항상 밝은 배경 + 흰 글씨 */
 .stTabs [data-baseweb="tab"] {
-    height: 44px;
+    height: auto !important;
+    min-height: 42px !important;
     flex-grow: 1;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #cbd5e1 !important;
-    border-radius: 8px;
+    border-radius: 8px !important;
     margin: 0 2px;
-    letter-spacing: -0.3px;
-    transition: all 0.2s;
+    transition: all 0.18s;
+    background: #334155 !important;
+    border: 1px solid #475569 !important;
+    padding: 6px 4px !important;
 }
 
+/* 탭 내부 텍스트 — 전역 규칙 무력화 후 흰색 강제 */
+.stTabs [data-baseweb="tab"] p,
+.stTabs [data-baseweb="tab"] span,
+.stTabs [data-baseweb="tab"] div,
+.stTabs [data-baseweb="tab"] button,
+.stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"] p,
+.stTabs [data-baseweb="tab"] * {
+    color: #e2e8f0 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.2px;
+    line-height: 1.3 !important;
+    text-align: center !important;
+    word-break: keep-all;
+}
+
+/* 활성 탭 — 파란 배경 + 노란 하이라이트 */
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: 1px solid #3b82f6 !important;
+    box-shadow: 0 3px 10px rgba(37,99,235,0.45) !important;
+    border-bottom: 3px solid #facc15 !important;
+}
+
+.stTabs [aria-selected="true"] p,
+.stTabs [aria-selected="true"] span,
+.stTabs [aria-selected="true"] div,
+.stTabs [aria-selected="true"] button,
+.stTabs [aria-selected="true"] * {
     color: #ffffff !important;
     font-weight: 900 !important;
-    border-bottom: 3px solid #facc15 !important;
-    box-shadow: 0 3px 12px rgba(37,99,235,0.4) !important;
 }
 
+/* 비활성 탭 hover */
 .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
-    background-color: rgba(255,255,255,0.12) !important;
-    color: #f1f5f9 !important;
+    background: #475569 !important;
+    border-color: #64748b !important;
+}
+
+.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) * {
+    color: #ffffff !important;
 }
 
 /* ─── 다크 카드 내부 텍스트 강제 흰색 ─── */
@@ -283,8 +315,11 @@ div[data-testid="stMetricLabel"] {
         padding-right: 0.8rem !important;
     }
     .stTabs [data-baseweb="tab"] {
-        font-size: 11px !important;
-        height: 40px;
+        min-height: 36px !important;
+        padding: 4px 2px !important;
+    }
+    .stTabs [data-baseweb="tab"] * {
+        font-size: 10px !important;
     }
     div[data-testid="stMetricValue"] {
         font-size: 1.2rem !important;
