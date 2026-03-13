@@ -72,198 +72,105 @@ if "manual_nav_target" not in st.session_state:
 
 # --- Custom CSS ---
 st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap');
+<div style="
+background:linear-gradient(135deg,#0f172a,#1e3a5f);
+border-radius:14px;
+padding:24px 22px;
+margin-bottom:20px;
+color:white;
+">
 
-html, body, [class*="css"] {
-    font-family: 'Noto Sans KR', sans-serif !important;
-}
+<h4 style="
+color:#FFFFFF;
+margin:0 0 14px 0;
+font-size:1.15rem;
+font-weight:800;
+">
+🏠 부동산 저평가 매물 & 사전예약 AI 자동매칭 플랫폼
+</h4>
 
-.stApp {
-    background: #ffffff !important;
-}
+<div style="
+background:rgba(59,130,246,0.15);
+border-radius:10px;
+padding:14px 16px;
+margin-bottom:12px;
+">
 
-.block-container {
-    background: #ffffff !important;
-    padding-top: 0.6rem !important;
-    padding-bottom: 100px !important;
-    max-width: 1100px !important;
-}
+<div style="
+font-size:0.9rem;
+color:#93C5FD;
+font-weight:700;
+margin-bottom:6px;
+">
+❓ 핵심 문제
+</div>
 
-header { visibility: hidden; }
-footer { visibility: hidden; }
+<div style="
+font-size:0.92rem;
+color:#E5E7EB;
+line-height:1.7;
+">
+학군 이사 가족은 <b>10년간</b> 같은 지역에 머뭅니다.<br>
+원하는 시기·가격의 매물은 <b>구조적으로 희소</b>합니다.
+</div>
 
-html {
-    scroll-behavior: smooth !important;
-    scroll-padding-top: 100px;
-}
+</div>
 
-div[id="login-top"],
-div[id="kakao-share-section"],
-div[id="ai-strategy-section"] {
-    scroll-margin-top: 80px;
-    padding-top: 4px;
-}
+<div style="
+background:rgba(16,185,129,0.15);
+border-radius:10px;
+padding:14px 16px;
+margin-bottom:12px;
+">
 
-h1, h2, h3, h4, h5, h6 {
-    color: #0f172a !important;
-    font-weight: 800 !important;
-}
+<div style="
+font-size:0.9rem;
+color:#6EE7B7;
+font-weight:700;
+margin-bottom:6px;
+">
+✅ 해결책
+</div>
 
-p, span, div, li, td, th, label {
-    color: #111827;
-}
+<div style="
+font-size:0.92rem;
+color:#E5E7EB;
+line-height:1.7;
+">
+AI가 저평가 매물을 <b>1초 분석</b>.<br>
+매도·임대인 ↔ 매수·임차인 이사 시기를 <b>사전 자동매칭</b>.
+</div>
 
-.stMarkdown p {
-    color: #1e293b !important;
-    font-size: 14px !important;
-    line-height: 1.7 !important;
-}
+</div>
 
-label {
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #111827 !important;
-}
+<div style="
+background:rgba(251,191,36,0.15);
+border-radius:10px;
+padding:14px 16px;
+">
 
-input[type="text"], input[type="number"], input[type="tel"],
-input[type="email"], input[type="password"], textarea {
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    color: #111827 !important;
-    background-color: #ffffff !important;
-    border: 1.5px solid #d1d5db !important;
-    border-radius: 8px !important;
-}
+<div style="
+font-size:0.9rem;
+color:#FDE68A;
+font-weight:700;
+margin-bottom:6px;
+">
+🎯 기대 효과
+</div>
 
-input[type="text"]:focus, textarea:focus {
-    border-color: #2563eb !important;
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.12) !important;
-    outline: none !important;
-}
+<div style="
+font-size:0.92rem;
+color:#E5E7EB;
+line-height:1.8;
+">
+👨‍👩‍👧 소비자 — 입주·입학 시기 혼란 해소<br>
+📊 시장 — 수급 투명화, 가격 왜곡 감소<br>
+🏙️ 사회 — 기존 주거지역 흐름 안정화
+</div>
 
-::placeholder {
-    color: #9ca3af !important;
-    font-style: italic;
-    font-size: 13px;
-}
+</div>
 
-.stNumberInput > div > div > input {
-    color: #111827 !important;
-    background: #ffffff !important;
-}
-
-.stRadio label, .stCheckbox label {
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: #374151 !important;
-}
-
-.stButton > button {
-    border-radius: 10px !important;
-    font-weight: 800 !important;
-    font-size: 15px !important;
-    letter-spacing: -0.2px;
-    transition: all 0.2s !important;
-}
-
-.card {
-    background: #ffffff;
-    padding: 1.5rem;
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
-    margin-bottom: 1rem;
-    border: 1px solid #e5e7eb;
-}
-
-.section-header {
-    background: linear-gradient(135deg, #0f172a, #1e3a5f);
-    color: #f8fafc;
-    font-weight: 900;
-    padding: 12px 16px;
-    border-radius: 10px;
-    margin: 24px 0 14px 0;
-    border-left: 4px solid #facc15;
-}
-
-hr {
-    border-color: #d1d5db !important;
-}
-
-.login-section-divider {
-    border: none;
-    border-top: 2px dashed #cbd5e1;
-    margin: 28px 0;
-}
-
-.ext-link {
-    display: block;
-    padding: 12px;
-    text-decoration: none;
-    color: white !important;
-    text-align: center;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 14px;
-    margin-bottom: 5px;
-    transition: 0.25s;
-}
-
-.ext-link:hover {
-    opacity: 0.88;
-    transform: translateY(-1px);
-}
-
-div[data-testid="stMetricValue"] {
-    font-size: 1.6rem !important;
-    font-weight: 900 !important;
-}
-
-div[data-testid="stMetricLabel"] {
-    font-size: 0.82rem !important;
-    font-weight: 600 !important;
-}
-
-.stAlert {
-    border-radius: 10px !important;
-}
-
-.stTabs [data-baseweb="tab-list"] {
-    gap: 3px;
-    background: linear-gradient(135deg, #1e2d40 0%, #0f1e30 100%);
-    padding: 8px 6px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 999;
-}
-
-.stTabs [data-baseweb="tab"] {
-    height: 44px;
-    flex-grow: 1;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #7c8fa6 !important;
-    border-radius: 8px;
-    margin: 0 2px;
-    letter-spacing: -0.3px;
-    transition: all 0.2s;
-}
-
-.stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-    color: #ffffff !important;
-    font-weight: 900 !important;
-    border-bottom: 3px solid #facc15 !important;
-    box-shadow: 0 3px 12px rgba(37,99,235,0.4) !important;
-}
-
-.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
-    background-color: rgba(255,255,255,0.08) !important;
-    color: #e2e8f0 !important;
-}
-</style>
+</div>
 """, unsafe_allow_html=True)
 
 # --- Constants & Data for Map ---
