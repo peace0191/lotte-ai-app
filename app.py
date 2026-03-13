@@ -148,25 +148,163 @@ input[type="text"]:focus, textarea:focus {
     background: #ffffff !important;
 }
 
-/* ─── 라디오 / 체크박스 ─── */
+/* ─── 라디오 / 체크박스 / 토글 ─── */
 .stRadio label, .stCheckbox label {
     font-size: 13px !important;
     font-weight: 600 !important;
-    color: #374151 !important;
+    color: #1e293b !important;
+}
+.stRadio > div > div > label > div > p,
+.stRadio > div > div > label p,
+.stCheckbox > label > div > p,
+.stCheckbox label p {
+    color: #1e293b !important;
+    font-size: 13px !important;
+}
+/* 토글 라벨 */
+.stToggle label p, .stToggle label span {
+    color: #1e293b !important;
+    font-weight: 600 !important;
 }
 
-/* ─── 버튼 ─── */
+/* ─── Selectbox / Multiselect ─── */
+.stSelectbox > div > div,
+.stSelectbox [data-baseweb="select"] > div {
+    background: #ffffff !important;
+    border: 1.5px solid #d1d5db !important;
+    border-radius: 8px !important;
+    color: #111827 !important;
+}
+.stSelectbox [data-baseweb="select"] span,
+.stSelectbox [data-baseweb="select"] div {
+    color: #111827 !important;
+}
+.stMultiSelect [data-baseweb="select"] > div {
+    background: #ffffff !important;
+    border: 1.5px solid #d1d5db !important;
+    color: #111827 !important;
+}
+
+/* 드롭다운 메뉴 옵션 */
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="menu"] [role="option"] {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="menu"] [role="option"]:hover {
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+}
+
+/* ─── expander 헤더 ─── */
+.streamlit-expanderHeader {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+.streamlit-expanderHeader p,
+.streamlit-expanderHeader span {
+    color: #1e293b !important;
+}
+.streamlit-expanderContent {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0 0 8px 8px !important;
+}
+
+/* ─── date_input ─── */
+.stDateInput input {
+    color: #111827 !important;
+    background: #ffffff !important;
+}
+
+/* ─── st.info / st.success / st.warning / st.error 내부 텍스트 ─── */
+.stAlert > div > p,
+.stAlert p,
+.stAlert span {
+    color: inherit !important;
+}
+
+/* ─── st.caption ─── */
+.stCaptionContainer p,
+.stCaption p {
+    color: #64748b !important;
+    font-size: 0.78rem !important;
+}
+
+/* ─── container(border=True) ─── */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+}
+
+/* ─── 버튼 공통 ─── */
 .stButton > button {
     border-radius: 10px !important;
     font-weight: 800 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     letter-spacing: -0.2px;
-    transition: all 0.2s !important;
-    color: #ffffff !important;
+    transition: all 0.18s !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    line-height: 1.4 !important;
+    word-break: keep-all;
 }
 
-.stButton > button[kind="secondary"] {
-    color: #374151 !important;
+/* Primary 버튼 — 파란 배경 + 흰 글씨 */
+.stButton > button[kind="primary"],
+.stButton > button[data-testid*="primary"] {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.35) !important;
+}
+.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.5) !important;
+    transform: translateY(-1px);
+}
+
+/* Secondary / 일반 버튼 — 밝은 회색 배경 + 진한 글씨 */
+.stButton > button[kind="secondary"],
+.stButton > button:not([kind="primary"]) {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1.5px solid #cbd5e1 !important;
+}
+.stButton > button[kind="secondary"]:hover,
+.stButton > button:not([kind="primary"]):hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-1px);
+}
+
+/* 버튼 내부 텍스트 — 전역 색상 규칙 무력화 */
+.stButton > button p,
+.stButton > button span,
+.stButton > button div,
+.stButton > button * {
+    color: inherit !important;
+    font-weight: 800 !important;
+    font-size: inherit !important;
+}
+
+/* form submit 버튼 */
+.stFormSubmitButton > button {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    border-radius: 10px !important;
+    border: none !important;
+    font-size: 14px !important;
+}
+.stFormSubmitButton > button * {
+    color: #ffffff !important;
 }
 
 /* ─── 카드 ─── */
