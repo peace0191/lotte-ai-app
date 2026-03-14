@@ -1368,6 +1368,60 @@ def render_listing():
 
     st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
 
+    # 은마 급매 추가 섹션
+    st.markdown("""
+    <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
+                border-left:4px solid #ef4444;">
+        <span style="font-size:1.05rem; font-weight:900; color:#fca5a5;">🚨 급매강추 특가 매물</span>
+        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+            즉시 협의 가능 · 단기 처분 희망
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    euma_col1, euma_col2 = st.columns(2)
+    with euma_col1:
+        st.markdown("""
+        <div class="dark-box" style="background:#0f172a; border:2px solid #ef4444; border-radius:14px;
+                    padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#ef4444; color:#ffffff;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🔥 급매강추</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🏘️</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치은마 34평 넓은평형</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">41억</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">34평 · 남향 · 중층</div>
+                    <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">재건축 기대감 · 투자추천</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="euma34_report1", use_container_width=True, type="primary"):
+            st.info("대치은마 34평 저평가 분석 리포트가 생성되었습니다. (데모)")
+
+    with euma_col2:
+        st.markdown("""
+        <div class="dark-box" style="background:#0f172a; border:2px solid #ef4444; border-radius:14px;
+                    padding:18px; position:relative; margin-bottom:4px;">
+            <div style="position:absolute; top:-12px; left:16px; background:#ef4444; color:#ffffff;
+                        font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🔥 급매강추 · 가격협의</div>
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-top:6px;">
+                <div style="font-size:2rem;">🏘️</div>
+                <div>
+                    <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치은마 34평 넓은평형</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">39억</div>
+                    <div style="font-size:0.78rem; color:#94a3b8;">조정협의 / 급매강추</div>
+                    <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">34평 · 남향 · 즉시협의가능</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("📊 AI 저평가 리포트 보기", key="euma34_report2", use_container_width=True, type="primary"):
+            st.info("대치은마 34평 급매 분석 리포트가 생성되었습니다. (데모)")
+
+    st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
     # 임대차 저평가 섹션
     st.markdown("""
     <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
@@ -1440,8 +1494,8 @@ def render_listing():
     st.markdown('<div class="section-header">🚆 대치 SK뷰 (초역세권)</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
     with c1: property_card("대치SK뷰 33평 급매", "38억", "33평 · 중층 · 남향 · 대치역 도보 5분", "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80", "급매", "skv33")
-    with c2: property_card("대치SK뷰 26평 인기타입", "10억 / 150만", "26평 · 동남향 · 저층 · 방3화2", "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=400&q=80", "월세", "skv26")
-    with c3: property_card("대치SK뷰 37평 방4", "8억 / 530만", "37평 · 저층 · 가성비", "https://images.unsplash.com/photo-1502005229766-5283522a6f1f?auto=format&fit=crop&w=400&q=80", "반전세", "skv37")
+    with c2: property_card("대치SK뷰 37평 인기타입", "8억 / 530만", "37평 · 동남향 · 방4화2 · 지하 개별창고 유", "https://images.unsplash.com/photo-1502005229766-5283522a6f1f?auto=format&fit=crop&w=400&q=80", "월세", "skv37a")
+    with c3: property_card("대치SK뷰 37평 인기타입", "5억 / 640만", "37평 · 동남향 · 방4화2 · 지하 개별창고 유", "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=400&q=80", "월세", "skv37b")
 
     st.markdown('<div class="section-header">🏘️ 대치 아이파크</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
@@ -1454,6 +1508,9 @@ def render_listing():
     with c1: property_card("대치은마 31평 급매", "36.5억", "31평 · 중층 · 남향 · 대치동 중심", "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=400&q=80", "투자추천", "euma31")
     with c2: property_card("대치은마 31평 고층뷰", "38억", "31평 · 고층 · 남향 · 조망 우수", "https://images.unsplash.com/photo-1484154218962-a1c002085d2f?auto=format&fit=crop&w=400&q=80", key_suffix="euma31h")
     with c3: property_card("대치은마 34평 넓은평형", "41억", "34평 · 남향 · 중층", "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80", key_suffix="euma34")
+
+    c1, c2, c3 = st.columns(3)
+    with c1: property_card("대치은마 34평 넓은평형 급매강추", "39억(조정협의)", "34평 · 남향 · 급매 · 협의가능", "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=400&q=80", "급매강추", "euma34b")
 
     st.markdown('<div class="section-header">🎓 삼환 아르누보 2 (오피스텔)</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
