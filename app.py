@@ -267,7 +267,7 @@ input[type="text"]:focus, textarea:focus {
 /* ─── st.caption ─── */
 .stCaptionContainer p,
 .stCaption p {
-    color: #64748b !important;
+    color:#a0b0c8 !important;
     font-size: 0.78rem !important;
 }
 
@@ -316,7 +316,7 @@ input[type="text"]:focus, textarea:focus {
 .stButton > button:not([kind="primary"]):hover {
     background: #e2e8f0 !important;
     color: #0f172a !important;
-    border-color: #94a3b8 !important;
+    border-color:#cbd5e1 !important;
     transform: translateY(-1px);
 }
 
@@ -472,7 +472,7 @@ div[data-testid="stMetricLabel"] {
 /* 비활성 탭 hover */
 .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
     background: #2d3f55 !important;
-    border-color: #64748b !important;
+    border-color:#a0b0c8 !important;
     transform: translateY(-1px);
 }
 
@@ -681,7 +681,7 @@ div[data-testid="stMetricLabel"] {
 .price-label {
     font-size: 0.85rem !important;
     font-weight: 700 !important;
-    color: #64748b !important;
+    color:#a0b0c8 !important;
     margin-bottom: 4px !important;
 }
 .price-value {
@@ -812,10 +812,10 @@ div[data-key="nav_main_top"] {
     color: #f1f5f9 !important;
 }
 /* 서브텍스트 (#94a3b8 등 회색) 도 최소 #cbd5e1 이상으로 */
-.dark-box [style*="color:#94a3b8"],
-.dark-box [style*="color:#64748b"],
+.dark-box [style*="color:#cbd5e1"],
+.dark-box [style*="color:#a0b0c8"],
 .dark-box [style*="color:#475569"],
-.dark-box [style*="color:#6b7280"],
+.dark-box [style*="color:#a0b0c8"],
 .dark-box [style*="color:#9ca3af"] {
     color: #cbd5e1 !important;
 }
@@ -845,7 +845,7 @@ div[data-key="nav_main_top"] {
 .white-card, .white-card * { color: #1e293b !important; }
 .card, .card *              { color: #1e293b !important; }
 .price-card  { padding:16px; text-align:center; }
-.price-label { font-size:0.85rem; font-weight:700; color:#64748b !important; margin-bottom:4px; }
+.price-label { font-size:0.85rem; font-weight:700; color:#a0b0c8 !important; margin-bottom:4px; }
 .price-value { font-size:2rem; font-weight:900; color:#0f172a !important; line-height:1.2; }
 .price-jeonse{ font-size:0.8rem; color:#2563eb !important; margin-top:4px; }
 .card-title  { font-size:0.9rem; font-weight:800; color:#0f172a !important; margin:4px 0; }
@@ -946,31 +946,31 @@ def render_daechi_map_block():
                 <div style="display:flex; align-items:start;">
                     <span style="color:#FFD700; margin-right:8px; font-size:1.2em;">●</span>
                     <div><b style="color:#fbbf24;">아파트 단지 (노랑)</b><br>
-                    <span style="color:#94a3b8;">래대팰, SK뷰, 아이파크, 은마</span></div>
+                    <span style="color:#cbd5e1;">래대팰, SK뷰, 아이파크, 은마</span></div>
                 </div>
                 <div style="display:flex; align-items:start;">
                     <span style="color:#32CD32; margin-right:8px; font-size:1.2em;">●</span>
                     <div><b style="color:#4ade80;">중·고등학교 (녹색)</b><br>
-                    <span style="color:#94a3b8;">대청중, 숙명여중고, 단대부중고</span></div>
+                    <span style="color:#cbd5e1;">대청중, 숙명여중고, 단대부중고</span></div>
                 </div>
                 <div style="display:flex; align-items:start;">
                     <span style="color:#FF8C00; margin-right:8px; font-size:1.2em;">●</span>
                     <div><b style="color:#fb923c;">초등학교 (주황)</b><br>
-                    <span style="color:#94a3b8;">대치초, 대도초 (학군 배정)</span></div>
+                    <span style="color:#cbd5e1;">대치초, 대도초 (학군 배정)</span></div>
                 </div>
                 <div style="display:flex; align-items:start;">
                     <span style="color:#FF69B4; margin-right:8px; font-size:1.2em;">●</span>
                     <div><b style="color:#f472b6;">부동산 (분홍)</b><br>
-                    <span style="color:#94a3b8;">롯데 AI 부동산 (본사)</span></div>
+                    <span style="color:#cbd5e1;">롯데 AI 부동산 (본사)</span></div>
                 </div>
                 <div style="display:flex; align-items:start;">
                     <span style="color:#A0A0A0; margin-right:8px; font-size:1.2em;">●</span>
                     <div><b style="color:#cbd5e1;">관공서/기타 (회색)</b><br>
-                    <span style="color:#94a3b8;">대치1동 주민센터, 지구대 등</span></div>
+                    <span style="color:#cbd5e1;">대치1동 주민센터, 지구대 등</span></div>
                 </div>
             </div>
             <div style="margin-top:15px; padding-top:10px; border-top:1px solid #334155;
-                        font-size:0.8em; color:#94a3b8;">
+                        font-size:0.8em; color:#cbd5e1;">
                 💡 <b style="color:#e2e8f0;">이용 팁</b><br>
                 • <b>Shift + 드래그</b>: 지도 3D 회전<br>
                 • <b>마우스 오버</b>: 상세 정보 확인
@@ -1029,7 +1029,7 @@ def render_realtime_search_panel(avg_prices):
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#93c5fd; margin-bottom:4px;">🧠 AI 예측 신뢰도</div>
             <div style="font-size:2rem; font-weight:900; color:#60a5fa;">{st.session_state['ai_confidence']}%</div>
-            <div style="font-size:0.72rem; color:#94a3b8;">머신러닝 앙상블 모델</div>
+            <div style="font-size:0.72rem; color:#cbd5e1;">머신러닝 앙상블 모델</div>
         </div>
         """, unsafe_allow_html=True)
     with kc2:
@@ -1039,7 +1039,7 @@ def render_realtime_search_panel(avg_prices):
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#86efac; margin-bottom:4px;">📡 탐색 완료 건수</div>
             <div style="font-size:2rem; font-weight:900; color:#4ade80;">{cnt:,}건</div>
-            <div style="font-size:0.72rem; color:#94a3b8;">실거래·매물 통합 집계</div>
+            <div style="font-size:0.72rem; color:#cbd5e1;">실거래·매물 통합 집계</div>
         </div>
         """, unsafe_allow_html=True)
     with kc3:
@@ -1049,7 +1049,7 @@ def render_realtime_search_panel(avg_prices):
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#fca5a5; margin-bottom:4px;">🚨 급매 감지</div>
             <div style="font-size:2rem; font-weight:900; color:#f87171;">{flash}건</div>
-            <div style="font-size:0.72rem; color:#94a3b8;">시세比 -2% 이상 할인 매물</div>
+            <div style="font-size:0.72rem; color:#cbd5e1;">시세比 -2% 이상 할인 매물</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1345,9 +1345,9 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">래미안대치팰리스 34평 남향</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">40.5억</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준가: 44.1억</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">국토부 실거래 기준가: 44.1억</div>
                     <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">▼ 3.6억 저평가 (8.2%↓)</div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">34평 · 중층 · 남향 · 대치초 배정권</div>
+                    <div style="font-size:0.75rem; color:#a0b0c8; margin-top:6px;">34평 · 중층 · 남향 · 대치초 배정권</div>
                 </div>
             </div>
         </div>
@@ -1366,9 +1366,9 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">시그니엘 레지던스 88평 매매</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">63.8억</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준가: 69억</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">국토부 실거래 기준가: 69억</div>
                     <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">▼ 5.2억 저평가 (7.5%↓)</div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">88평 · 고층 · 한강뷰 · 풀옵션 급매</div>
+                    <div style="font-size:0.75rem; color:#a0b0c8; margin-top:6px;">88평 · 고층 · 한강뷰 · 풀옵션 급매</div>
                 </div>
             </div>
         </div>
@@ -1401,7 +1401,7 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치은마 34평 넓은평형</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">41억</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">34평 · 남향 · 중층</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">34평 · 남향 · 중층</div>
                     <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">재건축 기대감 · 투자추천</div>
                 </div>
             </div>
@@ -1421,7 +1421,7 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치은마 34평 넓은평형</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#fcd34d; margin:4px 0;">39억</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">조정협의 / 급매강추</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">조정협의 / 급매강추</div>
                     <div style="font-size:0.78rem; color:#f87171; font-weight:700; margin-top:2px;">34평 · 남향 · 즉시협의가능</div>
                 </div>
             </div>
@@ -1455,9 +1455,9 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">대치SK뷰 33평 전세</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#67e8f9; margin:4px 0;">14.5억</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준 전세가: 15.9억</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">국토부 실거래 기준 전세가: 15.9억</div>
                     <div style="font-size:0.78rem; color:#34d399; font-weight:700; margin-top:2px;">▼ 1.4억 저렴 (8.8%↓)</div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">33평 · 중층 · 동향 · 대치역 도보 5분</div>
+                    <div style="font-size:0.75rem; color:#a0b0c8; margin-top:6px;">33평 · 중층 · 동향 · 대치역 도보 5분</div>
                 </div>
             </div>
         </div>
@@ -1476,9 +1476,9 @@ def render_listing():
                 <div>
                     <div style="font-size:0.95rem; font-weight:800; color:#f8fafc;">은마아파트 31평 월세</div>
                     <div style="font-size:1.4rem; font-weight:900; color:#67e8f9; margin:4px 0;">5천/185만</div>
-                    <div style="font-size:0.78rem; color:#94a3b8;">국토부 실거래 기준 월세: 5천/201만</div>
+                    <div style="font-size:0.78rem; color:#cbd5e1;">국토부 실거래 기준 월세: 5천/201만</div>
                     <div style="font-size:0.78rem; color:#34d399; font-weight:700; margin-top:2px;">▼ 월 16만원 저렴 (7.9%↓)</div>
-                    <div style="font-size:0.75rem; color:#64748b; margin-top:6px;">31평 · 중층 · 남향 · 재건축 호재</div>
+                    <div style="font-size:0.75rem; color:#a0b0c8; margin-top:6px;">31평 · 중층 · 남향 · 재건축 호재</div>
                 </div>
             </div>
         </div>
@@ -1691,10 +1691,10 @@ def render_marketing_action_tools(section_key: str = "default"):
 def render_matching_and_reservation():
     with st.expander("💬 AI 챗봇 상담 (열기/닫기)", expanded=True):
         st.markdown("""
-        <div style="text-align:center; margin-bottom:20px; padding:16px;
+        <div class="dark-box" style="text-align:center; margin-bottom:20px; padding:16px;
                     background:#0f172a; border-radius:12px; border:1px solid #334155;">
-            <h3 style="color:#facc15; margin:0;">☁️ AI Real Estate Assistant</h3>
-            <span style="font-size:0.85em; color:#94a3b8;">24시간 365일, 대치동 부동산/세금/법률 데이터를 실시간 분석하여 답변합니다.</span>
+            <h3 style="color:#facc15; margin:0 0 8px 0;">☁️ AI Real Estate Assistant</h3>
+            <span style="font-size:0.85em; color:#e2e8f0;">24시간 365일, 대치동 부동산/세금/법률 데이터를 실시간 분석하여 답변합니다.</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1771,7 +1771,7 @@ def render_matching_and_reservation():
         <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:14px;
                     padding:18px 20px;margin-bottom:16px;border-left:5px solid #facc15;">
           <div style="font-size:1.1rem;font-weight:900;color:#facc15;">🛡️ 내 집의 골든타임 예약 (공급)</div>
-          <div style="font-size:0.85rem;color:#94a3b8;margin-top:4px;">
+          <div style="font-size:0.85rem;color:#cbd5e1;margin-top:4px;">
             AI가 주변 실거래와 학원가 입지 데이터를 분석하여 가장 비싸게 거래될 시점에 마케팅을 시작합니다.
           </div>
         </div>
