@@ -1848,8 +1848,8 @@ def render_shorts_and_youlab():
     st.markdown("""
     <div class="dark-box" style="background:#7f1d1d; color:white; padding:15px; border-radius:10px;
                 text-align:center; margin-bottom:20px; border:1px solid #991b1b;">
-        <h2 style="margin:0; color:#ffffff !important;">🔴 YOU-LAB: 초고속 숏츠 연구소</h2>
-        <p style="margin:5px 0 0 0; font-size:0.8em; color:#fecaca !important;">
+        <h2 style="margin:0; color:#ffffff;">🔴 YOU-LAB: 초고속 숏츠 연구소</h2>
+        <p style="margin:5px 0 0 0; font-size:0.8em; color:#fecaca;">
             Token Inference Server 가동 중 | GPU 가속 엔진 활성화
         </p>
     </div>
@@ -1885,9 +1885,9 @@ def render_shorts_and_youlab():
             st.markdown("""
             <div class="dark-box" style="background:#000; width:100%; height:300px; display:flex; align-items:center;
                         justify-content:center; border-radius:5px; margin-bottom:10px;">
-                <div style="text-align:center; color:#e5e7eb !important;">
+                <div style="text-align:center; color:#e5e7eb;">
                     <span style="font-size:2em;">⚠️</span><br>
-                    <span style="color:#f8fafc !important;">
+                    <span style="color:#f8fafc;">
                         실시간 렌더링 미리보기 대기 중...<br>(GPU: RTX 4090 - Idle)
                     </span>
                 </div>
@@ -1996,8 +1996,8 @@ def render_admin_system():
         st.markdown("""
         <div class="dark-box" style="text-align:center; margin-bottom:24px; padding:20px;
                     background:#0f172a; border-radius:12px; border:1px solid #334155;">
-            <h3 style="color:#ffffff !important; margin:0;">📑 부동산 AI 영업팩 생성기 (자동화)</h3>
-            <p style="color:#e2e8f0 !important; font-size:0.9rem; margin:6px 0 0 0;">
+            <h3 style="color:#ffffff; margin:0;">📑 부동산 AI 영업팩 생성기 (자동화)</h3>
+            <p style="color:#e2e8f0; font-size:0.9rem; margin:6px 0 0 0;">
                 버튼 하나로 블로그 / 카톡 / 상담 스크립트를 한 번에 생성합니다.
             </p>
         </div>
@@ -2119,42 +2119,42 @@ def render_login_page():
         <div style="background:#ffffff; padding:20px; border-radius:12px; margin-bottom:14px;
                     border-left:5px solid {color}; border:1px solid #e2e8f0;
                     box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-            <h4 style="margin:0 0 8px 0; color:#0f172a !important;">{title}</h4>
-            <p style="margin:0; color:#475569 !important; font-size:0.9rem; line-height:1.6;">{desc}</p>
+            <h4 style="margin:0 0 8px 0; color:#0f172a;">{title}</h4>
+            <p style="margin:0; color:#475569; font-size:0.9rem; line-height:1.6;">{desc}</p>
         </div>
         """, unsafe_allow_html=True)
 
     # ─── 플랫폼 소개 카드 ───
     st.markdown("""
 <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:24px 22px; margin-bottom:20px;">
-  <h4 style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
+  <h4 style="color:#fcd34d; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
     🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
   </h4>
 
   <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
     <div style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#fca5a5 !important; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
-      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
-        학군 이사 가족은 <b style="color:#ffffff !important;">10년간</b> 같은 지역에 머뭅니다.<br>
-        원하는 시기·가격의 매물은 <b style="color:#ffffff !important;">구조적으로 희소</b>합니다.
+      <div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
+      <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
+        학군 이사 가족은 <b style="color:#ffffff;">10년간</b> 같은 지역에 머뭅니다.<br>
+        원하는 시기·가격의 매물은 <b style="color:#ffffff;">구조적으로 희소</b>합니다.
       </div>
     </div>
 
     <div style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#93c5fd !important; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
-      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
-        AI가 저평가 매물을 <b style="color:#ffffff !important;">1초 분석</b>.<br>
-        매도·임대인 ↔ 매수·임차인 이사 시기를 <b style="color:#ffffff !important;">사전 자동매칭</b>.
+      <div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
+      <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
+        AI가 저평가 매물을 <b style="color:#ffffff;">1초 분석</b>.<br>
+        매도·임대인 ↔ 매수·임차인 이사 시기를 <b style="color:#ffffff;">사전 자동매칭</b>.
       </div>
     </div>
   </div>
 
   <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
-    <div style="font-size:0.78rem; color:#6ee7b7 !important; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
-    <div style="font-size:0.8rem; color:#f8fafc !important; line-height:1.8;">
-      👨‍👩‍👧 <b style="color:#ffffff !important;">소비자</b> — 입주·입학 시기 혼란 해소<br>
-      📊 <b style="color:#ffffff !important;">시장</b> — 수급 투명화, 가격 왜곡 감소<br>
-      🏙️ <b style="color:#ffffff !important;">사회</b> — 기존 주거지역 흐름 안정화
+    <div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
+    <div style="font-size:0.8rem; color:#f8fafc; line-height:1.8;">
+      👨‍👩‍👧 <b style="color:#ffffff;">소비자</b> — 입주·입학 시기 혼란 해소<br>
+      📊 <b style="color:#ffffff;">시장</b> — 수급 투명화, 가격 왜곡 감소<br>
+      🏙️ <b style="color:#ffffff;">사회</b> — 기존 주거지역 흐름 안정화
     </div>
   </div>
 </div>
