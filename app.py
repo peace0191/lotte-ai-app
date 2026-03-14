@@ -811,6 +811,14 @@ div[data-key="nav_main_top"] {
 .dark-box b, .dark-box strong, .dark-box label {
     color: #f1f5f9 !important;
 }
+/* 서브텍스트 (#94a3b8 등 회색) 도 최소 #cbd5e1 이상으로 */
+.dark-box [style*="color:#94a3b8"],
+.dark-box [style*="color:#64748b"],
+.dark-box [style*="color:#475569"],
+.dark-box [style*="color:#6b7280"],
+.dark-box [style*="color:#9ca3af"] {
+    color: #cbd5e1 !important;
+}
 /* 강조색 보존 */
 .dark-box .yellow  { color: #facc15 !important; }
 .dark-box .cyan    { color: #38bdf8 !important; }
@@ -1006,7 +1014,7 @@ def render_realtime_search_panel(avg_prices):
                     {status_dot} {status_text}
                 </span>
             </div>
-            <div style="font-size:0.78rem; color:#94a3b8;">
+            <div style="font-size:0.78rem; color:#cbd5e1;">
                 마지막 탐색: <b style="color:#e2e8f0;">{elapsed}초 전</b> &nbsp;|&nbsp;
                 소스: <b style="color:#60a5fa;">국토부·네이버부동산·한국부동산원</b>
             </div>
@@ -1319,7 +1327,7 @@ def render_listing():
     <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
                 border-left:4px solid #f59e0b;">
         <span style="font-size:1.05rem; font-weight:900; color:#fcd34d;">🏠 매매 저평가 매물</span>
-        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+        <span style="margin-left:10px; font-size:0.8rem; color:#cbd5e1;">
             국토부 실거래가 대비 <b style="color:#f87171;">-7~9% 저평가</b> 확인 매물
         </span>
     </div>
@@ -1375,7 +1383,7 @@ def render_listing():
     <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
                 border-left:4px solid #ef4444;">
         <span style="font-size:1.05rem; font-weight:900; color:#fca5a5;">🚨 급매강추 특가 매물</span>
-        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+        <span style="margin-left:10px; font-size:0.8rem; color:#cbd5e1;">
             즉시 협의 가능 · 단기 처분 희망
         </span>
     </div>
@@ -1429,7 +1437,7 @@ def render_listing():
     <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
                 border-left:4px solid #22d3ee;">
         <span style="font-size:1.05rem; font-weight:900; color:#67e8f9;">🔑 임대차·렌트 저평가 매물</span>
-        <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
+        <span style="margin-left:10px; font-size:0.8rem; color:#cbd5e1;">
             시세 대비 <b style="color:#34d399;">-7~9% 저렴한</b> 전세·월세 확인 매물
         </span>
     </div>
@@ -1552,7 +1560,7 @@ def render_marketing_action_tools(section_key: str = "default"):
       <h3 style="color:#fcd34d; margin:0 0 6px 0; font-size:1.15rem;">
         📣 AI 자동 홍보 &amp; 영업 도구 센터
       </h3>
-      <p style="color:#94a3b8; font-size:0.85rem; margin:0;">
+      <p style="color:#cbd5e1; font-size:0.85rem; margin:0;">
         접수된 매물·수요 정보를 즉시 광고·문자·카카오로 전파하세요.
       </p>
     </div>
@@ -1739,10 +1747,10 @@ def render_matching_and_reservation():
 
     st.markdown("---")
     st.markdown("""
-    <div style="text-align:center; margin-bottom:20px; padding:20px;
+    <div class="dark-box" style="text-align:center; margin-bottom:20px; padding:20px;
                 background:#0f172a; border-radius:14px; border:1px solid #334155;">
         <h2 style="color:#facc15; margin-bottom:5px; font-size:1.4rem;">🚀 롯데타워 AI 사전 매칭 센터</h2>
-        <p style="color:#94a3b8; font-size:0.9rem; margin:0;">에어비앤비 방식의 스마트 예약 시스템으로 매칭 확률을 300% 높이세요.</p>
+        <p style="color:#e2e8f0; font-size:0.9rem; margin:0;">에어비앤비 방식의 스마트 예약 시스템으로 매칭 확률을 300% 높이세요.</p>
     </div>
     """, unsafe_allow_html=True)
 
