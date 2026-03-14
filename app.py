@@ -2194,34 +2194,34 @@ def render_login_page():
     pc1, pc2 = st.columns(2)
     with pc1:
         st.markdown(
-            '<div class="dark-box" style="background:rgba(239,68,68,0.22);'
+            '<div style="background:rgba(239,68,68,0.12); border:1.5px solid rgba(239,68,68,0.4);'
             'border-radius:10px; padding:14px 16px; margin-bottom:10px;">'
-            '<div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>'
-            '<div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">'
-            '학군 이사 가족은 <b style="color:#fff;">10년간</b> 같은 지역에 머뭅니다.<br>'
-            '원하는 시기·가격의 매물은 <b style="color:#fff;">구조적으로 희소</b>합니다.'
+            '<div style="font-size:0.78rem; color:#b91c1c; font-weight:800; margin-bottom:6px;">❓ 핵심 문제</div>'
+            '<div style="font-size:0.85rem; color:#1e293b; line-height:1.7; font-weight:500;">'
+            '학군 이사 가족은 <b style="color:#7f1d1d;">10년간</b> 같은 지역에 머뭅니다.<br>'
+            '원하는 시기·가격의 매물은 <b style="color:#7f1d1d;">구조적으로 희소</b>합니다.'
             '</div></div>',
             unsafe_allow_html=True
         )
     with pc2:
         st.markdown(
-            '<div class="dark-box" style="background:rgba(59,130,246,0.22);'
+            '<div style="background:rgba(59,130,246,0.10); border:1.5px solid rgba(59,130,246,0.4);'
             'border-radius:10px; padding:14px 16px; margin-bottom:10px;">'
-            '<div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>'
-            '<div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">'
-            'AI가 저평가 매물을 <b style="color:#fff;">1초 분석</b>.<br>'
-            '매도·임대인과 매수·임차인 이사 시기를 <b style="color:#fff;">사전 자동매칭</b>.'
+            '<div style="font-size:0.78rem; color:#1d4ed8; font-weight:800; margin-bottom:6px;">✅ 해결책</div>'
+            '<div style="font-size:0.85rem; color:#1e293b; line-height:1.7; font-weight:500;">'
+            'AI가 저평가 매물을 <b style="color:#1e3a8a;">1초 분석</b>.<br>'
+            '매도·임대인과 매수·임차인 이사 시기를 <b style="color:#1e3a8a;">사전 자동매칭</b>.'
             '</div></div>',
             unsafe_allow_html=True
         )
     st.markdown(
-        '<div class="dark-box" style="background:rgba(16,185,129,0.18);'
+        '<div style="background:rgba(16,185,129,0.10); border:1.5px solid rgba(16,185,129,0.4);'
         'border-radius:10px; padding:12px 16px; margin-bottom:20px;">'
-        '<div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>'
-        '<div style="font-size:0.8rem; color:#f8fafc; line-height:1.8;">'
-        '👨‍👩‍👧 <b style="color:#fff;">소비자</b> — 입주·입학 시기 혼란 해소 &nbsp;|&nbsp; '
-        '📊 <b style="color:#fff;">시장</b> — 수급 투명화, 가격 왜곡 감소 &nbsp;|&nbsp; '
-        '🏙️ <b style="color:#fff;">사회</b> — 기존 주거지역 흐름 안정화'
+        '<div style="font-size:0.78rem; color:#065f46; font-weight:800; margin-bottom:6px;">🎯 기대 효과</div>'
+        '<div style="font-size:0.85rem; color:#1e293b; line-height:1.8; font-weight:500;">'
+        '👨‍👩‍👧 <b style="color:#065f46;">소비자</b> — 입주·입학 시기 혼란 해소 &nbsp;|&nbsp; '
+        '📊 <b style="color:#065f46;">시장</b> — 수급 투명화, 가격 왜곡 감소 &nbsp;|&nbsp; '
+        '🏙️ <b style="color:#065f46;">사회</b> — 기존 주거지역 흐름 안정화'
         '</div></div>',
         unsafe_allow_html=True
     )
