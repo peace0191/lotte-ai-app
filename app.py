@@ -93,10 +93,33 @@ footer { visibility: hidden; }
 
 html { scroll-behavior: smooth !important; scroll-padding-top: 100px; }
 
-/* ─── 제목 ─── */
+/* ─── 제목 (밝은 배경 기준) ─── */
 h1, h2, h3, h4, h5, h6 {
     color: #0f172a !important;
     font-weight: 800 !important;
+}
+
+/* ─── 어두운 배경(dark-box) 내부 heading → 무조건 흰색으로 덮어쓰기 ─── */
+.dark-box h1, .dark-box h2, .dark-box h3, .dark-box h4, .dark-box h5, .dark-box h6,
+[style*="background:#0f172a"] h1, [style*="background:#0f172a"] h2,
+[style*="background:#0f172a"] h3, [style*="background:#0f172a"] h4,
+[style*="background:#1e293b"] h1, [style*="background:#1e293b"] h2,
+[style*="background:#1e293b"] h3, [style*="background:#1e293b"] h4,
+[style*="background:linear-gradient(135deg,#0f172a"] h1,
+[style*="background:linear-gradient(135deg,#0f172a"] h2,
+[style*="background:linear-gradient(135deg,#0f172a"] h3,
+[style*="background:linear-gradient(135deg,#0f172a"] h4,
+[style*="background:linear-gradient(135deg,#1e293b"] h1,
+[style*="background:linear-gradient(135deg,#1e293b"] h2,
+[style*="background:linear-gradient(135deg,#1e293b"] h3,
+[style*="background:linear-gradient(135deg,#1e293b"] h4 {
+    color: #f1f5f9 !important;
+}
+/* 어두운 배경 내 노란색 강조 heading 유지 */
+.dark-box h4[style*="color:#fcd34d"],
+.dark-box h4[style*="color: #fcd34d"],
+[style*="color:#fcd34d"].dark-box h4 {
+    color: #fcd34d !important;
 }
 
 /* ─── 일반 텍스트: 밝은 배경 기준 ─── */
@@ -104,8 +127,21 @@ p, li, td, th, label {
     color: #1e293b !important;
 }
 
-span, div {
-    color: inherit;
+/* span, div는 상속만 — 탭 내부 색상 간섭 방지 */
+span { color: inherit; }
+div { color: inherit; }
+
+/* ─── 핵심: 밝은 배경 컨테이너에서 텍스트 강제 진한색 ─── */
+/* stMarkdown 내 흰 배경 div들의 텍스트를 진하게 */
+.stMarkdown {
+    color: #1e293b !important;
+}
+.stMarkdown > div {
+    color: #1e293b !important;
+}
+/* 컬럼 내부 전체 */
+[data-testid="column"] {
+    color: #1e293b !important;
 }
 
 .stMarkdown p {
@@ -148,35 +184,180 @@ input[type="text"]:focus, textarea:focus {
     background: #ffffff !important;
 }
 
-/* ─── 라디오 / 체크박스 ─── */
+/* ─── 라디오 / 체크박스 / 토글 ─── */
 .stRadio label, .stCheckbox label {
     font-size: 13px !important;
     font-weight: 600 !important;
-    color: #374151 !important;
+    color: #1e293b !important;
+}
+.stRadio > div > div > label > div > p,
+.stRadio > div > div > label p,
+.stCheckbox > label > div > p,
+.stCheckbox label p {
+    color: #1e293b !important;
+    font-size: 13px !important;
+}
+/* 토글 라벨 */
+.stToggle label p, .stToggle label span {
+    color: #1e293b !important;
+    font-weight: 600 !important;
 }
 
-/* ─── 버튼 ─── */
+/* ─── Selectbox / Multiselect ─── */
+.stSelectbox > div > div,
+.stSelectbox [data-baseweb="select"] > div {
+    background: #ffffff !important;
+    border: 1.5px solid #d1d5db !important;
+    border-radius: 8px !important;
+    color: #111827 !important;
+}
+.stSelectbox [data-baseweb="select"] span,
+.stSelectbox [data-baseweb="select"] div {
+    color: #111827 !important;
+}
+.stMultiSelect [data-baseweb="select"] > div {
+    background: #ffffff !important;
+    border: 1.5px solid #d1d5db !important;
+    color: #111827 !important;
+}
+
+/* 드롭다운 메뉴 옵션 */
+[data-baseweb="popover"] [role="option"],
+[data-baseweb="menu"] [role="option"] {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="menu"] [role="option"]:hover {
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+}
+
+/* ─── expander 헤더 ─── */
+.streamlit-expanderHeader {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+.streamlit-expanderHeader p,
+.streamlit-expanderHeader span {
+    color: #1e293b !important;
+}
+.streamlit-expanderContent {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0 0 8px 8px !important;
+}
+
+/* ─── date_input ─── */
+.stDateInput input {
+    color: #111827 !important;
+    background: #ffffff !important;
+}
+
+/* ─── st.info / st.success / st.warning / st.error 내부 텍스트 ─── */
+.stAlert > div > p,
+.stAlert p,
+.stAlert span {
+    color: inherit !important;
+}
+
+/* ─── st.caption ─── */
+.stCaptionContainer p,
+.stCaption p {
+    color: #64748b !important;
+    font-size: 0.78rem !important;
+}
+
+/* ─── container(border=True) ─── */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+}
+
+/* ─── 버튼 공통 ─── */
 .stButton > button {
     border-radius: 10px !important;
     font-weight: 800 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     letter-spacing: -0.2px;
-    transition: all 0.2s !important;
-    color: #ffffff !important;
+    transition: all 0.18s !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    line-height: 1.4 !important;
+    word-break: keep-all;
 }
 
-.stButton > button[kind="secondary"] {
-    color: #374151 !important;
+/* Primary 버튼 — 파란 배경 + 흰 글씨 */
+.stButton > button[kind="primary"],
+.stButton > button[data-testid*="primary"] {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.35) !important;
+}
+.stButton > button[kind="primary"]:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.5) !important;
+    transform: translateY(-1px);
+}
+
+/* Secondary / 일반 버튼 — 밝은 회색 배경 + 진한 글씨 */
+.stButton > button[kind="secondary"],
+.stButton > button:not([kind="primary"]) {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1.5px solid #cbd5e1 !important;
+}
+.stButton > button[kind="secondary"]:hover,
+.stButton > button:not([kind="primary"]):hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-1px);
+}
+
+/* 버튼 내부 텍스트 — 전역 색상 규칙 무력화 */
+.stButton > button p,
+.stButton > button span,
+.stButton > button div,
+.stButton > button * {
+    color: inherit !important;
+    font-weight: 800 !important;
+    font-size: inherit !important;
+}
+
+/* form submit 버튼 */
+.stFormSubmitButton > button {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    border-radius: 10px !important;
+    border: none !important;
+    font-size: 14px !important;
+}
+.stFormSubmitButton > button * {
+    color: #ffffff !important;
 }
 
 /* ─── 카드 ─── */
 .card {
-    background: #ffffff;
+    background: #ffffff !important;
     padding: 1.5rem;
     border-radius: 14px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
     margin-bottom: 1rem;
     border: 1px solid #e5e7eb;
+    color: #1e293b !important;
+}
+.card * {
+    color: #1e293b !important;
+}
+.card h4, .card h3, .card h2 {
+    color: #0f172a !important;
 }
 
 /* ─── 섹션 헤더 ─── */
@@ -188,6 +369,12 @@ input[type="text"]:focus, textarea:focus {
     border-radius: 10px;
     margin: 24px 0 14px 0;
     border-left: 4px solid #facc15;
+}
+.section-header,
+.section-header p,
+.section-header span,
+.section-header * {
+    color: #f8fafc !important;
 }
 
 hr { border-color: #d1d5db !important; }
@@ -224,44 +411,287 @@ div[data-testid="stMetricLabel"] {
 
 /* ─── 탭 바 ─── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 3px;
-    background: linear-gradient(135deg, #1e2d40 0%, #0f1e30 100%);
-    padding: 8px 6px;
+    gap: 4px;
+    background: #1e293b;
+    padding: 6px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     position: sticky;
     top: 0;
     z-index: 999;
+    border: 1px solid #334155;
 }
 
+/* 비활성 탭 — 항상 밝은 배경 + 흰 글씨 */
 .stTabs [data-baseweb="tab"] {
-    height: 44px;
+    height: auto !important;
+    min-height: 42px !important;
     flex-grow: 1;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    color: #cbd5e1 !important;
-    border-radius: 8px;
+    border-radius: 8px !important;
     margin: 0 2px;
-    letter-spacing: -0.3px;
-    transition: all 0.2s;
+    transition: all 0.18s;
+    background: #334155 !important;
+    border: 1px solid #475569 !important;
+    padding: 6px 4px !important;
 }
 
+/* 탭 내부 텍스트 — 전역 규칙 무력화 후 흰색 강제 */
+.stTabs [data-baseweb="tab"] p,
+.stTabs [data-baseweb="tab"] span,
+.stTabs [data-baseweb="tab"] div,
+.stTabs [data-baseweb="tab"] button,
+.stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"] p,
+.stTabs [data-baseweb="tab"] * {
+    color: #e2e8f0 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.2px;
+    line-height: 1.3 !important;
+    text-align: center !important;
+    word-break: keep-all;
+}
+
+/* 활성 탭 — 파란 배경 + 노란 하이라이트 */
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    border: 1px solid #3b82f6 !important;
+    box-shadow: 0 3px 10px rgba(37,99,235,0.45) !important;
+    border-bottom: 3px solid #facc15 !important;
+}
+
+.stTabs [aria-selected="true"] p,
+.stTabs [aria-selected="true"] span,
+.stTabs [aria-selected="true"] div,
+.stTabs [aria-selected="true"] button,
+.stTabs [aria-selected="true"] * {
     color: #ffffff !important;
     font-weight: 900 !important;
-    border-bottom: 3px solid #facc15 !important;
-    box-shadow: 0 3px 12px rgba(37,99,235,0.4) !important;
 }
 
+/* 비활성 탭 hover */
 .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
-    background-color: rgba(255,255,255,0.12) !important;
+    background: #475569 !important;
+    border-color: #64748b !important;
+}
+
+.stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) * {
+    color: #ffffff !important;
+}
+
+/* ════════════════════════════════════════
+   히어로 배너 (홈 상단)
+   ════════════════════════════════════════ */
+.hero-banner {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 1.8rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+    margin: -1rem -1rem 1rem -1rem;
+    border-bottom: 3px solid #facc15;
+}
+.hero-name {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #ffffff !important;
+    letter-spacing: -0.5px;
+}
+.hero-sub {
+    margin: 2px 0 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e2e8f0 !important;
+}
+.hero-quote {
+    font-size: 1.55rem;
+    font-weight: 900;
+    line-height: 1.45;
+    margin-bottom: 0.3rem;
+    color: #ffffff !important;
+    letter-spacing: -0.8px;
+}
+.hero-highlight {
+    color: #facc15 !important;
+    text-shadow: 0 0 20px rgba(250,204,21,0.5);
+}
+.hero-desc {
+    margin: 0.4rem 0 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #cbd5e1 !important;
+    line-height: 1.6;
+}
+
+/* ════════════════════════════════════════
+   어두운 배경 범용 클래스 — 텍스트 흰색
+   ════════════════════════════════════════ */
+.dark-box {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #334155;
+}
+.dark-box *,
+.dark-box p,
+.dark-box span,
+.dark-box div,
+.dark-box li,
+.dark-box h1,
+.dark-box h2,
+.dark-box h3,
+.dark-box h4,
+.dark-box label {
     color: #f1f5f9 !important;
 }
 
 /* ─── 다크 카드 내부 텍스트 강제 흰색 ─── */
 .dark-card, .dark-card * {
     color: #f1f5f9 !important;
+}
+
+/* ── 인라인 style에 어두운 배경색이 지정된 모든 요소 → 텍스트 흰색 강제 ── */
+/* background:#0f172a 계열 */
+[style*="background:#0f172a"],
+[style*="background: #0f172a"],
+[style*="background:#0f172a"] p,
+[style*="background:#0f172a"] span,
+[style*="background:#0f172a"] div,
+[style*="background:#0f172a"] li,
+[style*="background:#0f172a"] td,
+[style*="background:#0f172a"] th,
+[style*="background:#0f172a"] label,
+[style*="background:#0f172a"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:#1e293b 계열 */
+[style*="background:#1e293b"],
+[style*="background: #1e293b"],
+[style*="background:#1e293b"] p,
+[style*="background:#1e293b"] span,
+[style*="background:#1e293b"] div,
+[style*="background:#1e293b"] li,
+[style*="background:#1e293b"] td,
+[style*="background:#1e293b"] th,
+[style*="background:#1e293b"] label,
+[style*="background:#1e293b"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:linear-gradient(135deg,#0f172a 계열 */
+[style*="background:linear-gradient(135deg,#0f172a"],
+[style*="background:linear-gradient(135deg,#0f172a"] *,
+[style*="background: linear-gradient(135deg, #0f172a"],
+[style*="background: linear-gradient(135deg, #0f172a"] * {
+    color: #f1f5f9 !important;
+}
+
+/* background:linear-gradient(135deg,#1e293b 계열 */
+[style*="background:linear-gradient(135deg,#1e293b"],
+[style*="background:linear-gradient(135deg,#1e293b"] *,
+[style*="background: linear-gradient(135deg, #1e293b"],
+[style*="background: linear-gradient(135deg, #1e293b"] *,
+[style*="background:linear-gradient(135deg,#1e293b 0%"],
+[style*="background:linear-gradient(135deg,#1e293b 0%"] * {
+    color: #f1f5f9 !important;
+}
+
+/* ─── 어두운 배경 위 heading 강제 흰색 ─── */
+[style*="background:#0f172a"] h1,
+[style*="background:#0f172a"] h2,
+[style*="background:#0f172a"] h3,
+[style*="background:#0f172a"] h4,
+[style*="background:#1e293b"] h1,
+[style*="background:#1e293b"] h2,
+[style*="background:#1e293b"] h3,
+[style*="background:#1e293b"] h4,
+[style*="background:linear-gradient(135deg,#0f172a"] h1,
+[style*="background:linear-gradient(135deg,#0f172a"] h2,
+[style*="background:linear-gradient(135deg,#0f172a"] h3,
+[style*="background:linear-gradient(135deg,#0f172a"] h4,
+[style*="background:linear-gradient(135deg,#1e293b"] h1,
+[style*="background:linear-gradient(135deg,#1e293b"] h2,
+[style*="background:linear-gradient(135deg,#1e293b"] h3,
+[style*="background:linear-gradient(135deg,#1e293b"] h4 {
+    color: #f8fafc !important;
+}
+
+/* 인라인에서 노란색 지정된 요소는 노란색 유지 */
+[style*="color:#fcd34d"],
+[style*="color: #fcd34d"] {
+    color: #fcd34d !important;
+}
+
+/* ── 어두운 배경 위 강조 색상 유지 (덮어쓰기 방지) ── */
+[style*="background:#0f172a"] [style*="color:#facc15"],
+[style*="background:#1e293b"] [style*="color:#facc15"],
+[style*="background:#0f172a"] [style*="color:#fbbf24"],
+[style*="background:#1e293b"] [style*="color:#fbbf24"] {
+    color: #facc15 !important;
+}
+[style*="background:#0f172a"] [style*="color:#4ade80"],
+[style*="background:#1e293b"] [style*="color:#4ade80"] {
+    color: #4ade80 !important;
+}
+[style*="background:#0f172a"] [style*="color:#f87171"],
+[style*="background:#1e293b"] [style*="color:#f87171"],
+[style*="background:#0f172a"] [style*="color:#dc2626"],
+[style*="background:#1e293b"] [style*="color:#dc2626"] {
+    color: #f87171 !important;
+}
+[style*="background:#0f172a"] [style*="color:#60a5fa"],
+[style*="background:#1e293b"] [style*="color:#60a5fa"],
+[style*="background:#0f172a"] [style*="color:#2563eb"],
+[style*="background:#1e293b"] [style*="color:#2563eb"] {
+    color: #60a5fa !important;
+}
+
+/* ─── 흰 배경 카드 — 텍스트 항상 진한색 ─── */
+.white-card {
+    background: #ffffff !important;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    color: #0f172a !important;
+}
+.white-card * {
+    color: #1e293b !important;
+}
+
+/* 특성 카드 텍스트 */
+.card-title {
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 4px 0 !important;
+}
+.card-desc {
+    font-size: 0.76rem !important;
+    color: #475569 !important;
+    white-space: pre-line;
+    line-height: 1.5 !important;
+}
+
+/* 시세 카드 */
+.price-card {
+    padding: 16px !important;
+    text-align: center !important;
+}
+.price-label {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    margin-bottom: 4px !important;
+}
+.price-value {
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
+}
+.price-jeonse {
+    font-size: 0.8rem !important;
+    color: #2563eb !important;
+    margin-top: 4px !important;
 }
 
 /* ─── 전략 카드 (밝은 배경) ─── */
@@ -283,8 +713,11 @@ div[data-testid="stMetricLabel"] {
         padding-right: 0.8rem !important;
     }
     .stTabs [data-baseweb="tab"] {
-        font-size: 11px !important;
-        height: 40px;
+        min-height: 36px !important;
+        padding: 4px 2px !important;
+    }
+    .stTabs [data-baseweb="tab"] * {
+        font-size: 10px !important;
     }
     div[data-testid="stMetricValue"] {
         font-size: 1.2rem !important;
@@ -436,7 +869,7 @@ def render_daechi_map_block():
 
     with col_legend:
         st.markdown("""
-        <div style="background:#1e293b; border:1px solid #334155; border-radius:8px;
+        <div class="dark-box" style="background:#1e293b; border:1px solid #334155; border-radius:8px;
                     padding:15px; height:500px; overflow-y:auto; color:#e2e8f0;">
             <div style="margin-bottom:10px; font-weight:bold; color:#f8fafc; font-size:1.05em;
                         border-bottom:2px solid #334155; padding-bottom:5px;">🗺️ 상세 범례 가이드</div>
@@ -499,7 +932,7 @@ def render_realtime_search_panel(avg_prices):
     status_dot = "🟢" if st.session_state["ai_search_auto"] else "🟡"
 
     st.markdown(f"""
-    <div style="background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:14px;
+    <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:14px;
                 padding:18px 22px; margin-bottom:16px; border:1px solid #334155;">
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
             <div>
@@ -523,7 +956,7 @@ def render_realtime_search_panel(avg_prices):
     kc1, kc2, kc3 = st.columns(3)
     with kc1:
         st.markdown(f"""
-        <div style="background:#0f172a; border:1px solid #1d4ed8; border-radius:12px;
+        <div class="dark-box" style="background:#0f172a; border:1px solid #1d4ed8; border-radius:12px;
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#93c5fd; margin-bottom:4px;">🧠 AI 예측 신뢰도</div>
             <div style="font-size:2rem; font-weight:900; color:#60a5fa;">{st.session_state['ai_confidence']}%</div>
@@ -533,7 +966,7 @@ def render_realtime_search_panel(avg_prices):
     with kc2:
         cnt = st.session_state["ai_search_count"]
         st.markdown(f"""
-        <div style="background:#0f172a; border:1px solid #15803d; border-radius:12px;
+        <div class="dark-box" style="background:#0f172a; border:1px solid #15803d; border-radius:12px;
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#86efac; margin-bottom:4px;">📡 탐색 완료 건수</div>
             <div style="font-size:2rem; font-weight:900; color:#4ade80;">{cnt:,}건</div>
@@ -543,7 +976,7 @@ def render_realtime_search_panel(avg_prices):
     with kc3:
         flash = st.session_state["ai_flash_deals"]
         st.markdown(f"""
-        <div style="background:#0f172a; border:1px solid #b91c1c; border-radius:12px;
+        <div class="dark-box" style="background:#0f172a; border:1px solid #b91c1c; border-radius:12px;
                     padding:14px; text-align:center;">
             <div style="font-size:0.78rem; color:#fca5a5; margin-bottom:4px;">🚨 급매 감지</div>
             <div style="font-size:2rem; font-weight:900; color:#f87171;">{flash}건</div>
@@ -559,7 +992,7 @@ def render_realtime_search_panel(avg_prices):
             for log in reversed(st.session_state["ai_search_logs"][-8:])
         )
         st.markdown(
-            f"<div style='background:#0f172a; border-radius:8px; padding:10px;'>{log_html}</div>",
+            f"<div class='dark-box' style='background:#0f172a; border-radius:8px; padding:10px;'>{log_html}</div>",
             unsafe_allow_html=True
         )
 
@@ -620,31 +1053,26 @@ def calculate_metrics():
 def render_home():
     # ─── 상단 히어로 배너 ───
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);
-                padding:1.8rem; border-radius:0 0 1.5rem 1.5rem;
-                margin:-1rem -1rem 1rem -1rem; color:white;
-                border-bottom:3px solid #facc15;">
+    <div class="hero-banner">
         <div style="display:flex; align-items:center; margin-bottom:1rem;">
-            <div style="width:52px; height:52px; background:linear-gradient(135deg,#facc15,#f59e0b);
+            <div style="width:52px; height:52px;
+                        background:linear-gradient(135deg,#facc15,#f59e0b);
                         border-radius:50%; display:flex; align-items:center;
                         justify-content:center; margin-right:1rem; font-size:26px;
                         box-shadow:0 4px 12px rgba(250,204,21,0.4);">👑</div>
             <div>
-                <h3 style="margin:0; font-size:1.15rem; font-weight:900;
-                           color:#ffffff !important; letter-spacing:-0.5px;">공인중개사 이상수 대표</h3>
-                <p style="margin:2px 0 0 0; font-size:0.85rem; font-weight:600;
-                          color:#e2e8f0 !important;">롯데타워앤강남빌딩부동산중개(주)</p>
+                <div class="hero-name">공인중개사 이상수 대표</div>
+                <div class="hero-sub">롯데타워앤강남빌딩부동산중개(주)</div>
             </div>
         </div>
-        <h2 style="font-size:1.55rem; font-weight:900; line-height:1.45;
-                   margin-bottom:0.3rem; color:#ffffff !important; letter-spacing:-0.8px;">
+        <div class="hero-quote">
             "대치1동은 자녀의 미래를 위한<br/>
-            <span style="color:#facc15; text-shadow:0 0 20px rgba(250,204,21,0.5);">베이스캠프</span>입니다."
-        </h2>
-        <p style="margin:0.4rem 0 0 0; font-size:0.9rem; font-weight:600; color:#cbd5e1 !important;">
+            <span class="hero-highlight">베이스캠프</span>입니다."
+        </div>
+        <div class="hero-desc">
             AI 저평가 분석과 예약 AI자동 매칭 시스템으로 숨겨진 부동산 가치를 발굴하고,<br/>
             대한민국 최고의 교육 환경으로 가는 최적의 출발점을 찾아드립니다.
-        </p>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -658,14 +1086,12 @@ def render_home():
     for col, (icon, color, title, desc) in zip([f1, f2, f3], feature_items):
         with col:
             st.markdown(f"""
-            <div style="background:#ffffff; border-radius:12px; padding:16px; text-align:center;
-                        border-left:4px solid {color}; box-shadow:0 2px 8px rgba(0,0,0,0.07);
-                        margin-bottom:8px;">
+            <div class="white-card" style="background:#ffffff; border-radius:12px; padding:16px;
+                        text-align:center; border-left:4px solid {color};
+                        box-shadow:0 2px 8px rgba(0,0,0,0.07); margin-bottom:8px;">
                 <div style="font-size:2rem;">{icon}</div>
-                <div style="font-size:0.9rem; font-weight:800; color:#0f172a !important;
-                            margin:4px 0;">{title}</div>
-                <div style="font-size:0.76rem; color:#64748b !important;
-                            white-space:pre-line; line-height:1.5;">{desc}</div>
+                <div class="card-title">{title}</div>
+                <div class="card-desc">{desc}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -690,20 +1116,13 @@ def render_home():
         arrow_color = "#16a34a" if delta >= 0 else "#dc2626"
         delta_abs = abs(delta)
         st.markdown(f"""
-        <div style="background:#ffffff; padding:16px; border-radius:12px;
-                    border:1px solid #e2e8f0; text-align:center;
-                    box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-            <div style="font-size:0.85rem; color:#64748b !important; font-weight:700;
-                        margin-bottom:4px;">{title}</div>
-            <div style="font-size:2rem; font-weight:900; color:#0f172a !important;
-                        line-height:1.2;">{price}억</div>
-            <div style="font-size:0.82rem; color:{arrow_color} !important;
-                        font-weight:700; margin:4px 0;">
+        <div class="white-card price-card">
+            <div class="price-label">{title}</div>
+            <div class="price-value">{price}억</div>
+            <div style="font-size:0.82rem; font-weight:700; color:{arrow_color}; margin:4px 0;">
                 {arrow} 전일比 {delta_abs}% ({'+' if delta>=0 else ''}{round(price*delta/100,2)}억)
             </div>
-            <div style="font-size:0.8rem; color:#2563eb !important;">
-                전세가율 {int(jeonse_ratio*100)}% · 약 {jeonse_val}억
-            </div>
+            <div class="price-jeonse">전세가율 {int(jeonse_ratio*100)}% · 약 {jeonse_val}억</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -811,7 +1230,7 @@ def render_listing():
 
     # AI 저평가 배너
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);
+    <div class="dark-box" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);
                 border-radius:16px; padding:20px 24px; margin-bottom:20px;
                 border-left:5px solid #facc15; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
@@ -836,7 +1255,7 @@ def render_listing():
 
     # 매매 저평가 섹션
     st.markdown("""
-    <div style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
+    <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
                 border-left:4px solid #f59e0b;">
         <span style="font-size:1.05rem; font-weight:900; color:#fcd34d;">🏠 매매 저평가 매물</span>
         <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
@@ -848,7 +1267,7 @@ def render_listing():
     ai_col1, ai_col2 = st.columns(2)
     with ai_col1:
         st.markdown("""
-        <div style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px;
+        <div class="dark-box" style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px;
                     padding:18px; position:relative; margin-bottom:4px;">
             <div style="position:absolute; top:-12px; left:16px; background:#f59e0b; color:#1e293b;
                         font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 AI 저평가 -8.2%</div>
@@ -869,7 +1288,7 @@ def render_listing():
 
     with ai_col2:
         st.markdown("""
-        <div style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px;
+        <div class="dark-box" style="background:#0f172a; border:2px solid #f59e0b; border-radius:14px;
                     padding:18px; position:relative; margin-bottom:4px;">
             <div style="position:absolute; top:-12px; left:16px; background:#f59e0b; color:#1e293b;
                         font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 AI 저평가 -7.5%</div>
@@ -892,7 +1311,7 @@ def render_listing():
 
     # 임대차 저평가 섹션
     st.markdown("""
-    <div style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
+    <div class="dark-box" style="background:#1e293b; border-radius:12px; padding:14px 18px; margin-bottom:14px;
                 border-left:4px solid #22d3ee;">
         <span style="font-size:1.05rem; font-weight:900; color:#67e8f9;">🔑 임대차·렌트 저평가 매물</span>
         <span style="margin-left:10px; font-size:0.8rem; color:#94a3b8;">
@@ -904,7 +1323,7 @@ def render_listing():
     rent_col1, rent_col2 = st.columns(2)
     with rent_col1:
         st.markdown("""
-        <div style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px;
+        <div class="dark-box" style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px;
                     padding:18px; position:relative; margin-bottom:4px;">
             <div style="position:absolute; top:-12px; left:16px; background:#22d3ee; color:#0f172a;
                         font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 전세 저평가 -8.8%</div>
@@ -925,7 +1344,7 @@ def render_listing():
 
     with rent_col2:
         st.markdown("""
-        <div style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px;
+        <div class="dark-box" style="background:#0f172a; border:2px solid #22d3ee; border-radius:14px;
                     padding:18px; position:relative; margin-bottom:4px;">
             <div style="position:absolute; top:-12px; left:16px; background:#22d3ee; color:#0f172a;
                         font-weight:900; font-size:0.78rem; padding:2px 12px; border-radius:20px;">🤖 월세 저평가 -7.9%</div>
@@ -988,7 +1407,7 @@ def render_marketing_action_tools(section_key: str = "default"):
     APP_URL = "https://lotte-ai-app.streamlit.app/"
 
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);
+    <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);
                 border-radius:16px; padding:24px 20px; margin-bottom:8px;">
       <h3 style="color:#fcd34d; margin:0 0 6px 0; font-size:1.15rem;">
         📣 AI 자동 홍보 &amp; 영업 도구 센터
@@ -1021,7 +1440,7 @@ def render_marketing_action_tools(section_key: str = "default"):
                         time.sleep(1.2)
                     st.success("✅ 숏츠 스크립트 생성 완료!")
                     st.markdown(f"""
-<div style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;margin-top:8px;">
+<div class="dark-box" style="background:#0f172a;border-radius:10px;padding:16px;border:1px solid #334155;margin-top:8px;">
   <div style="color:#38bdf8;font-weight:700;margin-bottom:8px;">📜 오프닝 멘트 (0~3초)</div>
   <div style="color:#e2e8f0;font-size:0.9rem;line-height:1.7;">"지금 당장 봐야 할 대치동 역대급 매물이 나왔습니다!"</div>
   <div style="color:#38bdf8;font-weight:700;margin:12px 0 8px 0;">🏠 매물 브리핑 (3~15초)</div>
@@ -1124,10 +1543,10 @@ def render_marketing_action_tools(section_key: str = "default"):
 def render_matching_and_reservation():
     with st.expander("💬 AI 챗봇 상담 (열기/닫기)", expanded=True):
         st.markdown("""
-        <div class="dark-box" style="text-align:center; margin-bottom:20px; padding:16px;
+        <div style="text-align:center; margin-bottom:20px; padding:16px;
                     background:#0f172a; border-radius:12px; border:1px solid #334155;">
-            <div style="color:#facc15 !important; margin:0; font-size:1.2rem; font-weight:900;">☁️ AI Real Estate Assistant</div>
-            <div style="font-size:0.9em; color:#e2e8f0 !important; margin-top:8px; font-weight:500;">24시간 365일, 대치동 부동산/세금/법률 데이터를 실시간 분석하여 답변합니다.</div>
+            <h3 style="color:#facc15; margin:0;">☁️ AI Real Estate Assistant</h3>
+            <span style="font-size:0.85em; color:#94a3b8;">24시간 365일, 대치동 부동산/세금/법률 데이터를 실시간 분석하여 답변합니다.</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1180,10 +1599,10 @@ def render_matching_and_reservation():
 
     st.markdown("---")
     st.markdown("""
-    <div class="dark-box" style="text-align:center; margin-bottom:20px; padding:20px;
+    <div style="text-align:center; margin-bottom:20px; padding:20px;
                 background:#0f172a; border-radius:14px; border:1px solid #334155;">
-        <div style="color:#facc15 !important; margin-bottom:6px; font-size:1.4rem; font-weight:900;">🚀 롯데타워 AI 사전 매칭 센터</div>
-        <div style="color:#ffffff !important; font-size:0.95rem; margin:0; font-weight:500;">에어비앤비 방식의 스마트 예약 시스템으로 매칭 확률을 300% 높이세요.</div>
+        <h2 style="color:#facc15; margin-bottom:5px; font-size:1.4rem;">🚀 롯데타워 AI 사전 매칭 센터</h2>
+        <p style="color:#94a3b8; font-size:0.9rem; margin:0;">에어비앤비 방식의 스마트 예약 시스템으로 매칭 확률을 300% 높이세요.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1201,7 +1620,7 @@ def render_matching_and_reservation():
 
     with tab_supply:
         st.markdown("""
-        <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:14px;
+        <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:14px;
                     padding:18px 20px;margin-bottom:16px;border-left:5px solid #facc15;">
           <div style="font-size:1.1rem;font-weight:900;color:#facc15;">🛡️ 내 집의 골든타임 예약 (공급)</div>
           <div style="font-size:0.85rem;color:#94a3b8;margin-top:4px;">
@@ -1427,10 +1846,12 @@ def render_shorts_and_youlab():
     st.markdown("---")
 
     st.markdown("""
-    <div class="dark-box" style="background:#7f1d1d; padding:15px; border-radius:10px;
+    <div class="dark-box" style="background:#7f1d1d; color:white; padding:15px; border-radius:10px;
                 text-align:center; margin-bottom:20px; border:1px solid #991b1b;">
-        <div style="margin:0; color:#ffffff !important; font-size:1.35rem; font-weight:900;">🔴 YOU-LAB: 초고속 숏츠 연구소</div>
-        <div style="margin:5px 0 0 0; font-size:0.85em; color:#fecaca !important; font-weight:500;">Token Inference Server 가동 중 | GPU 가속 엔진 활성화</div>
+        <h2 style="margin:0; color:#ffffff !important;">🔴 YOU-LAB: 초고속 숏츠 연구소</h2>
+        <p style="margin:5px 0 0 0; font-size:0.8em; color:#fecaca !important;">
+            Token Inference Server 가동 중 | GPU 가속 엔진 활성화
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1438,35 +1859,45 @@ def render_shorts_and_youlab():
     with c1:
         st.markdown("#### ⚙️ 촬영 및 인코딩 설정")
         with st.container(border=True):
-            st.radio("시네마틱 스타일 선택", ["💥 마이클 베이 (폭발적/화려함)", "✨ 미니멀 (세련됨/깔끔함)", "🎵 트렌디 (힙합/빠른템포)"])
+            st.radio(
+                "시네마틱 스타일 선택",
+                ["💥 마이클 베이 (폭발적/화려함)", "✨ 미니멀 (세련됨/깔끔함)", "🎵 트렌디 (힙합/빠른템포)"],
+            )
             st.slider("영상 길이 설정 (초)", 15, 60, 30)
-            st.text_area("프롬프트 (장면 묘사)", "대치동 학원가 전경에서 래미안대치팰리스로 줌인, 웅장한 배경음악", height=100)
+            st.text_area(
+                "프롬프트 (장면 묘사)",
+                "대치동 학원가 전경에서 래미안대치팰리스로 줌인, 웅장한 배경음악",
+                height=100,
+            )
             if st.button("🎥 10mm 숏츠 제작 렌더링 시작", use_container_width=True, type="primary", key="btn_render_shorts"):
                 st.toast("렌더링 서버에 작업을 요청했습니다!")
-            st.caption("1. 시나리오 생성 및 Python 코드 번역\n2. Vegas 자동 편집 스크립트 실행\n3. H.264 Server 사이드 렌더링 후 S3 업로드")
+            st.markdown("""
+            <div style="font-size:0.82rem; color:#475569; line-height:1.8; margin-top:8px;">
+            1. 시나리오 생성 및 Python 코드 번역<br>
+            2. Vegas 자동 편집 스크립트 실행<br>
+            3. H.264 Server 사이드 렌더링 후 S3 업로드
+            </div>
+            """, unsafe_allow_html=True)
 
     with c2:
         st.markdown("#### 🖥️ 모니터링 데스크")
         with st.container(border=True):
             st.markdown("""
-            <div class="dark-box" style="background:#000814; width:100%; height:300px; display:flex; align-items:center;
-                        justify-content:center; border-radius:8px; margin-bottom:10px; border:1px solid #334155;">
-                <div style="text-align:center; color:#e2e8f0 !important;">
-                    <div style="font-size:2em;">⚠️</div>
-                    <div style="color:#f8fafc !important; font-weight:700; margin-top:8px;">실시간 렌더링 미리보기 대기 중...</div>
-                    <div style="color:#93c5fd !important; margin-top:6px;">GPU: RTX 4090 - Idle</div>
+            <div class="dark-box" style="background:#000; width:100%; height:300px; display:flex; align-items:center;
+                        justify-content:center; border-radius:5px; margin-bottom:10px;">
+                <div style="text-align:center; color:#e5e7eb !important;">
+                    <span style="font-size:2em;">⚠️</span><br>
+                    <span style="color:#f8fafc !important;">
+                        실시간 렌더링 미리보기 대기 중...<br>(GPU: RTX 4090 - Idle)
+                    </span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
             st.markdown("""
-            <div class="dark-box" style="background:#0f172a; border:1px solid #334155; border-radius:8px; padding:12px;">
-                <div style="font-family:monospace; font-size:0.82rem; line-height:1.75; color:#f8fafc !important; white-space:pre-wrap;">
-[SYSTEM] Token Inference Server Connected... OK
+            <div class="log-monitor">[SYSTEM] Token Inference Server Connected... OK
 [INFO] Loaded Model: Lotte-RealEstate-v4.7
 [GPU] CUDA Core Active: 0%
-[QUEUE] Waiting for render job...
-                </div>
-            </div>
+[QUEUE] Waiting for render job...</div>
             """, unsafe_allow_html=True)
 
 
@@ -1565,8 +1996,10 @@ def render_admin_system():
         st.markdown("""
         <div class="dark-box" style="text-align:center; margin-bottom:24px; padding:20px;
                     background:#0f172a; border-radius:12px; border:1px solid #334155;">
-            <div style="color:#f8fafc !important; margin:0; font-size:1.2rem; font-weight:900;">📑 부동산 AI 영업팩 생성기 (자동화)</div>
-            <div style="color:#e2e8f0 !important; font-size:0.92rem; margin:6px 0 0 0; font-weight:500;">버튼 하나로 블로그 / 카톡 / 상담 스크립트를 한 번에 생성합니다.</div>
+            <h3 style="color:#ffffff !important; margin:0;">📑 부동산 AI 영업팩 생성기 (자동화)</h3>
+            <p style="color:#e2e8f0 !important; font-size:0.9rem; margin:6px 0 0 0;">
+                버튼 하나로 블로그 / 카톡 / 상담 스크립트를 한 번에 생성합니다.
+            </p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1597,7 +2030,7 @@ def render_admin_system():
             if submit:
                 st.success("✅ AI 영업팩 생성이 완료되었습니다!")
                 st.markdown(f"""
-                <div style="background:#0f172a; padding:20px; border-radius:10px;
+                <div class="dark-box" style="background:#0f172a; padding:20px; border-radius:10px;
                             border:1px solid #334155; margin-top:10px;">
                     <h4 style="color:#38bdf8; margin:0 0 8px 0;">📝 [블로그 제목]</h4>
                     <p style="color:#e2e8f0; margin:0 0 16px 0;">
@@ -1614,7 +2047,23 @@ def render_admin_system():
                 st.balloons()
 
     with adm_tab4:
-        st.info("시스템 관리: 추후 구현 예정 (로그, 백업, 설정 등)")
+        st.markdown("#### ⚙️ 시스템 관리")
+        st.info("시스템 관리 패널입니다. 하단 바로가기 버튼으로 주요 기능에 접근하세요.")
+        st.markdown("---")
+        st.markdown("##### 🔗 주요 기능 바로가기")
+        nav_c1, nav_c2, nav_c3 = st.columns(3)
+        with nav_c1:
+            if st.button("🤖 AI매칭사전예약가기", use_container_width=True, key="adm_nav_matching", type="primary"):
+                st.session_state["nav_tab_idx"] = 2
+                st.rerun()
+        with nav_c2:
+            if st.button("🎬 AI숏츠 바로가기", use_container_width=True, key="adm_nav_shorts"):
+                st.session_state["nav_tab_idx"] = 3
+                st.rerun()
+        with nav_c3:
+            if st.button("⭐ AI저평가매물보기", use_container_width=True, key="adm_nav_listing"):
+                st.session_state["nav_tab_idx"] = 1
+                st.rerun()
 
 
 def render_login_page():
@@ -1643,7 +2092,7 @@ def render_login_page():
             </div>
         </div>
         <div style="font-size:1.45rem; font-weight:900; line-height:1.5;
-                    letter-spacing:-0.03em; color:#fde68a; margin-bottom:10px;">
+                    letter-spacing:-0.03em; color:#ffffff; margin-bottom:10px;">
             대치1동은 자녀의 미래 베이스캠프입니다.
         </div>
         <div style="line-height:1.8; font-size:0.95rem; font-weight:500; color:#e2e8f0;">
@@ -1677,33 +2126,35 @@ def render_login_page():
 
     # ─── 플랫폼 소개 카드 ───
     st.markdown("""
-<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); border-radius:14px;
-            padding:24px 22px; margin-bottom:20px; border:1px solid #334155;">
-  <div style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900; line-height:1.5;">
+<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:24px 22px; margin-bottom:20px;">
+  <h4 style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
     🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
-  </div>
+  </h4>
+
   <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
     <div style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
       <div style="font-size:0.78rem; color:#fca5a5 !important; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
-      <div style="font-size:0.86rem; color:#ffffff !important; line-height:1.7; font-weight:600;">
+      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
         학군 이사 가족은 <b style="color:#ffffff !important;">10년간</b> 같은 지역에 머뭅니다.<br>
         원하는 시기·가격의 매물은 <b style="color:#ffffff !important;">구조적으로 희소</b>합니다.
       </div>
     </div>
+
     <div style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
       <div style="font-size:0.78rem; color:#93c5fd !important; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
-      <div style="font-size:0.86rem; color:#ffffff !important; line-height:1.7; font-weight:600;">
+      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
         AI가 저평가 매물을 <b style="color:#ffffff !important;">1초 분석</b>.<br>
         매도·임대인 ↔ 매수·임차인 이사 시기를 <b style="color:#ffffff !important;">사전 자동매칭</b>.
       </div>
     </div>
   </div>
+
   <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
     <div style="font-size:0.78rem; color:#6ee7b7 !important; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
-    <div style="font-size:0.84rem; color:#ffffff !important; line-height:1.9; font-weight:600;">
-      👨‍👩‍👧 소비자 — 입주·입학 시기 혼란 해소<br>
-      📊 시장 — 수급 투명화, 가격 왜곡 감소<br>
-      🏙️ 사회 — 기존 주거지역 흐름 안정화
+    <div style="font-size:0.8rem; color:#f8fafc !important; line-height:1.8;">
+      👨‍👩‍👧 <b style="color:#ffffff !important;">소비자</b> — 입주·입학 시기 혼란 해소<br>
+      📊 <b style="color:#ffffff !important;">시장</b> — 수급 투명화, 가격 왜곡 감소<br>
+      🏙️ <b style="color:#ffffff !important;">사회</b> — 기존 주거지역 흐름 안정화
     </div>
   </div>
 </div>
