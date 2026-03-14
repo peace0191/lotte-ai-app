@@ -859,6 +859,41 @@ div[data-key="nav_main_top"] {
 </style>
 """, unsafe_allow_html=True)
 
+# ── 모바일 뒤로가기 버튼 차단 ──
+# 로그인 후 뒤로가기 눌러도 로그인 화면으로 가지 않도록
+# history.pushState로 스택을 쌓아두고 popstate 이벤트를 가로챔
+st.markdown("""
+<script>
+(function() {
+    // 현재 URL을 히스토리 스택에 2번 추가 (뒤로가기 1번은 앱 내부에서 흡수)
+    if (window.history && window.history.pushState) {
+        window.history.pushState({ page: 'app' }, '', window.location.href);
+        window.history.pushState({ page: 'app' }, '', window.location.href);
+    }
+
+    // 뒤로가기(popstate) 이벤트 가로채기
+    window.addEventListener('popstate', function(e) {
+        // 다시 현재 페이지를 히스토리에 추가해서 뒤로가기 효과 차단
+        window.history.pushState({ page: 'app' }, '', window.location.href);
+
+        // 로그인 상태 확인 후 추천매물 탭으로 이동
+        var btns = document.querySelectorAll('button[data-testid="stButton"]');
+        for (var i = 0; i < btns.length; i++) {
+            if (btns[i].innerText.includes('AI저평가') || btns[i].innerText.includes('AI매칭사전')) {
+                btns[i].click();
+                break;
+            }
+        }
+    }, false);
+
+    // 페이지 언로드(앱 종료) 시도 감지 — 모바일에서 앱 나가기 방지
+    window.addEventListener('beforeunload', function(e) {
+        window.history.pushState({ page: 'app' }, '', window.location.href);
+    });
+})();
+</script>
+""", unsafe_allow_html=True)
+
 # --- Constants & Data for Map ---
 POINTS_PATH = Path("data/daechi_points.json")
 COLOR_RGB = {
@@ -2328,6 +2363,13 @@ def render_login_page():
             else:
                 st.session_state["logged_in"] = True
                 st.session_state["user_name"] = name.strip()
+                # localStorage에 로그인 상태 저장 (뒤로가기/새로고침 후 유지)
+                st.markdown(f"""
+<script>
+localStorage.setItem('lotte_logged_in', 'true');
+localStorage.setItem('lotte_user_name', '{name.strip()}');
+</script>
+""", unsafe_allow_html=True)
                 st.toast(f"✅ {name.strip()}님, 인증되었습니다! 환영합니다.")
                 st.rerun()
 
@@ -2477,6 +2519,22 @@ def main():
     if "logged_in" not in st.session_state:
         st.session_state["logged_in"] = False
 
+    # ── localStorage에서 로그인 상태 복원 (뒤로가기/새로고침 후에도 유지) ──
+    if not st.session_state["logged_in"]:
+        st.markdown("""
+<script>
+(function() {
+    var saved = localStorage.getItem('lotte_logged_in');
+    var savedName = localStorage.getItem('lotte_user_name');
+    if (saved === 'true' && savedName) {
+        // 숨겨진 복원 버튼 클릭
+        var btn = document.querySelector('button[data-restore-login]');
+        if (btn) btn.click();
+    }
+})();
+</script>
+""", unsafe_allow_html=True)
+
     if not st.session_state["logged_in"]:
         render_login_page()
         if st.session_state.get("show_biz_card"):
@@ -2484,6 +2542,16 @@ def main():
             show_business_card_dialog()
         render_login_bottom_nav()
         return
+
+    # ── 로그인 성공 시 localStorage에 저장 ──
+    st.markdown(f"""
+<script>
+(function() {{
+    localStorage.setItem('lotte_logged_in', 'true');
+    localStorage.setItem('lotte_user_name', '{st.session_state.get("user_name", "")}');
+}})();
+</script>
+""", unsafe_allow_html=True)
 
     # ─── 탭 정의 (고정 순서) ───
     TAB_LABELS = [
