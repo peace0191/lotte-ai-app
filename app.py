@@ -1518,6 +1518,28 @@ def render_listing():
     with c2: property_card("삼환아르누보 17평 복층", "1,000만 / 122만", "17평 · 북동향 · 고층", "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=400&q=80", "월세", "sam17m")
     with c3: property_card("삼환아르누보 18평 복층", "2,000만 / 200만", "18평 · 북동향 · 2룸 확장형", "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=400&q=80", key_suffix="sam18")
 
+    c1, c2, c3 = st.columns(3)
+    with c1: property_card("삼환아르누보 17평 매매", "5억1천 (올수리 인테리어 강추)", "17평 · 서향 · 중층", "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=400&q=80", "강추", "sam17s")
+    with c2: property_card("삼환아르누보 17평 복층", "1천 / 200만", "17평 · 중층 · 단기 올수리 럭셔리 풀옵션 렌트", "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=400&q=80", "월세", "sam17lux")
+
+    # ─── 역삼래전드힐스 ───
+    st.markdown('<div class="section-header">🏙️ 역삼래전드힐스 — 한티역 2번출구 1분 · 학원가 메인</div>', unsafe_allow_html=True)
+    st.caption("럭셔리 아파트형 원룸 · 기본 관리비(주차·인터넷) 포함")
+    c1, c2, c3, c4 = st.columns(4)
+    with c1: property_card("역삼래전드힐스 7평", "1천 / 110만", "전용7평 · 월세 · 관리비포함 · 럭셔리 아파트형원룸", "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=400&q=80", "월세", "legend7")
+    with c2: property_card("역삼래전드힐스 9평", "1천 / 130만", "전용9평 · 월세 · 관리비포함 · 럭셔리 아파트형원룸", "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=400&q=80", "월세", "legend9")
+    with c3: property_card("역삼래전드힐스 10평", "2천 / 140만", "전용10평 · 월세 · 관리비포함 · 럭셔리 아파트형원룸", "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=400&q=80", "월세", "legend10")
+    with c4: property_card("역삼래전드힐스 15평", "3천 / 160만", "전용15평 · 월세 · 관리비포함 · 럭셔리 아파트형투룸", "https://images.unsplash.com/photo-1484154218962-a1c002085d2f?auto=format&fit=crop&w=400&q=80", "투룸", "legend15")
+
+    # ─── 대치W타워 ───
+    st.markdown('<div class="section-header">🏢 대치 W타워 — 삼성역 2호선 5분 · 학원가 메인</div>', unsafe_allow_html=True)
+    st.caption("대치동 호텔 오피스텔식 원룸 · 관리비 별도")
+    c1, c2, c3, c4 = st.columns(4)
+    with c1: property_card("대치W타워 10평 남향", "1천 / 110만", "전용10평 · 중층 · 남향 · 관리비 172,000원", "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80", "월세", "wtower10s")
+    with c2: property_card("대치W타워 10평 단기", "3백 / 140만", "전용10평 · 중층 · 북향 · 단기 · 관리비 172,000원", "https://images.unsplash.com/photo-1502005229766-5283522a6f1f?auto=format&fit=crop&w=400&q=80", "단기", "wtower10n")
+    with c3: property_card("대치W타워 12평 남향", "1천 / 130만", "전용12평 · 중층 · 남향 · 관리비 217,000원", "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=400&q=80", "월세", "wtower12s")
+    with c4: property_card("대치W타워 12평 단기", "3백 / 150만", "전용12평 · 중층 · 북향 · 단기 · 관리비 217,000원", "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80", "단기", "wtower12n")
+
 
 def render_marketing_action_tools(section_key: str = "default"):
     APP_URL = "https://lotte-ai-app.streamlit.app/"
