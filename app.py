@@ -797,6 +797,107 @@ div[data-key="nav_main_top"] {
 }
 </style>
 """, unsafe_allow_html=True)
+st.markdown("""
+<style>
+/* ─────────────────────────────
+   어두운 박스 안 글씨 강제 가독성 보정
+───────────────────────────── */
+.dark-box,
+.dark-box p,
+.dark-box span,
+.dark-box div,
+.dark-box li,
+.dark-box label,
+.dark-box small,
+.dark-box strong,
+.dark-box b {
+    color: #f8fafc !important;
+}
+
+/* dark-box 안에서 자주 쓰는 보조 텍스트도 밝게 */
+.dark-box .muted,
+.dark-box [data-muted="true"] {
+    color: #cbd5e1 !important;
+}
+
+/* 어두운 배경 인라인 박스 내부 텍스트 강제 */
+div[style*="background:#0f172a"] p,
+div[style*="background:#0f172a"] span,
+div[style*="background:#0f172a"] div,
+div[style*="background:#0f172a"] li,
+div[style*="background:#0f172a"] small,
+div[style*="background:#0f172a"] strong,
+div[style*="background:#0f172a"] b,
+div[style*="background:#1e293b"] p,
+div[style*="background:#1e293b"] span,
+div[style*="background:#1e293b"] div,
+div[style*="background:#1e293b"] li,
+div[style*="background:#1e293b"] small,
+div[style*="background:#1e293b"] strong,
+div[style*="background:#1e293b"] b,
+div[style*="background:linear-gradient(135deg,#0f172a"] p,
+div[style*="background:linear-gradient(135deg,#0f172a"] span,
+div[style*="background:linear-gradient(135deg,#0f172a"] div,
+div[style*="background:linear-gradient(135deg,#0f172a"] li,
+div[style*="background:linear-gradient(135deg,#1e293b"] p,
+div[style*="background:linear-gradient(135deg,#1e293b"] span,
+div[style*="background:linear-gradient(135deg,#1e293b"] div,
+div[style*="background:linear-gradient(135deg,#1e293b"] li {
+    color: #f8fafc !important;
+}
+
+/* dark-box 안에서 어두운 회색 계열이 남아 있으면 전부 밝게 덮기 */
+.dark-box [style*="color:#0f172a"],
+.dark-box [style*="color:#111827"],
+.dark-box [style*="color:#1e293b"],
+.dark-box [style*="color:#334155"],
+.dark-box [style*="color:#475569"],
+.dark-box [style*="color:#64748b"] {
+    color: #e2e8f0 !important;
+}
+
+/* dark-box 안의 제목 강조 */
+.dark-box h1,
+.dark-box h2,
+.dark-box h3,
+.dark-box h4,
+.dark-box h5,
+.dark-box h6 {
+    color: #ffffff !important;
+}
+
+/* 노란 강조 제목 유지 */
+.dark-box [style*="color:#fcd34d"],
+.dark-box [style*="color:#fbbf24"] {
+    color: #fcd34d !important;
+}
+
+/* Streamlit code block 가독성 */
+pre, code, .stCode, .stCodeBlock, [data-testid="stCodeBlock"] {
+    color: #f8fafc !important;
+}
+
+[data-testid="stCodeBlock"] pre,
+[data-testid="stCodeBlock"] code {
+    color: #f8fafc !important;
+    background: #0b1220 !important;
+}
+
+/* 모니터링 로그 박스 */
+.log-monitor {
+    background: #0b1220 !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    font-family: Consolas, Monaco, monospace !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    white-space: pre-wrap !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 
 # --- Constants & Data for Map ---
 POINTS_PATH = Path("data/daechi_points.json")
@@ -1884,10 +1985,13 @@ def render_shorts_and_youlab():
                 </div>
             </div>
             """, unsafe_allow_html=True)
-            st.code("""[SYSTEM] Token Inference Server Connected... OK
-[INFO] Loaded Model: Lotte-RealEstate-v4.7
-[GPU] CUDA Core Active: 0%
-[QUEUE] Waiting for render job...""", language="bash")
+           st.markdown("""
+            <div class="log-monitor">[SYSTEM] Token Inference Server Connected... OK
+            [INFO] Loaded Model: Lotte-RealEstate-v4.7
+            [GPU] CUDA Core Active: 0%
+            [QUEUE] Waiting for render job...</div>
+            """, unsafe_allow_html=True)
+ 
 
 
 def render_joint_matching():
@@ -2113,40 +2217,41 @@ def render_login_page():
         """, unsafe_allow_html=True)
 
     # ─── 플랫폼 소개 카드 ───
-    st.markdown("""
-<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); border-radius:14px;
-            padding:24px 22px; margin-bottom:20px; border:1px solid #334155;">
-  <h4 style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;
-             text-shadow:0 1px 4px rgba(0,0,0,0.5); display:block; visibility:visible;
-             opacity:1; background:transparent;">
+ st.markdown("""
+<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:24px 22px; margin-bottom:20px;">
+  <h4 style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
     🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
   </h4>
+
   <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
     <div style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
-      <div style="font-size:0.82rem; color:#e2e8f0; line-height:1.6;">
-        학군 이사 가족은 <b>10년간</b> 같은 지역에 머뭅니다.<br>
-        원하는 시기·가격의 매물은 <b>구조적으로 희소</b>합니다.
+      <div style="font-size:0.78rem; color:#fca5a5 !important; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
+      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
+        학군 이사 가족은 <b style="color:#ffffff !important;">10년간</b> 같은 지역에 머뭅니다.<br>
+        원하는 시기·가격의 매물은 <b style="color:#ffffff !important;">구조적으로 희소</b>합니다.
       </div>
     </div>
+
     <div style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
-      <div style="font-size:0.82rem; color:#e2e8f0; line-height:1.6;">
-        AI가 저평가 매물을 <b>1초 분석</b>.<br>
-        매도·임대인 ↔ 매수·임차인 이사 시기를 <b>사전 자동매칭</b>.
+      <div style="font-size:0.78rem; color:#93c5fd !important; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
+      <div style="font-size:0.82rem; color:#f8fafc !important; line-height:1.7;">
+        AI가 저평가 매물을 <b style="color:#ffffff !important;">1초 분석</b>.<br>
+        매도·임대인 ↔ 매수·임차인 이사 시기를 <b style="color:#ffffff !important;">사전 자동매칭</b>.
       </div>
     </div>
   </div>
+
   <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
-    <div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
-    <div style="font-size:0.8rem; color:#e2e8f0; line-height:1.8;">
-      👨‍👩‍👧 <b>소비자</b> — 입주·입학 시기 혼란 해소 &nbsp;|&nbsp;
-      📊 <b>시장</b> — 수급 투명화, 가격 왜곡 감소 &nbsp;|&nbsp;
-      🏙️ <b>사회</b> — 기존 주거지역 흐름 안정화
+    <div style="font-size:0.78rem; color:#6ee7b7 !important; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
+    <div style="font-size:0.8rem; color:#f8fafc !important; line-height:1.8;">
+      👨‍👩‍👧 <b style="color:#ffffff !important;">소비자</b> — 입주·입학 시기 혼란 해소<br>
+      📊 <b style="color:#ffffff !important;">시장</b> — 수급 투명화, 가격 왜곡 감소<br>
+      🏙️ <b style="color:#ffffff !important;">사회</b> — 기존 주거지역 흐름 안정화
     </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
+
 
     # ─── 로그인 ───
     with st.container(border=True):
