@@ -67,10 +67,10 @@ if "is_admin" not in st.session_state:
 if "manual_nav_target" not in st.session_state:
     st.session_state["manual_nav_target"] = None
 
-# --- Custom CSS (원본 유지형 / 가독성 안정판) ---
+# --- Custom CSS (완전 수정: 가독성, 모바일, 대비 개선) ---
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Noto Sans KR', sans-serif !important;
@@ -595,14 +595,6 @@ div[data-testid="stMetricLabel"] {
     color: #f1f5f9 !important;
 }
 
-/* background:linear-gradient(135deg,#061537 체열 (로그인 헤더) */
-[style*="background:linear-gradient(135deg,#061537"],
-[style*="background:linear-gradient(135deg,#061537"] *,
-[style*="background: linear-gradient(135deg, #061537"],
-[style*="background: linear-gradient(135deg, #061537"] * {
-    color: #f1f5f9 !important;
-}
-
 /* ─── 어두운 배경 위 heading 강제 흰색 ─── */
 [style*="background:#0f172a"] h1,
 [style*="background:#0f172a"] h2,
@@ -797,107 +789,6 @@ div[data-key="nav_main_top"] {
 }
 </style>
 """, unsafe_allow_html=True)
-st.markdown("""
-<style>
-/* ─────────────────────────────
-   어두운 박스 안 글씨 강제 가독성 보정
-───────────────────────────── */
-.dark-box,
-.dark-box p,
-.dark-box span,
-.dark-box div,
-.dark-box li,
-.dark-box label,
-.dark-box small,
-.dark-box strong,
-.dark-box b {
-    color: #f8fafc !important;
-}
-
-/* dark-box 안에서 자주 쓰는 보조 텍스트도 밝게 */
-.dark-box .muted,
-.dark-box [data-muted="true"] {
-    color: #cbd5e1 !important;
-}
-
-/* 어두운 배경 인라인 박스 내부 텍스트 강제 */
-div[style*="background:#0f172a"] p,
-div[style*="background:#0f172a"] span,
-div[style*="background:#0f172a"] div,
-div[style*="background:#0f172a"] li,
-div[style*="background:#0f172a"] small,
-div[style*="background:#0f172a"] strong,
-div[style*="background:#0f172a"] b,
-div[style*="background:#1e293b"] p,
-div[style*="background:#1e293b"] span,
-div[style*="background:#1e293b"] div,
-div[style*="background:#1e293b"] li,
-div[style*="background:#1e293b"] small,
-div[style*="background:#1e293b"] strong,
-div[style*="background:#1e293b"] b,
-div[style*="background:linear-gradient(135deg,#0f172a"] p,
-div[style*="background:linear-gradient(135deg,#0f172a"] span,
-div[style*="background:linear-gradient(135deg,#0f172a"] div,
-div[style*="background:linear-gradient(135deg,#0f172a"] li,
-div[style*="background:linear-gradient(135deg,#1e293b"] p,
-div[style*="background:linear-gradient(135deg,#1e293b"] span,
-div[style*="background:linear-gradient(135deg,#1e293b"] div,
-div[style*="background:linear-gradient(135deg,#1e293b"] li {
-    color: #f8fafc !important;
-}
-
-/* dark-box 안에서 어두운 회색 계열이 남아 있으면 전부 밝게 덮기 */
-.dark-box [style*="color:#0f172a"],
-.dark-box [style*="color:#111827"],
-.dark-box [style*="color:#1e293b"],
-.dark-box [style*="color:#334155"],
-.dark-box [style*="color:#475569"],
-.dark-box [style*="color:#64748b"] {
-    color: #e2e8f0 !important;
-}
-
-/* dark-box 안의 제목 강조 */
-.dark-box h1,
-.dark-box h2,
-.dark-box h3,
-.dark-box h4,
-.dark-box h5,
-.dark-box h6 {
-    color: #ffffff !important;
-}
-
-/* 노란 강조 제목 유지 */
-.dark-box [style*="color:#fcd34d"],
-.dark-box [style*="color:#fbbf24"] {
-    color: #fcd34d !important;
-}
-
-/* Streamlit code block 가독성 */
-pre, code, .stCode, .stCodeBlock, [data-testid="stCodeBlock"] {
-    color: #f8fafc !important;
-}
-
-[data-testid="stCodeBlock"] pre,
-[data-testid="stCodeBlock"] code {
-    color: #f8fafc !important;
-    background: #0b1220 !important;
-}
-
-/* 모니터링 로그 박스 */
-.log-monitor {
-    background: #0b1220 !important;
-    color: #f8fafc !important;
-    border: 1px solid #334155 !important;
-    border-radius: 8px !important;
-    padding: 10px 12px !important;
-    font-family: Consolas, Monaco, monospace !important;
-    font-size: 12px !important;
-    line-height: 1.6 !important;
-    white-space: pre-wrap !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
 
 # --- Constants & Data for Map ---
 POINTS_PATH = Path("data/daechi_points.json")
@@ -1955,10 +1846,12 @@ def render_shorts_and_youlab():
     st.markdown("---")
 
     st.markdown("""
-    <div style="background:#7f1d1d; color:white; padding:15px; border-radius:10px;
+    <div class="dark-box" style="background:#7f1d1d; color:white; padding:15px; border-radius:10px;
                 text-align:center; margin-bottom:20px; border:1px solid #991b1b;">
-        <h2 style="margin:0; color:white;">🔴 YOU-LAB: 초고속 숏츠 연구소</h2>
-        <p style="margin:5px 0 0 0; font-size:0.8em; color:#fca5a5;">Token Inference Server 가동 중 | GPU 가속 엔진 활성화</p>
+        <h2 style="margin:0; color:#ffffff !important;">🔴 YOU-LAB: 초고속 숏츠 연구소</h2>
+        <p style="margin:5px 0 0 0; font-size:0.8em; color:#fecaca !important;">
+            Token Inference Server 가동 중 | GPU 가속 엔진 활성화
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1966,32 +1859,46 @@ def render_shorts_and_youlab():
     with c1:
         st.markdown("#### ⚙️ 촬영 및 인코딩 설정")
         with st.container(border=True):
-            st.radio("시네마틱 스타일 선택", ["💥 마이클 베이 (폭발적/화려함)", "✨ 미니멀 (세련됨/깔끔함)", "🎵 트렌디 (힙합/빠른템포)"])
+            st.radio(
+                "시네마틱 스타일 선택",
+                ["💥 마이클 베이 (폭발적/화려함)", "✨ 미니멀 (세련됨/깔끔함)", "🎵 트렌디 (힙합/빠른템포)"],
+            )
             st.slider("영상 길이 설정 (초)", 15, 60, 30)
-            st.text_area("프롬프트 (장면 묘사)", "대치동 학원가 전경에서 래미안대치팰리스로 줌인, 웅장한 배경음악", height=100)
+            st.text_area(
+                "프롬프트 (장면 묘사)",
+                "대치동 학원가 전경에서 래미안대치팰리스로 줌인, 웅장한 배경음악",
+                height=100,
+            )
             if st.button("🎥 10mm 숏츠 제작 렌더링 시작", use_container_width=True, type="primary", key="btn_render_shorts"):
                 st.toast("렌더링 서버에 작업을 요청했습니다!")
-            st.caption("1. 시나리오 생성 및 Python 코드 번역\n2. Vegas 자동 편집 스크립트 실행\n3. H.264 Server 사이드 렌더링 후 S3 업로드")
+            st.markdown("""
+            <div style="font-size:0.82rem; color:#475569; line-height:1.8; margin-top:8px;">
+            1. 시나리오 생성 및 Python 코드 번역<br>
+            2. Vegas 자동 편집 스크립트 실행<br>
+            3. H.264 Server 사이드 렌더링 후 S3 업로드
+            </div>
+            """, unsafe_allow_html=True)
 
     with c2:
         st.markdown("#### 🖥️ 모니터링 데스크")
         with st.container(border=True):
             st.markdown("""
-            <div style="background:#000; width:100%; height:300px; display:flex; align-items:center;
+            <div class="dark-box" style="background:#000; width:100%; height:300px; display:flex; align-items:center;
                         justify-content:center; border-radius:5px; margin-bottom:10px;">
-                <div style="text-align:center; color:#6b7280;">
+                <div style="text-align:center; color:#e5e7eb !important;">
                     <span style="font-size:2em;">⚠️</span><br>
-                    <span style="color:#9ca3af;">실시간 렌더링 미리보기 대기 중...<br>(GPU: RTX 4090 - Idle)</span>
+                    <span style="color:#f8fafc !important;">
+                        실시간 렌더링 미리보기 대기 중...<br>(GPU: RTX 4090 - Idle)
+                    </span>
                 </div>
             </div>
             """, unsafe_allow_html=True)
-           st.markdown("""
+            st.markdown("""
             <div class="log-monitor">[SYSTEM] Token Inference Server Connected... OK
-            [INFO] Loaded Model: Lotte-RealEstate-v4.7
-            [GPU] CUDA Core Active: 0%
-            [QUEUE] Waiting for render job...</div>
+[INFO] Loaded Model: Lotte-RealEstate-v4.7
+[GPU] CUDA Core Active: 0%
+[QUEUE] Waiting for render job...</div>
             """, unsafe_allow_html=True)
- 
 
 
 def render_joint_matching():
@@ -2087,10 +1994,12 @@ def render_admin_system():
 
     with adm_tab3:
         st.markdown("""
-        <div style="text-align:center; margin-bottom:24px; padding:20px;
+        <div class="dark-box" style="text-align:center; margin-bottom:24px; padding:20px;
                     background:#0f172a; border-radius:12px; border:1px solid #334155;">
-            <h3 style="color:#cbd5e1; margin:0;">📑 부동산 AI 영업팩 생성기 (자동화)</h3>
-            <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0 0;">버튼 하나로 블로그 / 카톡 / 상담 스크립트를 한 번에 생성합니다.</p>
+            <h3 style="color:#ffffff !important; margin:0;">📑 부동산 AI 영업팩 생성기 (자동화)</h3>
+            <p style="color:#e2e8f0 !important; font-size:0.9rem; margin:6px 0 0 0;">
+                버튼 하나로 블로그 / 카톡 / 상담 스크립트를 한 번에 생성합니다.
+            </p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -2158,8 +2067,7 @@ def render_admin_system():
 
 
 def render_login_page():
-    st.markdown('<div id="login-top"></div>', unsafe_allow_html=True)
-
+    # ─── 상단 헤더 카드 (중복 제거, 가독성 수정) ───
     st.markdown("""
     <div style="background:linear-gradient(135deg,#061537 0%,#081a45 100%);
                 padding:28px; border-radius:18px; margin-bottom:24px;
@@ -2217,7 +2125,7 @@ def render_login_page():
         """, unsafe_allow_html=True)
 
     # ─── 플랫폼 소개 카드 ───
- st.markdown("""
+    st.markdown("""
 <div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:24px 22px; margin-bottom:20px;">
   <h4 style="color:#fcd34d !important; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
     🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
@@ -2251,7 +2159,6 @@ def render_login_page():
   </div>
 </div>
 """, unsafe_allow_html=True)
-
 
     # ─── 로그인 ───
     with st.container(border=True):
@@ -2442,7 +2349,7 @@ def main():
     ]
 
     # 탭 인덱스 처리 - 세션에서 원하는 탭 번호 가져오기
-    target_idx = st.session_state.get("nav_tab_idx", None)
+    target_idx = st.session_state.pop("nav_tab_idx", None)
 
     # Streamlit은 탭 순서 변경이 아닌 기본 탭만 지원하므로
     # 원하는 탭이 있으면 해당 탭을 맨 앞으로 재배열
@@ -2450,7 +2357,6 @@ def main():
         idx = int(target_idx)
         labels = [TAB_LABELS[idx]] + [TAB_LABELS[i] for i in range(len(TAB_LABELS)) if i != idx]
         funcs = [TAB_FUNCS[idx]] + [TAB_FUNCS[i] for i in range(len(TAB_FUNCS)) if i != idx]
-        st.session_state["nav_tab_idx"] = None
     else:
         labels = TAB_LABELS
         funcs = TAB_FUNCS
