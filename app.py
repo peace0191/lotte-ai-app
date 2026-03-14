@@ -776,17 +776,76 @@ div[data-key="nav_main_top"] {
     height: 1px !important; overflow: hidden !important; opacity: 0 !important;
 }
 
-/* ─── expander ─── */
-.streamlit-expanderHeader {
-    background: #1e293b !important;
-    color: #e2e8f0 !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
+
+/* ════════════════════════════════════════
+   히어로 배너 전용 클래스
+   ════════════════════════════════════════ */
+.hero-banner {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 1.8rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+    margin: -1rem -1rem 1rem -1rem;
+    border-bottom: 3px solid #facc15;
 }
-.streamlit-expanderContent {
-    border: 1px solid #334155 !important;
-    border-radius: 0 0 8px 8px !important;
+.hero-name  { font-size:1.15rem; font-weight:900; color:#ffffff; letter-spacing:-0.5px; margin:0; }
+.hero-sub   { font-size:0.85rem; font-weight:600; color:#e2e8f0; margin:2px 0 0 0; }
+.hero-quote { font-size:1.55rem; font-weight:900; line-height:1.45; color:#ffffff; letter-spacing:-0.8px; margin-bottom:0.3rem; }
+.hero-highlight { color:#facc15; text-shadow:0 0 20px rgba(250,204,21,0.5); }
+.hero-desc  { font-size:0.9rem; font-weight:600; color:#cbd5e1; margin:0.4rem 0 0 0; line-height:1.6; }
+
+/* ════════════════════════════════════════
+   어두운 배경 박스 — 자식 텍스트 전부 흰색
+   ════════════════════════════════════════ */
+.dark-box {
+    color: #f1f5f9;
 }
+.dark-box *,
+.dark-box p,
+.dark-box div,
+.dark-box span,
+.dark-box li,
+.dark-box h1, .dark-box h2, .dark-box h3,
+.dark-box h4, .dark-box h5, .dark-box h6,
+.dark-box b, .dark-box strong, .dark-box label {
+    color: #f1f5f9 !important;
+}
+/* 강조색 보존 */
+.dark-box .yellow  { color: #facc15 !important; }
+.dark-box .cyan    { color: #38bdf8 !important; }
+.dark-box .green   { color: #4ade80 !important; }
+.dark-box .red     { color: #f87171 !important; }
+.dark-box .blue    { color: #60a5fa !important; }
+
+/* CSS 속성 선택자 — 인라인 dark bg 대응 */
+[style*="background:#0f172a"] *, [style*="background: #0f172a"] *,
+[style*="background:#1e293b"] *, [style*="background: #1e293b"] *,
+[style*="background:#061537"] *, [style*="background:#081a45"] *,
+[style*="background:linear-gradient(135deg,#0f172a"] *,
+[style*="background:linear-gradient(135deg,#1e293b"] *,
+[style*="background:linear-gradient(135deg,#061537"] *,
+[style*="background:rgba(239,68,68"] *,
+[style*="background:rgba(59,130,246"] *,
+[style*="background:rgba(16,185,129"] * {
+    color: #f1f5f9 !important;
+}
+
+/* ════════════════════════════════════════
+   흰 배경 카드 — 자식 텍스트 진한색
+   ════════════════════════════════════════ */
+.white-card, .white-card * { color: #1e293b !important; }
+.card, .card *              { color: #1e293b !important; }
+.price-card  { padding:16px; text-align:center; }
+.price-label { font-size:0.85rem; font-weight:700; color:#64748b !important; margin-bottom:4px; }
+.price-value { font-size:2rem; font-weight:900; color:#0f172a !important; line-height:1.2; }
+.price-jeonse{ font-size:0.8rem; color:#2563eb !important; margin-top:4px; }
+.card-title  { font-size:0.9rem; font-weight:800; color:#0f172a !important; margin:4px 0; }
+.card-desc   { font-size:0.76rem; color:#475569 !important; white-space:pre-line; line-height:1.5; }
+
+/* ════════════════════════════════════════
+   섹션 헤더
+   ════════════════════════════════════════ */
+.section-header, .section-header * { color: #f8fafc !important; }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -2069,7 +2128,7 @@ def render_admin_system():
 def render_login_page():
     # ─── 상단 헤더 카드 (중복 제거, 가독성 수정) ───
     st.markdown("""
-    <div style="background:linear-gradient(135deg,#061537 0%,#081a45 100%);
+    <div class="dark-box" style="background:linear-gradient(135deg,#061537 0%,#081a45 100%);
                 padding:28px; border-radius:18px; margin-bottom:24px;
                 box-shadow:0 10px 30px rgba(2,6,23,0.22); border:1px solid rgba(255,255,255,0.06);">
         <div style="display:flex; align-items:flex-start; margin-bottom:18px; flex-wrap:wrap; gap:14px;">
@@ -2132,7 +2191,7 @@ def render_login_page():
   </h4>
 
   <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-    <div style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
+    <div class="dark-box" style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
       <div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
       <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
         학군 이사 가족은 <b style="color:#ffffff;">10년간</b> 같은 지역에 머뭅니다.<br>
@@ -2140,7 +2199,7 @@ def render_login_page():
       </div>
     </div>
 
-    <div style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
+    <div class="dark-box" style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
       <div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
       <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
         AI가 저평가 매물을 <b style="color:#ffffff;">1초 분석</b>.<br>
@@ -2149,7 +2208,7 @@ def render_login_page():
     </div>
   </div>
 
-  <div style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
+  <div class="dark-box" style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
     <div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
     <div style="font-size:0.8rem; color:#f8fafc; line-height:1.8;">
       👨‍👩‍👧 <b style="color:#ffffff;">소비자</b> — 입주·입학 시기 혼란 해소<br>
