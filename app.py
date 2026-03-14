@@ -411,51 +411,51 @@ div[data-testid="stMetricLabel"] {
 
 /* ─── 탭 바 ─── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 4px;
-    background: #1e293b;
-    padding: 6px;
+    gap: 3px;
+    background: #0f172a;
+    padding: 5px;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
     position: sticky;
     top: 0;
     z-index: 999;
     border: 1px solid #334155;
 }
 
-/* 비활성 탭 — 항상 밝은 배경 + 흰 글씨 */
+/* 비활성 탭 */
 .stTabs [data-baseweb="tab"] {
     height: auto !important;
-    min-height: 42px !important;
+    min-height: 40px !important;
     flex-grow: 1;
     border-radius: 8px !important;
-    margin: 0 2px;
-    transition: all 0.18s;
-    background: #334155 !important;
-    border: 1px solid #475569 !important;
-    padding: 6px 4px !important;
+    margin: 0 1px;
+    transition: all 0.15s;
+    background: #1e293b !important;
+    border: 1.5px solid #475569 !important;
+    padding: 5px 3px !important;
 }
 
-/* 탭 내부 텍스트 — 전역 규칙 무력화 후 흰색 강제 */
+/* 비활성 탭 텍스트 — 밝은 흰색 */
 .stTabs [data-baseweb="tab"] p,
 .stTabs [data-baseweb="tab"] span,
 .stTabs [data-baseweb="tab"] div,
 .stTabs [data-baseweb="tab"] button,
-.stTabs [data-baseweb="tab"] [data-testid="stMarkdownContainer"] p,
 .stTabs [data-baseweb="tab"] * {
-    color: #e2e8f0 !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.2px;
-    line-height: 1.3 !important;
+    color: #ffffff !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.3px;
+    line-height: 1.35 !important;
     text-align: center !important;
     word-break: keep-all;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
-/* 활성 탭 — 파란 배경 + 노란 하이라이트 */
+/* 활성 탭 — 파란 배경 + 노란 하단 강조 */
 .stTabs [aria-selected="true"] {
     background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-    border: 1px solid #3b82f6 !important;
-    box-shadow: 0 3px 10px rgba(37,99,235,0.45) !important;
+    border: 1.5px solid #60a5fa !important;
+    box-shadow: 0 3px 12px rgba(37,99,235,0.55) !important;
     border-bottom: 3px solid #facc15 !important;
 }
 
@@ -466,12 +466,14 @@ div[data-testid="stMetricLabel"] {
 .stTabs [aria-selected="true"] * {
     color: #ffffff !important;
     font-weight: 900 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
 /* 비활성 탭 hover */
 .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
-    background: #475569 !important;
+    background: #2d3f55 !important;
     border-color: #64748b !important;
+    transform: translateY(-1px);
 }
 
 .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) * {
