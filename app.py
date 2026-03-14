@@ -2184,40 +2184,47 @@ def render_login_page():
         """, unsafe_allow_html=True)
 
     # ─── 플랫폼 소개 카드 ───
-    st.markdown("""
-<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:24px 22px; margin-bottom:20px;">
-  <h4 style="color:#fcd34d; margin:0 0 14px 0; font-size:1.05rem; font-weight:900;">
-    🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼
-  </h4>
-
-  <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-    <div class="dark-box" style="background:rgba(239,68,68,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>
-      <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
-        학군 이사 가족은 <b style="color:#ffffff;">10년간</b> 같은 지역에 머뭅니다.<br>
-        원하는 시기·가격의 매물은 <b style="color:#ffffff;">구조적으로 희소</b>합니다.
-      </div>
-    </div>
-
-    <div class="dark-box" style="background:rgba(59,130,246,0.18); border-radius:10px; padding:14px 16px; flex:1; min-width:200px;">
-      <div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>
-      <div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">
-        AI가 저평가 매물을 <b style="color:#ffffff;">1초 분석</b>.<br>
-        매도·임대인 ↔ 매수·임차인 이사 시기를 <b style="color:#ffffff;">사전 자동매칭</b>.
-      </div>
-    </div>
-  </div>
-
-  <div class="dark-box" style="background:rgba(16,185,129,0.15); border-radius:10px; padding:12px 16px;">
-    <div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>
-    <div style="font-size:0.8rem; color:#f8fafc; line-height:1.8;">
-      👨‍👩‍👧 <b style="color:#ffffff;">소비자</b> — 입주·입학 시기 혼란 해소<br>
-      📊 <b style="color:#ffffff;">시장</b> — 수급 투명화, 가격 왜곡 감소<br>
-      🏙️ <b style="color:#ffffff;">사회</b> — 기존 주거지역 흐름 안정화
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown(
+        '<div class="dark-box" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);'
+        'padding:20px 22px 8px 22px; border-radius:14px; margin-bottom:8px;">'
+        '<div style="font-size:1.05rem; font-weight:900; color:#fcd34d; margin-bottom:14px;">'
+        '🏠 부동산 저평가 매물 &amp; 사전예약 AI 자동매칭 플랫폼</div></div>',
+        unsafe_allow_html=True
+    )
+    pc1, pc2 = st.columns(2)
+    with pc1:
+        st.markdown(
+            '<div class="dark-box" style="background:rgba(239,68,68,0.22);'
+            'border-radius:10px; padding:14px 16px; margin-bottom:10px;">'
+            '<div style="font-size:0.78rem; color:#fca5a5; font-weight:700; margin-bottom:6px;">❓ 핵심 문제</div>'
+            '<div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">'
+            '학군 이사 가족은 <b style="color:#fff;">10년간</b> 같은 지역에 머뭅니다.<br>'
+            '원하는 시기·가격의 매물은 <b style="color:#fff;">구조적으로 희소</b>합니다.'
+            '</div></div>',
+            unsafe_allow_html=True
+        )
+    with pc2:
+        st.markdown(
+            '<div class="dark-box" style="background:rgba(59,130,246,0.22);'
+            'border-radius:10px; padding:14px 16px; margin-bottom:10px;">'
+            '<div style="font-size:0.78rem; color:#93c5fd; font-weight:700; margin-bottom:6px;">✅ 해결책</div>'
+            '<div style="font-size:0.82rem; color:#f8fafc; line-height:1.7;">'
+            'AI가 저평가 매물을 <b style="color:#fff;">1초 분석</b>.<br>'
+            '매도·임대인과 매수·임차인 이사 시기를 <b style="color:#fff;">사전 자동매칭</b>.'
+            '</div></div>',
+            unsafe_allow_html=True
+        )
+    st.markdown(
+        '<div class="dark-box" style="background:rgba(16,185,129,0.18);'
+        'border-radius:10px; padding:12px 16px; margin-bottom:20px;">'
+        '<div style="font-size:0.78rem; color:#6ee7b7; font-weight:700; margin-bottom:6px;">🎯 기대 효과</div>'
+        '<div style="font-size:0.8rem; color:#f8fafc; line-height:1.8;">'
+        '👨‍👩‍👧 <b style="color:#fff;">소비자</b> — 입주·입학 시기 혼란 해소 &nbsp;|&nbsp; '
+        '📊 <b style="color:#fff;">시장</b> — 수급 투명화, 가격 왜곡 감소 &nbsp;|&nbsp; '
+        '🏙️ <b style="color:#fff;">사회</b> — 기존 주거지역 흐름 안정화'
+        '</div></div>',
+        unsafe_allow_html=True
+    )
 
     # ─── 로그인 ───
     with st.container(border=True):
